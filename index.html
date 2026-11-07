@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 개념 교실</title>
+  <meta name="description" content="정보 인공지능 수업: 인공지능의 개념, 탐색, 데이터, 머신러닝의 유형, 딥러닝을 직접 해 보며 배우는 인터랙티브 수업 사이트">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=1">
+  <link rel="stylesheet" href="css/ai.css?v=1">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%2322a06b'/><circle cx='36' cy='45' r='8' fill='%23fff'/><circle cx='64' cy='45' r='8' fill='%23fff'/><path d='M34 66 q16 12 32 0' stroke='%23f5b82e' stroke-width='7' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="처음으로">
+      <span class="brand-box"><span class="brand-dot"></span></span>
+      <span class="brand-text">AI <b>개념 교실</b></span>
+    </a>
+    <nav class="chapnav" id="chapnav" aria-label="단원"></nav>
+    <div class="topbar-right">
+      <button class="iconbtn" id="themeBtn" title="다크 모드 전환" aria-label="다크 모드 전환">◐</button>
+    </div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+  </header>
+
+  <main id="app">
+
+    <!-- ============ 0. HOME ============ -->
+    <section class="chapter" data-ch="home" data-title="시작">
+      <div class="hero">
+        <div class="hero-text">
+          <span class="pill pill-yellow">정보 · 인공지능 수업</span>
+          <h1>데이터로 배우고<br><span class="hl">스스로 판단하는</span><br>인공지능</h1>
+          <p class="lead">인공지능의 개념부터 탐색, 데이터 다루기, 머신러닝의 세 가지 유형, 딥러닝까지. 누르고, 끌고, 학습시키고, 맞혀 보며 개념을 몸으로 익혀 봐요.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#ai">수업 시작하기 →</a>
+            <a class="btn btn-ghost" href="#ml">머신러닝의 유형 바로 가기</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="heroCanvas" width="520" height="400"></canvas>
+        </div>
+      </div>
+
+      <h2 class="sec-title"><span class="pill">무엇을 배울까?</span> 학습 목표</h2>
+      <div class="goals">
+        <div class="goal"><span class="goal-num">01</span><p>인공지능의 개념과 특성,<br>탐색으로 문제 해결하기</p></div>
+        <div class="goal"><span class="goal-num">02</span><p>데이터를 수집·전처리·시각화하고<br>편향을 살피기</p></div>
+        <div class="goal"><span class="goal-num">03</span><p>지도·비지도·강화학습과<br>딥러닝의 원리 체험하기</p></div>
+      </div>
+
+      <h2 class="sec-title">수업 지도</h2>
+      <div class="chapter-cards" id="chapterCards"></div>
+      <p class="hint center">위쪽 메뉴나 아래쪽 ← 이전 · 다음 → 버튼으로 이동해요. 키보드 Alt + ←/→ 로도 넘길 수 있어요. 진도와 퀴즈 결과는 이 컴퓨터에 저장돼요.</p>
+    </section>
+
+    <!-- ============ 1. AI 개념 ============ -->
+    <section class="chapter" data-ch="ai" data-title="인공지능의 개념">
+      <div class="ch-head">
+        <span class="ch-num">1단원</span>
+        <h1>인공지능이란 무엇일까?</h1>
+        <p class="lead">인공지능, 머신러닝, 딥러닝은 서로 <b>포함 관계</b>예요. 인공지능이 가진 특성을 살펴보고, 규칙을 직접 짜는 방법과 데이터로 학습하는 방법을 비교해 봐요.</p>
+      </div>
+      <nav class="subnav" aria-label="1단원 마당"></nav>
+
+      <!-- 1-1 -->
+      <div class="sub" data-sub="1-1" data-title="AI·ML·DL">
+        <div class="sub-head"><span class="pill">1-1</span><h2>🤖 인공지능 ⊃ 머신러닝 ⊃ 딥러닝</h2></div>
+        <div class="card two-col">
+          <div class="nest-wrap">
+            <svg id="nestSvg" viewBox="0 0 400 400" class="nest" role="img" aria-label="인공지능 안에 머신러닝, 머신러닝 안에 딥러닝">
+              <circle class="nest-c" data-k="ai" cx="200" cy="200" r="190"/>
+              <circle class="nest-c" data-k="ml" cx="200" cy="240" r="135"/>
+              <circle class="nest-c" data-k="dl" cx="200" cy="285" r="82"/>
+              <text x="200" y="62" class="nest-t">인공지능 AI</text>
+              <text x="200" y="152" class="nest-t">머신러닝 ML</text>
+              <text x="200" y="280" class="nest-t">딥러닝 DL</text>
+              <text x="200" y="304" class="nest-s">깊은 인공신경망</text>
+            </svg>
+          </div>
+          <div class="nest-info" id="nestInfo">
+            <h3>원을 눌러 보세요 👆</h3>
+            <p>가장 큰 원부터 작은 원까지, 어떤 관계인지 설명이 나와요.</p>
+          </div>
+        </div>
+        <div class="def purple"><b>➕ 인공신경망</b>: 수많은 신경이 연결되어 정보를 처리하는 <b>사람의 뇌를 흉내 내어</b> 만든 컴퓨터 계산 알고리즘이에요. <b>퍼셉트론</b>이라 불리는 인공신경이 서로 연결되어 정보를 처리해요. <a href="#dl/5-1">5단원에서 직접 만들어 봐요 →</a></div>
+
+        <h3 class="sec-title">🗂️ 어디에 들어갈까?</h3>
+        <div class="card">
+          <p>카드를 눌러 고른 뒤 상자를 누르세요. 가장 <b>좁은</b>(안쪽) 원을 골라야 해요.</p>
+          <div class="sorter" id="nestSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins" style="grid-template-columns:repeat(3,1fr)">
+              <div class="bin" data-bin="ai"><h4>🤖 인공지능<br><small class="muted">사람이 넣은 규칙으로 판단</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="ml"><h4>📈 머신러닝<br><small class="muted">데이터에서 규칙을 학습</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="dl"><h4>🧠 딥러닝<br><small class="muted">여러 층의 신경망으로 학습</small></h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+      </div>
+
+      <!-- 1-2 -->
+      <div class="sub" data-sub="1-2" data-title="인공지능의 특성">
+        <div class="sub-head"><span class="pill">1-2</span><h2>✨ 인공지능의 특성 6가지</h2></div>
+        <p>카드를 하나씩 눌러 설명을 읽고, 아래의 작은 체험도 해 보세요.</p>
+        <div class="card"><div id="featCards"></div></div>
+        <div class="quiz" data-quiz="a1"></div>
+      </div>
+
+      <!-- 1-3 -->
+      <div class="sub" data-sub="1-3" data-title="규칙 vs 학습">
+        <div class="sub-head"><span class="pill">1-3</span><h2>✍️ 규칙을 직접 짤까, 데이터로 배우게 할까?</h2></div>
+        <div class="card">
+          <div class="seg" id="progToggle"><button class="on" data-mode="rule">기존 프로그래밍</button><button data-mode="ml">머신러닝</button></div>
+          <div class="flow" id="flowBox">
+            <div class="flow-in"><div class="chip-box" id="flowIn1"></div><span class="plus">+</span><div class="chip-box" id="flowIn2"></div></div>
+            <div class="flow-arrow"><span class="flow-ball"></span></div>
+            <div class="flow-machine">💻<small>컴퓨터</small></div>
+            <div class="flow-arrow"><span class="flow-ball"></span></div>
+            <div class="chip-box chip-out" id="flowOut"></div>
+          </div>
+          <p class="flow-desc" id="flowDesc"></p>
+        </div>
+
+        <h3 class="sec-title">✍️ 체험 ①: 내가 규칙을 짜 보기</h3>
+        <div class="card">
+          <p>몸무게 하나로 강아지와 고양이를 구분하는 규칙을 만들어 보세요. 슬라이더로 기준을 정하면 12마리를 판단해요.</p>
+          <label class="slider-label">규칙: 몸무게가 <input type="range" id="ruleT" min="1" max="15" step="0.5" value="5"> <b id="ruleTVal">5kg</b> 보다 무거우면 🐶 강아지, 아니면 🐱 고양이</label>
+          <label class="slider-label"><input type="checkbox" id="ruleEar"> 규칙 하나 더: 귀가 쫑긋 서 있으면 🐱 고양이</label>
+          <div class="chips" id="ruleAnimals" style="margin:10px 0"></div>
+          <div class="stats"><div><span>맞힌 수</span><b id="ruleAcc">-</b></div></div>
+          <p class="predict" id="ruleMsg"></p>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 ②: 컴퓨터를 직접 학습시켜 보기</h3>
+        <div class="card">
+          <p>그래프를 클릭해서 <b class="c-a">🐶 강아지</b>와 <b class="c-b">🐱 고양이</b> 데이터를 찍어 주세요. (가로: 귀 길이, 세로: 몸무게) <b>학습 시작</b>을 누르면 컴퓨터가 두 그룹을 나누는 <b>경계선</b>을 스스로 찾아가요. 이것이 머신러닝의 <b>학습</b>이에요.</p>
+          <div class="lab">
+            <canvas id="percCanvas" width="560" height="380" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <div class="seg seg-v" id="percClass"><button class="on" data-c="1">🐶 강아지 찍기</button><button data-c="-1">🐱 고양이 찍기</button></div>
+              <div class="btn-row"><button class="btn btn-primary" id="percTrain">▶ 학습 시작</button><button class="btn btn-ghost" id="percRandom">예시 데이터</button><button class="btn btn-ghost" id="percClear">지우기</button></div>
+              <div class="stats"><div><span>학습 횟수(epoch)</span><b id="percEpoch">0</b></div><div><span>정확도</span><b id="percAcc">-</b></div></div>
+              <p class="hint">💡 학습이 끝나면 아무 곳이나 마우스를 올려 보세요. 컴퓨터가 새로운 데이터를 <b>예측</b>해요.</p>
+            </div>
+          </div>
+        </div>
+        <div class="quiz" data-quiz="a2"></div>
+      </div>
+    </section>
+    <!-- ============ 2. 탐색 ============ -->
+    <section class="chapter" data-ch="search" data-title="탐색">
+      <div class="ch-head">
+        <span class="ch-num">2단원</span>
+        <h1>탐색: 답을 찾아가는 길</h1>
+        <p class="lead">인공지능은 문제를 <b>상태</b>로 나타내고, 시작 상태에서 목표 상태까지 가는 길을 <b>탐색</b>해서 문제를 해결해요. 강 건너기, 미로, 8-퍼즐로 직접 탐색해 봐요.</p>
+      </div>
+      <nav class="subnav" aria-label="2단원 마당"></nav>
+
+      <!-- 2-1 -->
+      <div class="sub" data-sub="2-1" data-title="상태와 상태 공간">
+        <div class="sub-head"><span class="pill">2-1</span><h2>🧭 초기 상태, 목표 상태, 상태 공간</h2></div>
+        <div class="grid3">
+          <div class="def blue" style="margin:0"><b>초기 상태</b>: 주어진 문제의 <b>시작</b> 상태<br><small>예: 모두 왼쪽 강가에 있음</small></div>
+          <div class="def" style="margin:0"><b>목표 상태</b>: 문제 해결을 <b>완료한</b> 상태<br><small>예: 모두 오른쪽 강가로 건넘</small></div>
+          <div class="def purple" style="margin:0"><b>상태 공간</b>: 문제의 해가 될 가능성이 있는 <b>상태들의 집합</b><br><small>예: 누가 어느 쪽에 있는지의 모든 경우</small></div>
+        </div>
+
+        <h3 class="sec-title">🛶 강 건너기</h3>
+        <div class="card">
+          <p>👨‍🌾 농부가 🐺 늑대, 🐐 염소, 🥬 양배추를 데리고 강을 건너야 해요. 배에는 농부와 <b>하나만</b> 더 탈 수 있어요. 농부가 없으면 늑대는 염소를, 염소는 양배추를 먹어 버려요! 강가에 있는 것을 누르면 배에 타고, 배에 있는 것을 누르면 내려요.</p>
+          <div id="rv1"></div>
+        </div>
+
+        <div class="card">
+          <h3>🗺️ 상태 공간 지도</h3>
+          <p>동그라미 하나가 <b>상태</b> 하나예요(왼쪽 강가에 누가 있는지). 선은 배를 한 번 저어서 갈 수 있는 길이에요. 위 게임을 하면 지금 상태가 지도에 표시돼요. 상태를 누르면 그 상태로 이동해요(이웃한 상태만).</p>
+          <svg id="space1" class="space-svg" viewBox="0 70 900 220" role="img" aria-label="강 건너기 상태 공간"></svg>
+          <div class="btn-row"><button class="btn btn-ghost" id="rvCount">🔢 경우의 수 따져 보기</button></div>
+          <div id="rvCountOut"></div>
+        </div>
+        <div class="quiz" data-quiz="s1"></div>
+      </div>
+
+      <!-- 2-2 -->
+      <div class="sub" data-sub="2-2" data-title="강 건너기 만들기">
+        <div class="sub-head"><span class="pill">2-2</span><h2>🛠️ 나만의 강 건너기 문제 만들기</h2></div>
+        <p>등장인물, 함께 두면 안 되는 짝, 배의 크기를 정해서 새 문제를 만들어 보세요. 컴퓨터가 <b>상태 공간 전체를 탐색</b>해서 풀 수 있는지, 몇 번 만에 풀 수 있는지 알려 줘요.</p>
+        <div class="card">
+          <div class="grid2">
+            <div>
+              <h4>1️⃣ 건너야 하는 것 (2~5개)</h4>
+              <div class="chips" id="mkItems"></div>
+              <h4 style="margin-top:14px">2️⃣ 농부가 없을 때 함께 두면 안 되는 짝</h4>
+              <div class="inline-form"><label>이것이<select id="mkA"></select></label><label>이것을 먹어요<select id="mkB"></select></label><button class="btn btn-ghost btn-sm" id="mkAdd">짝 추가</button></div>
+              <div class="chips" id="mkRules" style="margin-top:8px"></div>
+              <h4 style="margin-top:14px">3️⃣ 배에 농부 말고 몇 개까지 탈까?</h4>
+              <div class="seg" id="mkCap"><button class="on" data-c="1">1개</button><button data-c="2">2개</button><button data-c="3">3개</button></div>
+              <div class="btn-row"><button class="btn btn-ghost btn-sm" data-preset="0">예시: 늑대·염소·양배추</button><button class="btn btn-ghost btn-sm" data-preset="1">예시: 고양이·쥐·치즈·강아지</button><button class="btn btn-ghost btn-sm" data-preset="2">예시: 풀 수 없는 문제</button></div>
+            </div>
+            <div>
+              <button class="btn btn-primary" id="mkSolve">🔍 컴퓨터가 탐색해서 풀기</button>
+              <div id="mkOut" style="margin-top:10px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="rv2Card" hidden>
+          <h3>🎮 내가 만든 문제 직접 풀어 보기</h3>
+          <div id="rv2"></div>
+        </div>
+      </div>
+
+      <!-- 2-3 -->
+      <div class="sub" data-sub="2-3" data-title="맹목적 탐색">
+        <div class="sub-head"><span class="pill">2-3</span><h2>🙈 맹목적 탐색: 깊이 우선 vs 너비 우선</h2></div>
+        <div class="def"><b>맹목적 탐색</b>은 어떠한 정보 없이 목표 상태에 도달할 때까지 <b>정해진 순서</b>에 따라 탐색하는 방법이에요. 가능한 모든 경우의 수를 탐색하기 때문에 <b>완전 탐색</b> 기법이고, <b>깊이 우선 탐색</b>과 <b>너비 우선 탐색</b>이 있어요.</div>
+        <div class="grid2">
+          <div class="box"><h4>⬇️ 깊이 우선 탐색 (DFS)</h4><p>한 길을 <b>끝까지 깊게</b> 내려가 보고, 막히면 되돌아와서 다른 길로 가요. 나중에 넣은 것을 먼저 꺼내는 <b>스택</b>을 써요. 📚</p></div>
+          <div class="box"><h4>↔️ 너비 우선 탐색 (BFS)</h4><p>가까운 곳부터 <b>한 층씩 넓게</b> 살펴봐요. 먼저 넣은 것을 먼저 꺼내는 <b>큐</b>(줄 서기)를 써요. 🚶‍♂️🚶‍♀️</p></div>
+        </div>
+        <div class="card">
+          <div class="btn-row" style="align-items:center"><div class="seg" id="tsAlgo"><button class="on" data-a="dfs">⬇️ 깊이 우선</button><button data-a="bfs">↔️ 너비 우선</button></div><span class="muted">목표:</span><div class="chips" id="tsGoal"></div></div>
+          <svg id="treeSvg" class="space-svg" viewBox="0 0 800 300" role="img" aria-label="탐색 트리"></svg>
+          <div class="grid2" style="margin-top:10px">
+            <div class="box"><h4 id="dsName">📚 스택</h4><div class="chips" id="dsBox"></div></div>
+            <div class="box"><h4>👣 방문 순서</h4><div class="chips" id="visitOrder"></div></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-primary" id="tsStep">👣 한 걸음</button><button class="btn btn-ghost" id="tsAuto">⏩ 끝까지</button><button class="btn btn-ghost" id="tsReset">처음으로</button></div>
+          <p class="predict" id="tsMsg"></p>
+        </div>
+      </div>
+
+      <!-- 2-4 -->
+      <div class="sub" data-sub="2-4" data-title="정보 이용 탐색">
+        <div class="sub-head"><span class="pill">2-4</span><h2>💡 정보 이용 탐색: 휴리스틱과 A*</h2></div>
+        <div class="def orange"><b>정보 이용 탐색</b>은 <b>휴리스틱</b>(경험적 정보), 문제에서 확인할 수 있는 지식 등을 활용해서 탐색하는 방법이에요. 문제의 최적 해를 보장하지는 않지만, 사전 정보나 경험을 활용해서 <b>효율적으로</b> 탐색해요. 대표적으로 <b>최상 우선 탐색</b>, <b>A*(에이스타) 탐색</b>이 있어요.</div>
+        <div class="grid3">
+          <div class="box"><h4>🧠 휴리스틱이란?</h4><p>"목표까지 대충 이 정도 남았겠다"는 <b>어림짐작</b>이에요. 미로에서는 벽을 무시한 가로·세로 칸 수(맨해튼 거리)를 써요.</p></div>
+          <div class="box"><h4>🏃 최상 우선 탐색</h4><p>지금 보기에 <b>목표에 가장 가까워 보이는 곳</b>(휴리스틱이 가장 작은 곳)부터 가요. 빠르지만 <b>돌아가는 길</b>을 찾을 수도 있어요.</p></div>
+          <div class="box"><h4>⭐ A* 탐색</h4><p><b>지금까지 온 거리 + 남은 거리 어림값</b>이 가장 작은 곳부터 가요. 어림값이 실제보다 크지 않으면 <b>가장 짧은 길</b>을 찾아요.</p></div>
+        </div>
+        <div class="card">
+          <h3>🏁 미로 탐색 경주</h3>
+          <p>네 가지 탐색이 같은 미로에서 🟩 출발 → 🟥 도착 길을 찾아요. 칸을 눌러 벽을 세우거나 없앨 수 있어요. <b>방문한 칸</b>(색칠된 칸)이 적을수록 효율적이에요.</p>
+          <canvas id="mazeEd" width="600" height="360" class="lab-canvas" style="touch-action:none;max-width:600px"></canvas>
+          <div class="btn-row"><button class="btn btn-primary" id="raceGo">🏁 경주 시작</button><button class="btn btn-ghost" id="mazeRand">🎲 새 미로</button><button class="btn btn-ghost" id="mazeClear">🧽 벽 모두 지우기</button><button class="btn btn-ghost" id="mazeTrap">🪤 함정 미로</button></div>
+          <div class="algo-grid" id="raceGrid"></div>
+          <p class="predict" id="raceMsg" style="margin-top:10px"></p>
+        </div>
+        <div class="quiz" data-quiz="s2"></div>
+      </div>
+
+      <!-- 2-5 -->
+      <div class="sub" data-sub="2-5" data-title="8-퍼즐">
+        <div class="sub-head"><span class="pill">2-5</span><h2>🧩 8-퍼즐: 풀고, 만들고, 탐색시키기</h2></div>
+        <p>빈칸 옆의 숫자를 눌러 밀어서 <b>1~8</b>을 순서대로 맞춰요. 8-퍼즐의 상태 공간에는 도달 가능한 상태가 무려 <b>181,440개</b>나 있어요.</p>
+        <div class="card">
+          <div class="p8-wrap">
+            <div>
+              <div class="p8" id="p8"></div>
+              <div class="stats" style="max-width:260px"><div><span>내가 움직인 횟수</span><b id="p8Moves">0</b></div></div>
+            </div>
+            <div>
+              <label class="slider-label">섞는 횟수 <input type="range" id="p8Mix" min="4" max="40" value="12"> <b id="p8MixV">12</b></label>
+              <div class="btn-row"><button class="btn btn-primary" id="p8Shuffle">🎲 섞기</button><button class="btn btn-ghost" id="p8Goal">🎯 목표 상태로</button></div>
+              <h4>✏️ 문제 만들기 · 불러오기</h4>
+              <p class="hint" style="margin-top:0">퍼즐을 원하는 모양으로 만든 뒤 코드를 친구에게 알려 주세요. 0은 빈칸이에요. 숫자 두 개를 아무렇게나 바꾸면 <b>절대 풀 수 없는</b> 퍼즐이 될 수도 있어요!</p>
+              <div class="inline-form"><label>퍼즐 코드 (9자리)<input id="p8Code" maxlength="9" placeholder="123456780" style="font-family:'JetBrains Mono',monospace;width:140px"></label><button class="btn btn-ghost btn-sm" id="p8Load">불러오기</button><button class="btn btn-ghost btn-sm" id="p8Copy">지금 퍼즐 코드 보기</button></div>
+              <p class="hint" id="p8Msg"></p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>🤖 컴퓨터에게 탐색시키기</h3>
+          <p>지금 퍼즐을 세 가지 방법으로 풀게 해요. 휴리스틱을 쓰면 살펴보는 상태 수가 얼마나 줄어드는지 비교해 보세요.</p>
+          <div class="btn-row"><button class="btn btn-primary" id="p8Solve">🔍 세 가지 방법으로 탐색</button><button class="btn btn-ghost" id="p8Show" disabled>▶ 풀이 보여 주기</button></div>
+          <div class="dtable-wrap"><table class="dtable" id="p8Table"></table></div>
+          <p class="hint">h₁ = 제자리에 있지 않은 숫자 개수, h₂ = 숫자마다 제자리까지 가로·세로 칸 수의 합(맨해튼 거리)</p>
+        </div>
+        <div class="quiz" data-quiz="s3"></div>
+      </div>
+    </section>
+    <!-- ============ 3. 데이터 ============ -->
+    <section class="chapter" data-ch="data" data-title="데이터 다루기">
+      <div class="ch-head">
+        <span class="ch-num">3단원</span>
+        <h1>데이터 다루기</h1>
+        <p class="lead">기계학습은 <b>데이터</b>로 배워요. 좋은 모델을 만들려면 데이터를 모으고, 종류와 속성을 알고, 편향을 살피고, 깨끗하게 다듬고, 그림으로 살펴봐야 해요.</p>
+      </div>
+      <nav class="subnav" aria-label="3단원 마당"></nav>
+
+      <!-- 3-0 -->
+      <div class="sub" data-sub="3-0" data-title="문제 해결 과정">
+        <div class="sub-head"><span class="pill">3-0</span><h2>🛠️ 기계학습으로 문제를 해결하는 5단계</h2></div>
+        <p>단계를 누르면 설명이 나와요. 아래에서 예시 문제를 바꾸면 그 문제에서는 각 단계에 무엇을 하는지 볼 수 있어요.</p>
+        <div class="card">
+          <div class="steps5" id="steps5"></div>
+          <div class="seg" id="stepEx" style="margin-top:16px"><button class="on" data-e="pet">🐱🐶 고양이·강아지 사진 구분</button><button data-e="ice">🍦 아이스크림 판매량 예측</button><button data-e="spam">📧 스팸 메일 거르기</button></div>
+          <div class="feat-panel" id="stepInfo"></div>
+        </div>
+
+        <h3 class="sec-title">🧩 순서 맞히기</h3>
+        <div class="card">
+          <p>아래 카드를 <b>해야 하는 순서대로</b> 눌러 줄에 세워 보세요. 줄에 선 카드를 누르면 다시 빠져요.</p>
+          <div class="order-pool" id="orderPool"></div>
+          <div class="order-line" id="orderLine"></div>
+          <div class="btn-row center"><button class="btn btn-primary" id="orderCheck">채점하기</button><button class="btn btn-ghost" id="orderReset">다시 하기</button></div>
+          <p class="result-msg" id="orderMsg"></p>
+        </div>
+      </div>
+
+      <!-- 3-1 -->
+      <div class="sub" data-sub="3-1" data-title="데이터 수집">
+        <div class="sub-head"><span class="pill">3-1</span><h2>📥 데이터 수집: 많고, 질 좋은 데이터를 모으자</h2></div>
+        <div class="def">문제 해결에 필요한 <b>많은 양의 양질의 데이터</b>를 모아야 해요. 고양이와 강아지를 구분하려면 고양이와 강아지 사진을 모아야 하죠. 데이터를 모으는 방법에는 <b>설문조사, 센서, 공개된 데이터 파일, 오픈 API</b>가 있어요.</div>
+        <p>카드를 눌러 네 가지 수집 방법을 하나씩 직접 해 보세요.</p>
+        <div class="card"><div id="collectCards"></div></div>
+
+        <h3 class="sec-title">📋 우리 반 건강 데이터 <small class="muted">(설문으로 모은 데이터가 쌓여요)</small></h3>
+        <div class="card">
+          <div class="dtable-wrap"><table class="dtable" id="surveyTable"></table></div>
+          <div class="btn-row"><button class="btn btn-ghost btn-sm" id="surveyClear">내가 넣은 응답 지우기</button></div>
+          <p class="hint">이 표는 3-7 마당의 그래프에도 쓰여요. 여러분이 넣은 응답은 ⭐로 표시돼요. (이 컴퓨터에만 저장돼요)</p>
+        </div>
+
+        <h3 class="sec-title">🗂️ 어떤 방법으로 모았을까?</h3>
+        <div class="card">
+          <div class="sorter" id="colSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins" style="grid-template-columns:repeat(4,1fr)">
+              <div class="bin" data-bin="sv"><h4>📝 설문조사</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="se"><h4>📡 센서</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="fi"><h4>📁 공개 데이터 파일</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="api"><h4>🔌 오픈 API</h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+        <div class="quiz" data-quiz="d1"></div>
+      </div>
+
+      <!-- 3-2 -->
+      <div class="sub" data-sub="3-2" data-title="정형·비정형">
+        <div class="sub-head"><span class="pill">3-2</span><h2>🧱 데이터의 종류: 정형 데이터와 비정형 데이터</h2></div>
+        <div class="grid2">
+          <div class="def blue"><b>정형 데이터</b>: 일정한 규격이나 형태를 가진 수치·문자 데이터예요. 속성에 해당하는 <b>열</b>과 데이터 하나하나에 해당하는 <b>행</b>이 합쳐진 표(행렬) 모양이라 별도의 처리 없이 <b>바로 분석</b>할 수 있어요.<br><small>예: 관계형 데이터베이스(RDB), 스프레드시트, CSV</small></div>
+          <div class="def orange"><b>비정형 데이터</b>: 이미지, 음성, 동영상처럼 형태가 정해지지 않은 데이터예요. 글·이모티콘·사진이 섞인 SNS 글도 여기에 들어가요. 바로 분석하기 어려워서 <b>정형화</b> 과정이 필요해요.<br><small>예: 사진, 녹음 파일, 영상, SNS 글</small></div>
+        </div>
+
+        <div class="card">
+          <h3>🔎 표에서 행과 열 찾기</h3>
+          <p>표 위에 마우스를 올리거나 칸을 눌러 보세요. <b>행</b>은 데이터 한 개(학생 한 명), <b>열</b>은 속성(특징 하나)이에요.</p>
+          <div class="dtable-wrap"><table class="dtable" id="structTable"></table></div>
+          <p class="predict" id="structInfo" style="margin-top:10px">칸을 눌러 보세요</p>
+        </div>
+
+        <h3 class="sec-title">🗂️ 정형일까, 비정형일까?</h3>
+        <div class="card">
+          <div class="sorter" id="structSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins" style="grid-template-columns:1fr 1fr">
+              <div class="bin" data-bin="s"><h4>🧱 정형 데이터<br><small class="muted">행과 열이 있는 표</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="u"><h4>🌀 비정형 데이터<br><small class="muted">정해진 틀이 없음</small></h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+
+        <h3 class="sec-title">🔢 비정형 데이터를 정형화하기</h3>
+        <p>컴퓨터는 결국 <b>숫자</b>로 계산해요. 그림·글·소리를 숫자로 바꾸면 표에 담아 분석할 수 있어요.</p>
+        <div class="tabs" id="formTabs" style="grid-template-columns:repeat(3,1fr)"><button class="on" data-t="img">🖼️ 그림<small>→ 픽셀 숫자</small></button><button data-t="txt">💬 글<small>→ 단어 개수</small></button><button data-t="snd">🔊 소리<small>→ 높낮이 숫자</small></button></div>
+        <div class="card form-pane" data-t="img">
+          <div class="pix-wrap">
+            <div>
+              <canvas id="pixCanvas" width="256" height="256" class="sq-canvas" style="width:256px;max-width:100%;touch-action:none;background:#fff"></canvas>
+              <div class="btn-row"><button class="btn btn-ghost btn-sm" id="pixClear">지우기</button><button class="btn btn-ghost btn-sm" id="pixSample">예시 그림</button></div>
+            </div>
+            <div>
+              <p>왼쪽 칸에 마우스나 손가락으로 그림을 그려 보세요. 16×16 칸마다 진하기를 <b>0(흰색) ~ 9(검정)</b> 숫자로 바꿨어요. 이 256개의 숫자가 한 줄(행)이 되면 정형 데이터가 돼요.</p>
+              <div class="pix-grid" id="pixNums"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card form-pane" data-t="txt" hidden>
+          <p>댓글을 써 보세요. 단어(띄어쓰기 기준)마다 몇 번 나왔는지 세면 글이 숫자 표가 돼요.</p>
+          <textarea id="txtIn">급식 너무 맛있어요 오늘 급식 최고 진짜 맛있어요 ㅎㅎ 😋</textarea>
+          <div class="dtable-wrap" style="margin-top:10px"><table class="dtable" id="txtOut"></table></div>
+        </div>
+        <div class="card form-pane" data-t="snd" hidden>
+          <p>소리는 공기의 떨림이에요. 아주 짧은 시간마다 떨림의 높이를 재면 숫자 목록이 돼요. 슬라이더로 음의 높이를 바꿔 보세요.</p>
+          <canvas id="waveCanvas" width="640" height="200" class="wide-canvas"></canvas>
+          <label class="slider-label">높낮이 <input type="range" id="waveF" min="1" max="8" step="1" value="3"> <b id="waveFVal">3</b></label>
+          <label class="slider-label">소리 크기 <input type="range" id="waveA" min="1" max="10" step="1" value="7"> <b id="waveAVal">7</b></label>
+          <div class="btn-row"><button class="btn btn-ghost btn-sm" id="wavePlay">🔈 들어 보기</button></div>
+          <p class="hint">재는 순간(빨간 점)의 숫자들:</p>
+          <div class="wave-nums" id="waveNums"></div>
+        </div>
+        <div class="quiz" data-quiz="d2"></div>
+      </div>
+
+      <!-- 3-3 -->
+      <div class="sub" data-sub="3-3" data-title="데이터 속성">
+        <div class="sub-head"><span class="pill">3-3</span><h2>🏷️ 데이터 속성: 범주형과 수치형</h2></div>
+        <p>속성(열)에 담긴 값이 <b>종류</b>인지 <b>숫자</b>인지에 따라 분석 방법과 학습 방법이 달라져요. 카드를 눌러 보세요.</p>
+        <div class="card"><div id="attrCards"></div></div>
+
+        <h3 class="sec-title">🎲 이산형 vs 📏 연속형 느껴 보기</h3>
+        <div class="grid2">
+          <div class="card">
+            <h3>🎲 주사위 눈 (이산형)</h3>
+            <label class="slider-label">눈 <input type="range" id="diceR" min="1" max="6" step="1" value="3"> <b id="diceVal">3</b></label>
+            <div class="big-emoji" id="diceFace">⚂</div>
+            <p class="hint">1, 2, 3 … 처럼 <b>셀 수 있는</b> 값만 가져요. 2.5눈은 없어요!</p>
+          </div>
+          <div class="card">
+            <h3>📏 키 (연속형)</h3>
+            <label class="slider-label">키 <input type="range" id="heightR" min="150" max="190" step="0.01" value="165"> <b id="heightVal">165.00cm</b></label>
+            <div class="bar-track" style="height:16px"><div class="bar-fill" id="heightBar" style="width:37%"></div></div>
+            <p class="hint">165와 166 사이에도 165.5, 165.51, 165.512 … <b>무수히 많은 값</b>이 있어요.</p>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🕵️ 열마다 속성 종류 맞히기</h3>
+        <div class="card">
+          <p>각 열 제목 아래에서 속성의 종류를 골라 보세요.</p>
+          <div class="dtable-wrap"><table class="dtable" id="attrQuiz"></table></div>
+          <div class="btn-row center"><button class="btn btn-primary" id="attrCheck">채점하기</button></div>
+          <p class="result-msg" id="attrMsg"></p>
+        </div>
+
+        <h3 class="sec-title">🎯 맞히려는 값(종속 변수)이 무엇이냐에 따라</h3>
+        <div class="card">
+          <p>아래 열 중 하나를 <b>맞히고 싶은 값</b>(종속 변수)으로 골라 보세요. 어떤 분석을 할 수 있는지, 어떤 학습을 하면 되는지 알려 줄게요.</p>
+          <div class="chips" id="targetPick"></div>
+          <div class="grid2" style="margin-top:12px">
+            <div class="box" id="targetAnalysis"></div>
+            <div class="box" id="targetMsg"></div>
+          </div>
+        </div>
+        <div class="quiz" data-quiz="d3"></div>
+      </div>
+
+      <!-- 3-4 -->
+      <div class="sub" data-sub="3-4" data-title="데이터 편향">
+        <div class="sub-head"><span class="pill">3-4</span><h2>⚖️ 데이터 편향: 한쪽으로 쏠린 데이터</h2></div>
+        <div class="def orange"><b>데이터 편향</b>은 데이터를 모을 때 의도적으로 혹은 실수로 데이터가 <b>일부 그룹에 쏠린 상태</b>예요. 편향은 수집뿐 아니라 <b>전처리, 학습, 활용</b> 모든 단계에서 생길 수 있고, 인공지능의 판단을 불공정하게 만들어요.</div>
+        <p>단계를 눌러 각 단계에서 생기는 편향의 예를 살펴보세요.</p>
+        <div class="card"><div id="biasStages"></div></div>
+
+        <h3 class="sec-title">🧪 실험: 쏠린 데이터로 학습하면?</h3>
+        <div class="card">
+          <p>🐶 강아지와 🐱 고양이 사진에서 뽑은 두 특징(귀 모양, 코 길이)으로 구분하는 모델이에요. 학습 데이터 속 <b>강아지 비율</b>을 높여 보고, 테스트에서 고양이를 얼마나 맞히는지 보세요.</p>
+          <div class="lab">
+            <canvas id="biasCanvas" width="560" height="400" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <label class="slider-label">학습 데이터 속 강아지 비율 <input type="range" id="biasR" min="50" max="95" step="5" value="90"> <b id="biasVal">90%</b></label>
+              <div class="seg" id="biasMode"><button class="on" data-m="raw">그대로</button><button data-m="over">⬆️ 오버 샘플링</button><button data-m="under">⬇️ 언더 샘플링</button></div>
+              <div class="stats"><div><span>🐶 학습 개수</span><b id="biasNd">-</b></div><div><span>🐱 학습 개수</span><b id="biasNc">-</b></div><div><span>⏱️ 계산량</span><b id="biasCost">-</b></div></div>
+              <div id="biasBars"></div>
+              <p class="predict" id="biasMsg"></p>
+            </div>
+          </div>
+          <p class="hint">배경색은 모델이 그 자리를 무엇으로 판단하는지 보여 줘요. 속이 빈 점(○)은 오버 샘플링으로 복사·증강한 데이터, 흐린 점은 언더 샘플링으로 뺀 데이터예요.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="def blue"><b>⬆️ 오버 샘플링</b>: 양이 <b>많은</b> 클래스에 맞추어 적은 클래스의 데이터를 <b>중복하거나 증강</b>해서 늘려요.</div>
+          <div class="def purple"><b>⬇️ 언더 샘플링</b>: 양이 <b>적은</b> 클래스에 맞추어 많은 클래스의 데이터를 <b>줄여요</b>.</div>
+        </div>
+        <div class="card">
+          <h3>🔐 장점과 단점 열어 보기 <small class="muted">(빗금 칸을 먼저 생각해 보고 눌러 보세요)</small></h3>
+          <div class="dtable-wrap"><table class="dtable reveal-table" id="sampTable">
+            <tr><th></th><th>👍 장점</th><th>👎 단점</th></tr>
+            <tr><th>⬆️ 오버 샘플링</th><td class="hide">데이터를 늘리기 때문에 <b>정보 손실이 없어요</b>.</td><td class="hide">데이터가 늘어나 <b>계산 시간이 늘어날</b> 수 있어요.</td></tr>
+            <tr><th>⬇️ 언더 샘플링</th><td class="hide">전체 데이터 개수가 줄어 <b>계산 시간이 줄어요</b>.</td><td class="hide">데이터를 지우기 때문에 <b>정보 손실</b>이 생길 수 있어요.</td></tr>
+          </table></div>
+        </div>
+        <div class="quiz" data-quiz="d4"></div>
+      </div>
+
+      <!-- 3-5 -->
+      <div class="sub" data-sub="3-5" data-title="결측치·이상치">
+        <div class="sub-head"><span class="pill">3-5</span><h2>🧹 전처리 ①: 결측치와 이상치</h2></div>
+        <p>수집한 데이터를 바로 학습에 쓰기는 어려워요. 비어 있거나 이상한 데이터가 없는지 확인하고 문제 해결에 맞는 형태로 다듬는 것을 <b>전처리</b>라고 해요.</p>
+        <div class="grid2">
+          <div class="def blue"><b>결측치(결측값)</b>: 전체 데이터에서 <b>누락된</b> 데이터예요. 정보가 다 기록되지 않았을 때 생기고, 실제 데이터에서 아주 자주 나와서 가장 많은 전처리가 필요해요.<br><small>예: 환자의 키·몸무게가 비어 있음</small></div>
+          <div class="def orange"><b>이상치(이상값)</b>: 입력은 되었지만 <b>일반 범위가 아닌</b> 값이에요. 잘못 기록됐거나(나이 −5, 세 자리 전화번호) 특수한 상황(키 220cm)일 때 생겨요.</div>
+        </div>
+
+        <h3 class="sec-title">🕵️ 데이터 탐정: 이상한 칸을 모두 찾아라!</h3>
+        <div class="card">
+          <p>건강 검진 데이터예요. <b>비어 있는 칸(결측치)</b>과 <b>이상한 값(이상치)</b>을 모두 찾아 눌러 보세요.</p>
+          <div class="stats"><div><span>찾은 결측치</span><b id="detMiss">0 / 0</b></div><div><span>찾은 이상치</span><b id="detOut">0 / 0</b></div><div><span>헛짚은 횟수</span><b id="detWrong">0</b></div></div>
+          <div class="dtable-wrap"><table class="dtable" id="detTable"></table></div>
+          <p class="predict" id="detMsg" style="margin-top:10px">이상한 칸을 눌러 보세요</p>
+          <div class="btn-row center"><button class="btn btn-ghost btn-sm" id="detShow">정답 보기</button></div>
+        </div>
+
+        <h3 class="sec-title">🩹 어떻게 처리할까?</h3>
+        <div class="def">전체 데이터가 <b>충분하고</b> 지워도 문제 해결에 지장이 없으면 <b>삭제</b>해요. 삭제하기 어려우면 <b>평균값, 중앙값, 최빈값</b> 등으로 <b>대체</b>하고, 경우에 따라 빈 값을 기계학습으로 예측해서 채우기도 해요.<br><small>중앙값: 크기 순으로 늘어놓았을 때 한가운데 값 · 최빈값: 가장 자주 나오는 값</small></div>
+        <div class="grid2">
+          <div class="card">
+            <h3>📏 키 (수치형)</h3>
+            <div class="seg" id="fillNum"><button class="on" data-m="none">그대로</button><button data-m="del">삭제</button><button data-m="mean">평균값</button><button data-m="median">중앙값</button><button data-m="mode">최빈값</button></div>
+            <label class="slider-label"><input type="checkbox" id="fillOut"> 이상치(키 999)도 결측치로 보고 처리하기</label>
+            <div class="chips" id="fillNumVals" style="margin:10px 0"></div>
+            <div id="fillNumStats"></div>
+            <p class="hint" id="fillNumMsg"></p>
+          </div>
+          <div class="card">
+            <h3>🩸 혈액형 (범주형)</h3>
+            <div class="seg" id="fillCat"><button class="on" data-m="none">그대로</button><button data-m="del">삭제</button><button data-m="mean">평균값</button><button data-m="median">중앙값</button><button data-m="mode">최빈값</button></div>
+            <div class="chips" id="fillCatVals" style="margin:10px 0"></div>
+            <div id="fillCatStats"></div>
+            <p class="hint" id="fillCatMsg"></p>
+          </div>
+        </div>
+        <div class="quiz" data-quiz="d5"></div>
+      </div>
+
+      <!-- 3-6 -->
+      <div class="sub" data-sub="3-6" data-title="스케일링·인코딩">
+        <div class="sub-head"><span class="pill">3-6</span><h2>📐 전처리 ②: 값의 범위와 형태 바꾸기</h2></div>
+        <div class="def">데이터 값의 <b>범위</b>는 모델 성능에 영향을 줄 수 있어요. 예를 들어 키(150~190)를 <b>0~1로 스케일링</b>할 수 있어요. 또 '1학년, 2학년, 3학년' 같은 범주형 데이터를 1, 2, 3 같은 숫자로 <b>형태</b>를 바꾸기도 해요.</div>
+
+        <h3 class="sec-title">📏 스케일링: 범위를 0~1로 맞추기</h3>
+        <div class="card">
+          <p>두 학생이 얼마나 비슷한지 <b>거리</b>로 재 볼게요. 속성은 키(150~190cm)와 하루 수면 시간(5~9시간)이에요. 스케일링 전과 후에 어떤 속성이 거리를 좌우하는지 보세요.</p>
+          <div class="grid2">
+            <div>
+              <label class="slider-label">🙋 A의 키 <input type="range" id="scAh" min="150" max="190" value="160"> <b id="scAhV">160</b></label>
+              <label class="slider-label">🙋 A의 수면 <input type="range" id="scAs" min="5" max="9" step="0.5" value="5"> <b id="scAsV">5</b></label>
+              <label class="slider-label">🧑 B의 키 <input type="range" id="scBh" min="150" max="190" value="164"> <b id="scBhV">164</b></label>
+              <label class="slider-label">🧑 B의 수면 <input type="range" id="scBs" min="5" max="9" step="0.5" value="9"> <b id="scBsV">9</b></label>
+              <div class="code-block" id="scFormula"></div>
+            </div>
+            <div id="scOut"></div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🔤 레이블 인코딩 vs 원핫 인코딩</h3>
+        <div class="card">
+          <div class="seg" id="encMode"><button class="on" data-m="label">🔢 레이블 인코딩</button><button data-m="onehot">🔥 원핫 인코딩</button></div>
+          <div class="grid2" style="margin-top:12px">
+            <div>
+              <div class="dtable-wrap"><table class="dtable" id="encTable"></table></div>
+              <div class="inline-form" style="margin-top:10px"><label>새 과일 추가<input id="encNew" placeholder="예: 포도" maxlength="6"></label><button class="btn btn-ghost btn-sm" id="encAdd">추가</button><button class="btn btn-ghost btn-sm" id="encReset">처음으로</button></div>
+            </div>
+            <div id="encMsg"></div>
+          </div>
+        </div>
+        <div class="quiz" data-quiz="d6"></div>
+      </div>
+
+      <!-- 3-7 -->
+      <div class="sub" data-sub="3-7" data-title="시각화·핵심 속성">
+        <div class="sub-head"><span class="pill">3-7</span><h2>📊 데이터 시각화와 핵심 속성</h2></div>
+        <div class="def"><b>데이터 시각화</b>는 데이터 분석 결과를 이해하기 쉽게 도표나 그래프 같은 시각적인 형태로 표현하는 거예요. 우리 반 건강 데이터(3-1에서 넣은 응답 포함)로 그려 봐요.</div>
+        <div class="tabs" id="chartTabs"><button class="on" data-c="bar">📊 막대그래프<small>범주별 크기 비교</small></button><button data-c="hist">📶 히스토그램<small>수치의 분포</small></button><button data-c="scatter">✨ 산점도<small>두 변수의 관계</small></button><button data-c="box">📦 상자그림<small>분포와 이상치</small></button></div>
+        <div class="card">
+          <div class="lab">
+            <canvas id="chartCanvas" width="640" height="400" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <div id="chartDesc"></div>
+              <label class="slider-label" id="binWrap" hidden>구간 개수 <input type="range" id="histBins" min="3" max="15" value="6"> <b id="histBinsVal">6</b></label>
+              <div class="seg" id="barCol"><button class="on" data-k="fruit">좋아하는 과일</button><button data-k="blood">혈액형</button></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🤔 이럴 땐 어떤 그래프?</h3>
+        <div class="card">
+          <div class="sorter" id="chartSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins" style="grid-template-columns:repeat(4,1fr)">
+              <div class="bin" data-bin="bar"><h4>📊 막대그래프</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="hist"><h4>📶 히스토그램</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="scatter"><h4>✨ 산점도</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="box"><h4>📦 상자그림</h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+
+        <h3 class="sec-title">🔗 상관계수: 관계를 숫자로</h3>
+        <div class="card">
+          <div class="def purple" style="margin-top:0"><b>상관계수</b>는 두 속성이 얼마나 함께 움직이는지를 <b>−1 ~ 1</b> 숫자로 나타내요. 1에 가까우면 같이 커지고(양의 상관), −1에 가까우면 하나가 클수록 다른 하나는 작아지고(음의 상관), 0에 가까우면 관계가 거의 없어요.</div>
+          <div class="lab">
+            <canvas id="corrCanvas" width="520" height="400" class="lab-canvas" style="touch-action:none"></canvas>
+            <div class="lab-side">
+              <div class="stats"><div><span>상관계수 r</span><b id="corrR">-</b></div></div>
+              <p class="verdict" id="corrVerdict"></p>
+              <div class="btn-col">
+                <button class="btn btn-ghost" data-p="pos">📈 양의 상관 예시</button>
+                <button class="btn btn-ghost" data-p="neg">📉 음의 상관 예시</button>
+                <button class="btn btn-ghost" data-p="none">☁️ 관계 없음 예시</button>
+                <button class="btn btn-ghost" data-p="clear">🧽 모두 지우기</button>
+              </div>
+              <p class="hint">빈 곳을 누르면 점이 생기고, 점을 끌면 움직여요. 점을 하나만 멀리 끌어 보세요. 이상치 하나가 상관계수를 얼마나 바꾸나요?</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🔑 핵심 속성 고르기</h3>
+        <div class="card">
+          <p><b>체지방률</b>을 예측하는 모델을 만들려고 해요. 어떤 속성은 중요하지만, 어떤 속성은 도움이 안 되거나 오히려 방해가 돼요. 먼저 상관계수 표를 보고, 쓸 속성을 골라 학습시켜 보세요.</p>
+          <div class="dtable-wrap"><table class="dtable" id="corrMatrix"></table></div>
+          <div class="chips" id="featPick" style="margin-top:12px"></div>
+          <div class="btn-row"><button class="btn btn-ghost" id="addBMI">➕ 새 속성 만들기: BMI = 몸무게 ÷ (키(m))²</button></div>
+          <div class="stats"><div><span>사용한 속성 수</span><b id="featN">-</b></div><div><span>테스트 평균 오차</span><b id="featErr">-</b></div><div><span>최고 기록</span><b id="featBest">-</b></div></div>
+          <p class="predict" id="featMsg"></p>
+          <p class="hint">불필요한 속성은 <b>제거</b>하고, 기존 데이터를 가공해 <b>새로운 속성</b>(BMI 같은)을 추가하면 문제 해결에 도움이 돼요. 이렇게 데이터를 여러 관점에서 살펴보는 것을 <b>탐색적 데이터 분석</b>이라고 해요.</p>
+        </div>
+        <div class="quiz" data-quiz="d7"></div>
+      </div>
+    </section>
+    <!-- ============ 4. 머신러닝의 유형 ============ -->
+    <section class="chapter" data-ch="ml" data-title="머신러닝의 유형">
+      <div class="ch-head">
+        <span class="ch-num">4단원</span>
+        <h1>머신러닝의 유형</h1>
+        <p class="lead">기계학습은 <b>무엇으로 배우느냐</b>에 따라 지도학습, 비지도학습, 강화학습으로 나뉘어요. 마당을 하나씩 넘기며 직접 학습시켜 봅시다.</p>
+      </div>
+      <nav class="subnav" aria-label="4단원 마당"></nav>
+
+      <!-- 4-0 -->
+      <div class="sub" data-sub="4-0" data-title="한눈에 보기">
+        <div class="sub-head"><span class="pill">4-0</span><h2>한눈에 보기</h2></div>
+        <p>상자를 누르면 설명이 나와요. 설명 아래 버튼으로 그 마당으로 바로 갈 수 있어요.</p>
+        <div class="card">
+          <div class="tree" id="typeTree">
+            <button class="tree-node tree-root" data-k="ml">📈 머신러닝 (기계학습)</button>
+            <div class="tree-row">
+              <div class="tree-col">
+                <button class="tree-node t-sup" data-k="sup">👩‍🏫 지도학습<small>문제 + 정답</small></button>
+                <div class="tree-leaves">
+                  <button class="tree-node t-sup leaf" data-k="reg">📏 예측(회귀)</button>
+                  <button class="tree-node t-sup leaf" data-k="cls">🏷️ 분류</button>
+                </div>
+              </div>
+              <div class="tree-col">
+                <button class="tree-node t-uns" data-k="uns">🧩 비지도학습<small>문제만</small></button>
+                <div class="tree-leaves">
+                  <button class="tree-node t-uns leaf" data-k="clu">🫧 군집</button>
+                </div>
+              </div>
+              <div class="tree-col">
+                <button class="tree-node t-rl" data-k="rl">🎮 강화학습<small>행동 + 보상</small></button>
+                <div class="tree-leaves">
+                  <button class="tree-node t-rl leaf" data-k="rlgame">🤖 시행착오</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tree-info" id="typeInfo"></div>
+        </div>
+
+        <h3 class="sec-title">📚 세 학생의 공부법 <small class="muted">(카드를 눌러 뒤집어 보세요)</small></h3>
+        <div class="flip3" id="studyFlip">
+          <div class="flip"><div class="flip-in"><div class="flip-f"><div class="big-emoji">📘✅</div><b>문제 + 정답이 있는 문제집</b><small>지도학습</small></div><div class="flip-b"><p><b>지도학습</b>: 문제(입력 데이터)와 정답(레이블)을 함께 보며 둘 사이의 관계를 배워요.</p><p>예) 사진 + "고양이" → 새 사진이 고양이인지 맞히기</p></div></div></div>
+          <div class="flip"><div class="flip-in"><div class="flip-f"><div class="big-emoji">🧺❓</div><b>정답 없이 사진만 한 더미</b><small>비지도학습</small></div><div class="flip-b"><p><b>비지도학습</b>: 정답 없이 입력 데이터만 보고 숨은 패턴을 찾아 비슷한 것끼리 묶어요.</p><p>예) 손님 구매 기록 → 비슷한 손님끼리 그룹</p></div></div></div>
+          <div class="flip"><div class="flip-in"><div class="flip-f"><div class="big-emoji">🕹️🏆</div><b>해 보고 점수를 받는 게임</b><small>강화학습</small></div><div class="flip-b"><p><b>강화학습</b>: 에이전트가 환경 속에서 행동하고, 받은 보상이 커지는 쪽으로 행동을 바꿔 가요.</p><p>예) 바둑 AI가 이기면 +, 지면 −</p></div></div></div>
+        </div>
+      </div>
+
+      <!-- 4-1 -->
+      <div class="sub" data-sub="4-1" data-title="지도학습">
+        <div class="sub-head"><span class="pill">4-1</span><h2>👩‍🏫 지도학습: 문제와 정답을 함께 배우기</h2></div>
+        <div class="def blue"><b>지도학습</b>은 문제와 정답을 같이 학습해서 둘 사이의 관계를 이해하는 방법이에요. 학습 데이터는 문제에 해당하는 <b>입력 데이터</b>와 정답에 해당하는 <b>레이블</b>로 이루어져요.<br><small>➕ 레이블: 입력 데이터와 관련된 정답</small></div>
+
+        <div class="card">
+          <h3>🔎 학습 데이터 들여다보기</h3>
+          <div class="legend"><span><i style="background:var(--blue-soft)"></i>입력 데이터 (문제)</span><span><i style="background:var(--yellow-soft)"></i>레이블 (정답)</span></div>
+          <div class="dtable-wrap"><table class="dtable" id="supTable"></table></div>
+          <p class="hint">모델은 왼쪽(입력)을 보고 오른쪽(정답)을 맞히는 규칙을 찾아요. 정답 칸이 비어 있는 새 과일이 들어오면 그 규칙으로 정답을 예측해요.</p>
+        </div>
+
+        <h3 class="sec-title">🧪 체험: 내가 레이블을 달아 주면?</h3>
+        <div class="card">
+          <p>과일 12개에 이름표(레이블)를 붙여 주세요. 과일을 누를 때마다 🍎 → 🍌 → 🍇 순서로 바뀌어요. 다 붙이면 <b>학습시키기</b>를 눌러 처음 보는 과일 4개를 맞히게 해 봐요.</p>
+          <div class="lab">
+            <div>
+              <div class="label-fruits" id="lfGrid"></div>
+              <div class="stats"><div><span>레이블 단 개수</span><b id="lfCount">0 / 12</b></div><div><span>걸린 시간</span><b id="lfTime">0초</b></div></div>
+            </div>
+            <div>
+              <div class="btn-row"><button class="btn btn-primary" id="lfTrain">▶ 학습시키기</button><button class="btn btn-ghost" id="lfReset">다시 하기</button></div>
+              <div id="lfResult" class="mini">아직 학습 전이에요.</div>
+              <p class="hint">💡 일부러 몇 개를 틀리게 붙여 보세요. AI는 사람이 준 정답을 그대로 믿기 때문에 <b>레이블이 틀리면 AI도 틀려요.</b></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pros-cons">
+          <div class="pro"><h4>👍 장점</h4><ul><li>명확한 정답이 있어 모델이 문제를 정확하게 풀었는지 <b>성능을 평가하기 쉬워요.</b></li><li>많은 알고리즘이 개발되어 있어, 학습 데이터가 충분하면 좋은 성능의 모델을 만들 수 있어요.</li></ul></div>
+          <div class="con"><h4>👎 단점</h4><ul><li>반드시 정답이 있어야 해서 레이블을 다는 데 <b>많은 시간과 비용</b>이 들어요. (방금 몇 초 걸렸나요?)</li><li>레이블을 만드는 과정에서 <b>오류</b>가 생길 수 있어요.</li></ul></div>
+        </div>
+
+        <h3 class="sec-title">🗂️ 활동: 정답이 숫자? 종류?</h3>
+        <div class="card">
+          <p>지도학습은 정답(레이블)의 모양에 따라 두 가지로 나뉘어요. 정답이 <b>연속적인 숫자</b>면 <b>예측(회귀)</b>, <b>몇 가지 종류(범주)</b> 중 하나면 <b>분류</b>예요. 3단원에서 배운 수치형·범주형과 같은 기준이에요.</p>
+          <div class="sorter" id="rcSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins" style="grid-template-columns:1fr 1fr">
+              <div class="bin" data-bin="reg"><h4>📏 예측(회귀)<br><small class="muted">정답 = 연속적인 숫자</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="cls"><h4>🏷️ 분류<br><small class="muted">정답 = 범주(종류)</small></h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+        <div class="quiz" data-quiz="m1"></div>
+      </div>
+
+      <!-- 4-2 -->
+      <div class="sub" data-sub="4-2" data-title="예측(회귀)">
+        <div class="sub-head"><span class="pill">4-2</span><h2>📏 지도학습 ① 예측(회귀)</h2></div>
+        <div class="def blue"><b>예측(회귀)</b>은 미래의 어떤 값을 예측하는 것이에요. 레이블이 <b>연속적인 값</b>인 문제를 풀 때 회귀 알고리즘을 써요. 대표 알고리즘은 <b>단순 선형 회귀</b>와 <b>다중 선형 회귀</b>예요.</div>
+
+        <h3 class="sec-title">🧪 체험 1: 단순 선형 회귀 (속성 1개 → 직선)</h3>
+        <div class="card">
+          <p><b>단순 선형 회귀</b>는 하나의 속성 값과 레이블 값을 가장 잘 나타내는 <b>최적의 직선</b>을 찾는 거예요. 먼저 <b>내가 직접</b> 파란 직선의 두 손잡이(●)를 끌어서 오차를 줄여 보고, 그다음 컴퓨터에게 맡겨 보세요.</p>
+          <div class="lab">
+            <canvas id="slrCanvas" width="640" height="400" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <div class="stats"><div><span>🙋 내 직선 평균 오차</span><b id="slrMine">-</b></div><div><span>💻 컴퓨터 평균 오차</span><b id="slrCom">-</b></div></div>
+              <div class="btn-col">
+                <button class="btn btn-primary" id="slrTrain">💻 컴퓨터가 학습하기</button>
+                <button class="btn btn-ghost" id="slrNew">새 데이터</button>
+              </div>
+              <p class="hint">빈 곳을 클릭하면 점(데이터)을 더 찍을 수 있어요. 빨간 선이 <b>오차</b>(정답 − 예측)예요. 학습은 이 오차를 줄여 가는 과정이에요.</p>
+              <label class="slider-label">내 공부 시간 <input type="range" id="slrX" min="0" max="10" step="0.5" value="6"> <b id="slrXVal">6시간</b></label>
+              <div class="predict" id="slrPred">컴퓨터 학습을 먼저 해 주세요</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 2: 다중 선형 회귀 (속성 2개 이상 → 평면)</h3>
+        <div class="card">
+          <p><b>다중 선형 회귀</b>는 2개 이상의 속성과 레이블을 가장 잘 나타내는 <b>최적의 평면(초평면)</b>을 찾아요. 내비게이션이 도착 시간을 계산할 때 <b>거리</b>뿐 아니라 <b>신호등 개수</b>도 함께 따지는 것처럼요.</p>
+          <div class="seg" id="mlrMode"><button class="on" data-m="1">거리만 쓰기 (단순)</button><button data-m="2">거리 + 신호등 (다중)</button></div>
+          <div class="lab">
+            <div>
+              <canvas id="mlrCanvas" width="640" height="420" class="lab-canvas"></canvas>
+              <p class="hint" id="mlrHint">그래프를 좌우로 끌면 돌려 볼 수 있어요.</p>
+            </div>
+            <div class="lab-side">
+              <div class="stats"><div><span>평균 오차</span><b id="mlrErr">-</b></div></div>
+              <div id="mlrFormula" class="mini"></div>
+              <h4>🚗 새 길 예측하기</h4>
+              <label class="slider-label">거리 <input type="range" id="mlrD" min="1" max="20" value="8"> <b id="mlrDVal">8km</b></label>
+              <label class="slider-label">신호등 <input type="range" id="mlrS" min="0" max="15" value="10"> <b id="mlrSVal">10개</b></label>
+              <div class="predict" id="mlrPred"></div>
+            </div>
+          </div>
+        </div>
+        <div class="quiz" data-quiz="m2"></div>
+      </div>
+
+      <!-- 4-3 -->
+      <div class="sub" data-sub="4-3" data-title="분류">
+        <div class="sub-head"><span class="pill">4-3</span><h2>🏷️ 지도학습 ② 분류</h2></div>
+        <div class="def blue"><b>분류</b>는 레이블이 몇 가지 종류로 이루어진 <b>범주형 값</b>을 가지는 문제에 써요. 모델의 목표는 입력 데이터가 <b>어떤 범주에 속하는지</b> 예측하는 거예요. 대표 알고리즘은 <b>K-최근접 이웃</b>과 <b>의사결정트리</b>예요.</div>
+
+        <h3 class="sec-title">🧪 체험 1: K-최근접 이웃 (K-NN)</h3>
+        <div class="card">
+          <p>새 데이터를 분류할 때 <b>가장 가까운 K개의 이웃</b>을 찾아 어떤 레이블이 가장 많은지 보고 그 레이블로 정해요. 그래프 아무 곳이나 눌러 ❓ 새 데이터를 놓아 보세요.</p>
+          <div class="lab">
+            <canvas id="knnCanvas" width="640" height="420" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <label class="slider-label">K (이웃 수) <input type="range" id="knnK" min="1" max="9" value="3"> <b id="knnKVal">3</b></label>
+              <div id="knnVote" class="mini">그래프를 눌러 새 점을 놓아 보세요.</div>
+              <div class="seg" id="knnAdd"><button class="on" data-c="q">❓ 새 데이터</button><button data-c="0">🔴 빨강 추가</button><button data-c="1">🔵 파랑 추가</button></div>
+              <div class="btn-row"><button class="btn btn-ghost btn-sm" id="knnMap">🗺️ 전체 영역 색칠</button><button class="btn btn-ghost btn-sm" id="knnNew">새 데이터</button></div>
+              <p class="hint">💡 K를 1, 3, 5, 7로 바꿔 보세요. 같은 점이라도 결과가 바뀔 수 있어요. K가 짝수(2, 4…)면 표가 똑같이 나뉘는 <b>동점</b>이 생길 수 있어서 보통 홀수를 써요. 이렇게 사람이 정해 주는 K 같은 값을 <b>하이퍼 파라미터</b>라고 해요(4-4).</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 2: 의사결정트리 만들기</h3>
+        <div class="card">
+          <p><b>의사결정트리</b>는 데이터 속성에 대한 여러 <b>조건(질문)</b>으로 데이터를 범주별로 나눠요. 질문을 골라 거북이, 호랑이, 독수리, 펭귄을 모두 구분하는 나무를 완성해 보세요.</p>
+          <div class="chips" id="dtAnimals"></div>
+          <div class="grid2" style="margin-top:12px">
+            <div><h4>🌳 내가 만든 트리</h4><div class="dtree" id="dtTree"></div><div class="stats"><div><span>질문 깊이</span><b id="dtDepth">-</b></div><div><span>질문 개수</span><b id="dtCount">-</b></div></div><button class="btn btn-ghost btn-sm" id="dtReset">처음부터</button></div>
+            <div><h4>🧪 새 동물 넣어 보기</h4><p class="hint">트리를 완성하면 처음 보는 동물을 흘려보낼 수 있어요.</p><div class="chips" id="dtTest"></div><div id="dtPath" class="mini" hidden></div></div>
+          </div>
+          <p class="hint">💡 첫 질문을 바꿔 다시 만들어 보세요. 한 번에 반씩 나누는 질문을 먼저 하면 트리가 얕아져요. 좋은 질문 = 데이터를 깔끔하게 나누는 질문!</p>
+        </div>
+        <div class="quiz" data-quiz="m3"></div>
+      </div>
+
+      <!-- 4-4 -->
+      <div class="sub" data-sub="4-4" data-title="모델 평가·적합도">
+        <div class="sub-head"><span class="pill">4-4</span><h2>📐 모델의 평가와 적합도</h2></div>
+        <p class="lead">모델의 평가는 학습한 모델이 <b>얼마나 잘 예측하는지 측정</b>하는 과정이에요.</p>
+
+        <h3 class="sec-title">① 훈련 데이터와 테스트 데이터</h3>
+        <div class="card">
+          <p>공부한 문제집으로 시험을 보면 점수가 잘 나오지만 진짜 실력은 알 수 없죠? 그래서 데이터를 <b>훈련 데이터</b>(학습용)와 <b>테스트 데이터</b>(평가용)로 나눠요. 보통 전체의 <b>70~80%</b>를 훈련 데이터로 써요.</p>
+          <label class="slider-label">훈련 데이터 비율 <input type="range" id="splitR" min="10" max="95" step="5" value="80"> <b id="splitVal">80%</b></label>
+          <div class="split-bar" id="splitBar"></div>
+          <div id="splitDots" class="mail-list"></div>
+          <p id="splitMsg" class="hint"></p>
+        </div>
+
+        <h3 class="sec-title">② 예측 모델의 평가: MAE와 MSE</h3>
+        <div class="card">
+          <p>점을 위아래로 끌어 보세요. 오차(정답 − 예측)로 두 가지 점수를 계산해요.</p>
+          <ul><li><b>평균 절대 오차(MAE)</b>: 오차에 절댓값을 씌워 평균을 내요.</li><li><b>평균 제곱 오차(MSE)</b>: 오차를 제곱한 뒤 평균을 내요. 큰 오차를 훨씬 크게 벌줘요.</li></ul>
+          <div class="lab">
+            <canvas id="errCanvas" width="640" height="360" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <div class="dtable-wrap"><table class="dtable" id="errTable"></table></div>
+              <div class="stats"><div><span>MAE</span><b id="maeVal">-</b></div><div><span>MSE</span><b id="mseVal">-</b></div></div>
+              <button class="btn btn-ghost btn-sm" id="errOut">😱 점 하나 멀리 보내기</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">③ 분류 모델의 평가: 혼동행렬, 정확도·정밀도·재현율·F1</h3>
+        <div class="card">
+          <p>스팸 메일 필터가 메일 20통을 검사했어요. 필터는 메일마다 <b>스팸 점수</b>를 매기고, 점수가 <b>기준</b>보다 높으면 스팸으로 분류해요. 기준을 움직여 보세요.</p>
+          <label class="slider-label">스팸 판정 기준 <input type="range" id="spamT" min="5" max="95" value="50"> <b id="spamTVal">50점</b></label>
+          <div class="mail-list" id="mailList"></div>
+          <div class="legend"><span><i style="border:2px solid var(--red)"></i>진짜 스팸</span><span><i style="background:#fde8e6"></i>필터가 스팸이라고 한 것</span></div>
+          <div class="grid2">
+            <div>
+              <h4>혼동행렬 <small class="muted">(칸을 누르면 해당 메일만 보여요)</small></h4>
+              <div class="cm" id="cm"></div>
+            </div>
+            <div>
+              <div id="metricBars"></div>
+              <div class="mini" id="metricExplain"></div>
+            </div>
+          </div>
+          <div class="grid2" style="margin-top:12px">
+            <div class="box"><h4>정밀도가 중요할 때</h4><p>정상 메일을 스팸으로 잘못 보내면 중요한 연락을 놓쳐요. → <b>"스팸이라고 한 것"이 진짜 스팸이어야</b> 해요.</p></div>
+            <div class="box"><h4>재현율이 중요할 때</h4><p>병 진단에서 환자를 놓치면 큰일이에요. → <b>"진짜 환자"를 빠짐없이 찾아야</b> 해요.</p></div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">④ 모델의 적합도: 과소적합 · 적합 · 과대적합</h3>
+        <div class="card">
+          <p>곡선의 <b>복잡도</b>를 바꾸며 🔵 훈련 데이터와 🟠 테스트 데이터의 오차를 비교해 보세요.</p>
+          <div class="lab">
+            <canvas id="fitCanvas" width="640" height="380" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <label class="slider-label">모델 복잡도 <input type="range" id="fitDeg" min="1" max="12" value="1"> <b id="fitDegVal">1</b></label>
+              <div id="fitBars"></div>
+              <div class="verdict" id="fitVerdict"></div>
+              <p id="fitDesc" class="hint"></p>
+              <button class="btn btn-ghost btn-sm" id="fitNew">새 데이터</button>
+            </div>
+          </div>
+          <div class="grid3" style="margin-top:12px">
+            <div class="box"><h4>😴 과소적합</h4><p>학습 데이터를 충분히 배우지 못해 예측 성능이 좋지 않아요.<br>→ <b>더 학습</b>하면 나아질 수 있어요.</p></div>
+            <div class="box"><h4>😊 적합</h4><p>과대적합도 과소적합도 아니어서 <b>새 데이터도 잘 맞히는</b> 이상적인 상태예요.</p></div>
+            <div class="box"><h4>🤓 과대적합</h4><p>학습 데이터를 너무 잘 외워서, 처음 보는 데이터는 오히려 못 맞혀요.<br>→ <b>새로운 데이터 학습</b>, <b>중간 평가</b>로 피할 수 있어요.</p></div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">⑤ 하이퍼 파라미터</h3>
+        <div class="card">
+          <p><b>하이퍼 파라미터</b>는 기계학습 모델의 <b>학습 과정을 제어하는 변수</b>예요. 모델이 스스로 배우는 값이 아니라 <b>사람이 미리 정해 주는 설정</b>이고, 설정에 따라 성능이 크게 달라져요. 이 단원에서 이미 만져 본 하이퍼 파라미터를 모아 봤어요.</p>
+          <div class="chips"><span class="chip">K-NN의 K (4-3)</span><span class="chip">모델 복잡도 (④)</span><span class="chip">학습 횟수 epoch (4-2)</span><span class="chip">의사결정트리 깊이 (4-3)</span><span class="chip">K-평균의 K (4-5)</span><span class="chip">강화학습의 탐험 비율 (4-6)</span></div>
+        </div>
+        <div class="quiz" data-quiz="m4"></div>
+      </div>
+
+      <!-- 4-5 -->
+      <div class="sub" data-sub="4-5" data-title="비지도학습">
+        <div class="sub-head"><span class="pill">4-5</span><h2>🧩 비지도학습: 정답 없이 패턴 찾기</h2></div>
+        <div class="def purple"><b>비지도학습</b>은 정답(레이블) 없이 <b>입력 데이터만</b> 이용해 학습하는 방법이에요. 문제만 알려 주면, 모델이 데이터에서 <b>패턴을 추출</b>해 어떤 특성이 있는지 알아내요.</div>
+
+        <h3 class="sec-title">🧪 체험 1: 내 마음대로 묶어 보기</h3>
+        <div class="card">
+          <p>아래 도형 12개를 <b>비슷한 것끼리 3묶음</b>으로 나눠 보세요. 묶음 버튼(A·B·C)을 고른 뒤 도형을 누르면 돼요. 정답은 없어요!</p>
+          <div class="seg" id="grpPick"><button class="on" data-g="0">A 묶음</button><button data-g="1">B 묶음</button><button data-g="2">C 묶음</button></div>
+          <div class="chips big-emoji" id="grpItems"></div>
+          <div class="btn-row"><button class="btn btn-primary" id="grpDone">다 묶었어요</button></div>
+          <div id="grpResult" class="mini" hidden></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pro"><h4>👍 장점</h4><ul><li>레이블을 만드는 과정이 필요 없어요.</li><li>학습을 통해 데이터에 <b>숨겨진 패턴</b>을 발견할 수 있어요.</li></ul></div>
+          <div class="con"><h4>👎 단점</h4><ul><li>명확한 정답이 없어 모델이 잘 풀었는지 <b>성능을 평가하기 어려워요.</b></li><li>결과를 <b>주관적으로 해석</b>할 가능성이 있어요. (방금 친구와 묶음이 같았나요?)</li></ul></div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 2: 군집 문제, 우리 동네 CCTV 관리 구역 나누기</h3>
+        <div class="card">
+          <p><b>군집</b>은 데이터를 비슷한 특성을 가진 여러 그룹으로 나누는 문제예요. 우리 동네 CCTV 📹를 K개 관리 센터로 묶어 관리하려면 어떻게 나눠야 할까요? 대표 알고리즘인 <b>K-평균</b>으로 한 단계씩 해 봐요.</p>
+          <div class="lab">
+            <canvas id="kmCanvas" width="640" height="420" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <label class="slider-label">관리 센터 수 K <input type="range" id="kmK" min="2" max="6" value="3"> <b id="kmKVal">3</b></label>
+              <ol class="km-steps" id="kmSteps">
+                <li>데이터 중 K개를 <b>무작위로 골라</b> 중심점으로 정해요.</li>
+                <li>각 데이터를 <b>가장 가까운 중심점</b>의 그룹에 넣어요.</li>
+                <li>그룹마다 <b>중심(평균 위치)을 다시 계산</b>해 중심점을 옮겨요.</li>
+                <li>중심점이 <b>더 이상 바뀌지 않을 때까지</b> ②~③을 반복해요.</li>
+              </ol>
+              <div class="btn-col">
+                <button class="btn btn-ghost" id="kmSeed">① 중심점 무작위로 고르기</button>
+                <button class="btn btn-primary" id="kmStep">▶ 다음 단계</button>
+                <button class="btn btn-ghost" id="kmAuto">⏩ 끝까지 자동</button>
+                <button class="btn btn-ghost btn-sm" id="kmData">새 CCTV 배치</button>
+              </div>
+              <div class="km-step" id="kmMsg"></div>
+              <p class="hint">빈 곳을 클릭하면 CCTV를 더 설치할 수 있어요.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 3: 엘보우 방법으로 K 정하기</h3>
+        <div class="card">
+          <p>K를 몇으로 할지는 사람이 정해야 해요. <b>엘보우 방법</b>은 군집 수를 1개부터 늘려 가며 중심점과 데이터 사이 거리의 <b>오차</b>를 비교해요. 군집을 하나 더 늘려도 <b>훨씬 나아지지 않는 곳</b>, 즉 그래프가 팔꿈치(elbow)처럼 꺾이는 곳의 K를 골라요.</p>
+          <div class="lab">
+            <canvas id="elbowCanvas" width="640" height="320" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <p>그래프에서 <b>팔꿈치라고 생각하는 점</b>을 눌러 보세요. 위 CCTV 지도도 그 K로 나눠져요.</p>
+              <div id="elbowMsg" class="mini">위 지도의 CCTV로 계산했어요.</div>
+              <button class="btn btn-ghost btn-sm" id="elbowRe">다시 계산</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🛒 더 해보기: 장바구니에서 패턴 찾기</h3>
+        <div class="card">
+          <p>편의점 영수증 10장이에요. 두 물건을 골라 <b>함께 산 영수증</b>이 몇 장인지 세어 보세요. 정답이 없는 데이터에서 "같이 잘 팔리는 짝"이라는 패턴을 찾는 것도 비지도학습의 활용이에요.</p>
+          <div class="chips" id="basketPick"></div>
+          <div class="mail-list" id="basketList"></div>
+          <div id="basketMsg" class="mini"></div>
+        </div>
+        <div class="quiz" data-quiz="m5"></div>
+      </div>
+
+      <!-- 4-6 -->
+      <div class="sub" data-sub="4-6" data-title="강화학습">
+        <div class="sub-head"><span class="pill">4-6</span><h2>🎮 강화학습: 보상을 받으며 배우기</h2></div>
+        <div class="def orange"><b>강화학습</b>은 <b>에이전트</b>가 주어진 <b>환경</b>과 상호작용한 결과로 얻은 <b>보상</b>을 바탕으로 학습하고, 학습한 결과로 <b>더 큰 보상을 받는 행동</b>을 고르게 되는 방법이에요.<br><small>💬 비유: 강아지에게 "앉아"를 가르칠 때, 앉으면 간식(보상)을 주면 점점 잘 앉게 돼요.</small></div>
+
+        <h3 class="sec-title">🔄 강화학습의 구성 요소</h3>
+        <div class="card">
+          <div class="seg" id="rlEx"><button class="on" data-e="maze">🤖 미로 로봇</button><button data-e="vac">🧹 로봇 청소기</button><button data-e="go">⚫ 바둑 AI</button><button data-e="game">🕹️ 게임 캐릭터</button></div>
+          <div class="two-col">
+            <svg id="cycleSvg" class="cycle-svg" viewBox="0 0 560 360" role="img" aria-label="에이전트와 환경이 상태, 행동, 보상을 주고받는 순환"></svg>
+            <div class="tree-info" id="cycleInfo" style="margin-top:0"></div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 1: 내가 에이전트가 되어 보기</h3>
+        <div class="card">
+          <p>지도가 보이지 않는 5×5 땅 어딘가에 💎 보물이 있어요. 방향 버튼으로 움직이면 <b>보상</b>만 알려 줘요. (한 걸음 −1, 함정 −5, 보물 +10) 여러 판 해 보면서 점수를 높여 보세요. 같은 땅에서 다시 하면 <b>지난 경험</b>이 도움이 되죠?</p>
+          <div class="grid2">
+            <div><div class="hunt" id="hunt"></div></div>
+            <div>
+              <div class="pad" id="huntPad"><button data-d="0">⬆️</button><button data-d="3">⬅️</button><button data-d="1">➡️</button><button data-d="2">⬇️</button></div>
+              <div class="stats"><div><span>이번 판 점수</span><b id="huntScore">0</b></div><div><span>판 수</span><b id="huntRound">1</b></div></div>
+              <div id="huntLog" class="mini">출발! 방향 버튼을 눌러 보세요.</div>
+              <div class="btn-row"><button class="btn btn-ghost btn-sm" id="huntAgain">같은 땅에서 다시</button><button class="btn btn-ghost btn-sm" id="huntNew">새 땅</button></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 2: 로봇 미로 탈출</h3>
+        <div class="card">
+          <p>로봇 🤖이 처음에는 아무렇게나 움직여요. 여러 판을 연습하면서 보상이 큰 길을 배워요.</p>
+          <div class="lab">
+            <canvas id="rlCanvas" width="600" height="400" class="lab-canvas"></canvas>
+            <div class="lab-side">
+              <div class="btn-col">
+                <button class="btn btn-ghost" id="rlOne">▶ 1판 연습하기 (천천히)</button>
+                <button class="btn btn-primary" id="rlMany">⏩ 100판 빠르게 연습</button>
+                <button class="btn btn-ghost" id="rlBest">⭐ 지금까지 배운 최선의 길</button>
+                <button class="btn btn-ghost" id="rlReset">처음부터 다시</button>
+              </div>
+              <div class="stats"><div><span>연습한 판</span><b id="rlEp">0</b></div><div><span>최근 걸음 수</span><b id="rlSteps">-</b></div></div>
+              <canvas id="rlChart" width="300" height="110" class="wide-canvas"></canvas>
+              <p class="hint">칸의 초록색이 진할수록 로봇이 "여기 오면 좋다"고 배운 곳이에요.</p>
+            </div>
+          </div>
+          <h4 style="margin-top:16px">🎛️ 보상 함수 직접 설계하기</h4>
+          <p>보상 값을 바꾸고 <b>처음부터 다시 → 100판 연습</b>을 해 보세요. 보상을 잘못 정하면 로봇이 엉뚱하게 행동해요.</p>
+          <div class="inline-form">
+            <label>🍪 쿠키 보상 <input type="number" id="rwG" value="10" step="1"></label>
+            <label>🔥 불 보상 <input type="number" id="rwF" value="-10" step="1"></label>
+            <label>👣 한 걸음 보상 <input type="number" id="rwS" value="-1" step="1"></label>
+            <button class="btn btn-ghost btn-sm" id="rwApply">적용하고 처음부터</button>
+          </div>
+          <p class="hint">💡 실험해 볼 것: 한 걸음 보상을 0으로 하면? 불 보상을 +5로 하면? 이것이 강화학습의 단점, <b>"적절한 보상 함수를 설계하기 어렵다"</b>는 뜻이에요.</p>
+        </div>
+
+        <h3 class="sec-title">🧪 체험 3: 탐험할까, 활용할까? (슬롯머신)</h3>
+        <div class="card">
+          <p>당첨 확률이 서로 다른 기계 3대가 있어요. 확률은 비밀! 20번 당겨서 최대한 많이 당첨돼 보세요.</p>
+          <div class="slots" id="slots"></div>
+          <div class="stats"><div><span>남은 기회</span><b id="slotLeft">20</b></div><div><span>당첨</span><b id="slotWin">0</b></div></div>
+          <div class="btn-row"><button class="btn btn-ghost btn-sm" id="slotReset">새 게임</button></div>
+          <div class="mini" id="slotMsg"></div>
+          <h4 style="margin-top:16px">🤖 AI는 어떻게 할까?</h4>
+          <p><b>탐험</b>: 새로운 기계를 시도해서 정보 얻기 / <b>활용</b>: 지금까지 가장 좋았던 기계 계속 당기기. AI가 몇 %의 확률로 탐험할지 정해 주세요. 같은 기계로 500번씩 50번 반복한 평균이에요.</p>
+          <label class="slider-label">탐험 비율 <input type="range" id="epsR" min="0" max="100" step="5" value="10"> <b id="epsVal">10%</b></label>
+          <canvas id="banditChart" width="640" height="220" class="wide-canvas"></canvas>
+          <p class="hint" id="banditMsg"></p>
+        </div>
+
+        <div class="pros-cons">
+          <div class="pro"><h4>👍 장점</h4><ul><li>레이블된 데이터 없이도 환경과 상호작용하며 <b>데이터를 스스로 만들어요.</b></li><li>그래서 데이터를 구하기 어려운 <b>복잡한 환경의 문제</b>도 풀 수 있어요.</li></ul></div>
+          <div class="con"><h4>👎 단점</h4><ul><li>적절한 <b>보상 함수</b>를 설계하기 어려워요.</li><li>연습할 <b>환경</b>을 만들기 어려워요. (자율주행차를 실제 도로에서 수만 번 부딪히며 연습시킬 수는 없겠죠?)</li></ul></div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>🧭 2단원 탐색과 무엇이 다를까?</h3>
+          <div class="grid2">
+            <div class="box"><h4>탐색</h4><p>문제의 규칙(지도)을 알고 있어요. 초기 상태에서 목표 상태까지 <b>가능한 상태를 따져 답을 찾아요.</b></p></div>
+            <div class="box"><h4>강화학습</h4><p>규칙을 모를 수도 있어요. <b>직접 부딪혀 보고 받은 보상</b>으로 좋은 행동을 배워요.</p></div>
+          </div>
+          <p class="hint">활용 사례: 알파고(바둑), 로봇 걷기, 자율주행, 게임 AI, 데이터센터 냉방 에너지 절약</p>
+        </div>
+        <div class="quiz" data-quiz="m6"></div>
+      </div>
+
+      <!-- 4-7 -->
+      <div class="sub" data-sub="4-7" data-title="정리">
+        <div class="sub-head"><span class="pill">4-7</span><h2>🧾 정리하기</h2></div>
+        <div class="card">
+          <h3>세 학습 비교표 <small class="muted">(빗금 칸을 눌러 열어 보세요)</small></h3>
+          <div class="dtable-wrap"><table class="dtable reveal-table" id="cmpTable"></table></div>
+        </div>
+        <h3 class="sec-title">🗂️ 활동: 어떤 머신러닝일까?</h3>
+        <div class="card">
+          <p>사례 카드를 알맞은 상자로 <b>끌어다 놓거나</b>, 카드를 누른 다음 상자를 누르세요.</p>
+          <div class="sorter" id="typeSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins">
+              <div class="bin" data-bin="reg"><h4>📏 예측(회귀)</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="cls"><h4>🏷️ 분류</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="clu"><h4>🫧 군집</h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="rl"><h4>🎮 강화학습</h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
+        </div>
+        <div class="quiz" data-quiz="m7"></div>
+      </div>
+    </section>
+    <!-- ============ 5. 딥러닝 ============ -->
+    <section class="chapter" data-ch="dl" data-title="딥러닝">
+      <div class="ch-head">
+        <span class="ch-num">5단원</span>
+        <h1>딥러닝: 깊은 인공신경망</h1>
+        <p class="lead"><b>딥러닝</b>은 데이터를 기반으로 <b>인공신경망</b>을 통해 스스로 학습하는 인공지능 기술이에요. 인공신경 하나(퍼셉트론)부터 시작해서 깊은 신경망까지 쌓아 봐요.</p>
+      </div>
+      <nav class="subnav" aria-label="5단원 마당"></nav>
+
+      <!-- 5-1 -->
+      <div class="sub" data-sub="5-1" data-title="퍼셉트론">
+        <div class="sub-head"><span class="pill">5-1</span><h2>⚡ 퍼셉트론: 인공신경 하나</h2></div>
+        <div class="def purple"><b>인공신경(퍼셉트론)</b>은 사람 뇌의 생체 신경처럼 외부로부터 <b>자극을 받아들이고</b>, 그 자극이 모여 <b>임계치를 넘으면</b> 다음 인공신경으로 정보를 전달해요.</div>
+        <div class="card">
+          <h3>🧬 생체 신경 vs 🤖 인공신경 <small class="muted">(그림의 부분을 눌러 보세요)</small></h3>
+          <svg id="neuronSvg" viewBox="0 0 900 300" class="cycle-svg" style="max-width:100%" role="img" aria-label="생체 신경과 인공신경 비교"></svg>
+          <p class="predict" id="neuronInfo">그림의 부분을 눌러 보세요</p>
+        </div>
+
+        <h3 class="sec-title">🧺 체험: 소풍 갈까 말까 퍼셉트론</h3>
+        <div class="card">
+          <p>입력(0 또는 1)마다 <b>가중치</b>(얼마나 중요한지)를 곱해 모두 더해요. 합이 <b>임계치</b>를 넘으면 신호를 보내요(1: 간다), 넘지 못하면 보내지 않아요(0: 안 간다).</p>
+          <div class="grid2">
+            <div id="pcInputs"></div>
+            <div>
+              <label class="slider-label">🚧 임계치 <input type="range" id="pcTh" min="0" max="10" step="0.5" value="3"> <b id="pcThV">3</b></label>
+              <div class="code-block" id="pcCalc"></div>
+              <div class="predict" id="pcOut" style="margin-top:10px"></div>
+            </div>
+          </div>
+          <p class="hint">💡 가중치를 바꿔 보세요. "날씨만 좋으면 무조건 간다"는 사람과 "친구가 가야만 간다"는 사람은 가중치가 어떻게 다를까요?</p>
+        </div>
+
+        <h3 class="sec-title">📖 퍼셉트론이 스스로 가중치를 배우는 과정</h3>
+        <div class="card">
+          <p>정답표를 보고, 틀린 문제가 있으면 가중치와 임계치를 조금씩 고쳐요. <b>한 번 학습</b>을 눌러 보세요.</p>
+          <div class="seg" id="gateSel"><button class="on" data-g="and">AND: 둘 다 1이면 1</button><button data-g="or">OR: 하나라도 1이면 1</button><button data-g="xor">XOR: 서로 다를 때만 1</button></div>
+          <div class="grid2" style="margin-top:12px">
+            <div><div class="dtable-wrap"><table class="dtable" id="gateTable"></table></div></div>
+            <div>
+              <div class="stats"><div><span>가중치 w₁</span><b id="gW1">0</b></div><div><span>가중치 w₂</span><b id="gW2">0</b></div><div><span>임계치</span><b id="gTh">0</b></div></div>
+              <div class="stats"><div><span>학습 횟수</span><b id="gN">0</b></div><div><span>맞힌 수</span><b id="gAcc">-</b></div></div>
+              <div class="btn-row"><button class="btn btn-primary" id="gStep">📖 한 번 학습</button><button class="btn btn-ghost" id="gAuto">⏩ 끝까지</button><button class="btn btn-ghost" id="gReset">처음으로</button></div>
+            </div>
+          </div>
+          <p class="predict" id="gMsg"></p>
+        </div>
+        <div class="quiz" data-quiz="n1"></div>
+      </div>
+
+      <!-- 5-2 -->
+      <div class="sub" data-sub="5-2" data-title="인공신경망">
+        <div class="sub-head"><span class="pill">5-2</span><h2>🕸️ 인공신경망: 입력층 · 은닉층 · 출력층</h2></div>
+        <div class="def"><b>인공신경망</b>은 퍼셉트론이라는 인공신경이 다수 연결된 집합이에요. <b>입력층, 은닉층, 출력층</b>으로 구성되고, 각 층은 여러 개의 퍼셉트론으로 이루어져 있어요. 은닉층을 여러 겹 <b>깊게</b> 쌓으면 <b>딥(Deep)</b>러닝이 돼요.</div>
+        <div class="card"><div id="layerCards"></div></div>
+
+        <div class="card">
+          <h3>⚡ 신호를 흘려 보내 보기</h3>
+          <div class="nn-ctrl">
+            <label>은닉층 개수 <input type="range" id="nnLayers" min="1" max="6" value="3"> <b id="nnLayersVal">3</b></label>
+            <button class="btn btn-primary" id="nnFire">⚡ 신호 보내기</button>
+          </div>
+          <canvas id="nnCanvas" width="900" height="320" class="wide-canvas"></canvas>
+          <div class="nn-legend">
+            <span><i class="dot dot-in"></i>입력층: 사진의 픽셀</span>
+            <span><i class="dot dot-hid"></i>은닉층: 선 → 모양 → 부분 → 물체 특징</span>
+            <span><i class="dot dot-out"></i>출력층: "고양이일 확률 97%"</span>
+          </div>
+        </div>
+
+        <h3 class="sec-title">🧩 퍼셉트론 하나로 못 풀던 XOR, 은닉층이 있으면?</h3>
+        <div class="card">
+          <p>5-1에서 퍼셉트론 하나로는 XOR을 배울 수 없었죠. 퍼셉트론 두 개를 <b>은닉층</b>에 넣고 그 결과를 출력층이 한 번 더 판단하면 풀려요. 입력을 눌러 바꿔 보세요.</p>
+          <div class="grid2">
+            <svg id="xorSvg" viewBox="0 0 460 260" class="cycle-svg" role="img" aria-label="은닉층이 있는 XOR 신경망"></svg>
+            <div>
+              <div class="btn-row"><button class="btn btn-ghost" id="xA">입력 A = 0</button><button class="btn btn-ghost" id="xB">입력 B = 0</button></div>
+              <div class="code-block" id="xorCalc"></div>
+              <p class="predict" id="xorOut" style="margin-top:10px"></p>
+            </div>
+          </div>
+          <p class="hint">은닉층의 두 신경이 각각 "하나라도 1인가?(OR)"와 "둘 다 1은 아닌가?(NAND)"라는 <b>중간 특징</b>을 만들고, 출력층이 그 둘을 합쳐요. 층이 깊어질수록 더 복잡한 특징을 만들 수 있어요.</p>
+        </div>
+      </div>
+
+      <!-- 5-3 -->
+      <div class="sub" data-sub="5-3" data-title="딥러닝의 활용">
+        <div class="sub-head"><span class="pill">5-3</span><h2>🌍 딥러닝의 활용 분야</h2></div>
+        <div class="tabs" id="dlTabs" style="grid-template-columns:repeat(3,1fr)"><button class="on" data-t="cv">👁️ 컴퓨터 비전<small>보는 AI</small></button><button data-t="nlp">🗣️ 음성 인식·자연어 처리<small>듣고 말하는 AI</small></button><button data-t="art">🎨 창작<small>만드는 AI</small></button></div>
+
+        <div class="dl-pane" data-t="cv">
+          <div class="def blue"><b>컴퓨터 비전</b>은 컴퓨터가 사진이나 영상을 보고 그 안의 내용을 이해하는 분야예요. 딥러닝 덕분에 사람만큼, 때로는 사람보다 빠르게 사진을 알아봐요.</div>
+          <div class="card">
+            <div class="tabs" id="taskTabs"><button class="on" data-t="cls">🏷️ 분류<small>무엇인가?</small></button><button data-t="det">📦 객체 탐지<small>무엇이 어디에?</small></button><button data-t="seg">🎨 분할<small>픽셀 단위로</small></button><button data-t="pose">🦴 특징점<small>관절·자세</small></button></div>
+            <div class="two-col task-view">
+              <svg id="taskSvg" viewBox="0 0 640 400" class="task-svg" role="img" aria-label="컴퓨터 비전 예시 장면"></svg>
+              <div class="task-info" id="taskInfo"></div>
+            </div>
+          </div>
+          <div class="link-cards">
+            <a class="link-card" href="https://kang-teacher.github.io/YOLO/" target="_blank" rel="noopener"><b>📦 YOLO 객체인식 교실</b><span>웹캠으로 객체 탐지를 직접 체험하고, 나만의 모델을 학습시켜 봐요</span></a>
+          </div>
+        </div>
+
+        <div class="dl-pane" data-t="nlp" hidden>
+          <div class="def blue"><b>음성 인식</b>은 사람의 말소리를 글자로 바꾸고, <b>자연어 처리</b>는 사람이 쓰는 말(자연어)의 뜻을 이해하고 만들어 내는 분야예요. 음성 비서, 번역기, 챗봇, 자동 자막에 쓰여요.</div>
+          <div class="grid2">
+            <div class="card">
+              <h3>🎤 음성 인식: 말 → 글자</h3>
+              <p>버튼을 누르고 말해 보세요. (크롬·엣지에서 마이크를 허용해야 해요)</p>
+              <div class="btn-row"><button class="btn btn-primary" id="sttGo">🎤 말하기 시작</button></div>
+              <p class="predict" id="sttOut">여기에 인식한 글자가 나와요</p>
+            </div>
+            <div class="card">
+              <h3>🔈 음성 합성: 글자 → 말</h3>
+              <textarea id="ttsIn">안녕하세요! 저는 글자를 소리로 읽어 주는 인공지능이에요.</textarea>
+              <div class="btn-row"><button class="btn btn-primary" id="ttsGo">🔈 읽어 주기</button></div>
+              <p class="hint" id="ttsMsg"></p>
+            </div>
+          </div>
+          <div class="card">
+            <h3>💬 다음 단어 맞히기: 언어 모델의 기본 아이디어</h3>
+            <p>챗봇 같은 언어 모델은 아주 많은 글을 학습해서 <b>다음에 올 단어</b>를 확률로 예측해요. 아래 작은 모델은 문장 몇 개만 학습했어요. 단어를 눌러 문장을 이어 가 보세요.</p>
+            <div class="code-block" id="lmCorpus" style="white-space:pre-wrap"></div>
+            <p class="predict" id="lmText" style="margin-top:10px"></p>
+            <div id="lmNext"></div>
+            <div class="btn-row"><button class="btn btn-ghost btn-sm" id="lmAuto">🎲 확률대로 자동으로 잇기</button><button class="btn btn-ghost btn-sm" id="lmReset">처음으로</button></div>
+          </div>
+        </div>
+
+        <div class="dl-pane" data-t="art" hidden>
+          <div class="def blue"><b>창작 분야</b>에서는 딥러닝이 수많은 그림·음악·글을 학습한 뒤 <b>새로운 작품</b>을 만들어요. 글로 설명하면 그림을 그려 주고, 분위기를 말하면 작곡을 해 줘요.</div>
+          <div class="grid3">
+            <div class="box"><h4>🖼️ 그림</h4><p>"우주를 나는 고래를 수채화로"처럼 글을 입력하면 그림을 만들어요.</p></div>
+            <div class="box"><h4>🎵 음악</h4><p>장르와 분위기를 정하면 멜로디와 반주를 만들어요.</p></div>
+            <div class="box"><h4>✍️ 글·영상</h4><p>시, 이야기, 대본을 쓰거나 짧은 영상을 만들어요.</p></div>
+          </div>
+          <div class="card">
+            <h3>🎼 체험: 멜로디를 배워 새 멜로디 만들기</h3>
+            <p>컴퓨터가 동요 「학교종」의 <b>음이 이어지는 패턴</b>(어떤 음 다음에 어떤 음이 자주 오는지)을 배웠어요. 그 패턴대로 새로운 멜로디를 만들어 봐요. 진짜 작곡 AI는 이것보다 훨씬 깊은 신경망으로 훨씬 많은 곡을 배워요.</p>
+            <div class="btn-row"><button class="btn btn-ghost" id="melOrig">🔔 원래 곡 듣기</button><button class="btn btn-primary" id="melNew">🎲 새 멜로디 만들기</button><button class="btn btn-ghost" id="melPlay">▶ 새 멜로디 듣기</button></div>
+            <div class="chips" id="melNotes" style="margin-top:8px"></div>
+          </div>
+          <div class="warn">⚠️ 생성형 AI를 쓸 때 생각할 점: 학습한 작품의 <b>저작권</b>, 진짜처럼 꾸민 가짜 영상(<b>딥페이크</b>), AI가 만들었다는 <b>출처 밝히기</b></div>
+        </div>
+        <div class="quiz" data-quiz="n2"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pager">
+    <button class="btn btn-ghost" id="prevBtn">← 이전</button>
+    <span class="pager-title" id="pagerTitle"></span>
+    <button class="btn btn-primary" id="nextBtn">다음 →</button>
+  </footer>
+
+  <div id="confetti" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/common.js?v=1"></script>
+  <script src="js/util.js?v=1"></script>
+  <script src="js/quiz.js?v=1"></script>
+  <script src="js/scene.js?v=1"></script>
+  <script src="js/u1.js?v=1"></script>
+  <script src="js/u2.js?v=1"></script>
+  <script src="js/u3.js?v=1"></script>
+  <script src="js/u4.js?v=1"></script>
+  <script src="js/u5.js?v=1"></script>
+  <script src="js/main.js?v=1"></script>
+</body>
+</html>
