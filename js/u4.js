@@ -250,7 +250,7 @@ function initKNN() {
 function initDTree() {
   const QS = [['legs', '다리가 4개인가요?'], ['egg', '알을 낳나요?'], ['fly', '날 수 있나요?'], ['fur', '털이 있나요?'], ['beak', '부리가 있나요?']];
   const A = [
-    { n: '거북이', e: '🐢', legs: 1, egg: 1, fly: 0, fur: 0, beak: 0 },
+    { n: '도마뱀', e: '🦎', legs: 1, egg: 1, fly: 0, fur: 0, beak: 0 },
     { n: '호랑이', e: '🐯', legs: 1, egg: 0, fly: 0, fur: 1, beak: 0 },
     { n: '독수리', e: '🦅', legs: 0, egg: 1, fly: 1, fur: 0, beak: 1 },
     { n: '펭귄', e: '🐧', legs: 0, egg: 1, fly: 0, fur: 0, beak: 1 },
@@ -736,7 +736,7 @@ function initBandit() {
     const k = Math.round(e / .05); ctx.beginPath(); ctx.arc(p.px(k * .05), p.py(res[k]), 9, 0, Math.PI * 2); ctx.fillStyle = cssVar('--blue'); ctx.fill();
     ctx.setLineDash([5, 5]); ctx.strokeStyle = cssVar('--muted'); ctx.beginPath(); ctx.moveTo(p.px(0), p.py(.75)); ctx.lineTo(p.px(1), p.py(.75)); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = cssVar('--muted'); ctx.font = '12px "Noto Sans KR"'; ctx.fillText('가장 좋은 기계만 당겼을 때 75%', p.px(.55), p.py(.75) - 6);
-    $('#banditMsg').innerHTML = `탐험 ${Math.round(e * 100)}% → 평균 당첨률 <b>${Math.round(res[k] * 100)}%</b>. ` + (e === 0 ? '탐험을 전혀 안 하면 처음 운 좋게 당첨된 기계에 갇힐 수 있어요.' : e >= .5 ? '탐험이 너무 많으면 좋은 기계를 알고도 자꾸 다른 기계를 당겨요.' : '조금만 탐험하고 나머지는 활용하는 게 가장 좋아요!');
+    $('#banditMsg').innerHTML = `탐험 ${Math.round(e * 100)}% → 평균 당첨률 <b>${Math.round(res[k] * 100)}%</b>. ` + (e === 0 ? '탐험을 전혀 안 하면 처음 운 좋게 당첨된 기계에 갇힐 수 있어요.' : e >= .5 ? '탐험이 너무 많으면 좋은 기계를 알고도 자꾸 다른 기계를 당겨요.' : '이 실험에서는 조금만 탐험하고 나머지는 활용할 때 결과가 좋아요.');
   };
   $('#epsR').addEventListener('input', draw); draw();
   document.addEventListener('themechange', draw);
@@ -760,7 +760,7 @@ function initTypeSorter() {
   makeSorter($('#typeSorter').closest('.card'), [
     ['🌡️ 내일 기온 예측', 'reg'], ['🏠 아파트 가격 예측', 'reg'], ['🚗 내비 도착 시간', 'reg'],
     ['📧 스팸 메일 걸러내기', 'cls'], ['✍️ 손글씨 숫자 알아보기', 'cls'], ['🐾 사진 속 동물 종류', 'cls'],
-    ['📹 CCTV 관리 구역 나누기', 'clu'], ['🛍️ 비슷한 고객 묶기', 'clu'], ['📰 뉴스 주제별로 묶기', 'clu'],
+    ['📹 CCTV 관리 구역 나누기', 'clu'], ['🛍️ 비슷한 고객 묶기', 'clu'], ['📰 내용이 비슷한 뉴스끼리 묶기', 'clu'],
     ['⚫ 바둑 AI', 'rl'], ['🦿 로봇 걷기 연습', 'rl'], ['🕹️ 게임 스스로 깨기', 'rl'],
   ], '머신러닝 유형 박사네요.');
 }
