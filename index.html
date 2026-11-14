@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=1">
-  <link rel="stylesheet" href="css/ai.css?v=1">
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/ai.css?v=2">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%2322a06b'/><circle cx='36' cy='45' r='8' fill='%23fff'/><circle cx='64' cy='45' r='8' fill='%23fff'/><path d='M34 66 q16 12 32 0' stroke='%23f5b82e' stroke-width='7' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body>
@@ -61,59 +61,42 @@
       <div class="ch-head">
         <span class="ch-num">1단원</span>
         <h1>인공지능이란 무엇일까?</h1>
-        <p class="lead">인공지능, 머신러닝, 딥러닝은 서로 <b>포함 관계</b>예요. 인공지능이 가진 특성을 살펴보고, 규칙을 직접 짜는 방법과 데이터로 학습하는 방법을 비교해 봐요.</p>
+        <p class="lead">인공지능, 기계학습, 딥러닝은 서로 <b>포함 관계</b>예요. 인공지능이 가진 특성을 살펴보고, 규칙을 직접 짜는 방법과 데이터로 학습하는 방법을 비교해 봐요.</p>
       </div>
       <nav class="subnav" aria-label="1단원 마당"></nav>
 
       <!-- 1-1 -->
-      <div class="sub" data-sub="1-1" data-title="AI·ML·DL">
-        <div class="sub-head"><span class="pill">1-1</span><h2>🤖 인공지능 ⊃ 머신러닝 ⊃ 딥러닝</h2></div>
+      <div class="sub" data-sub="1-1" data-title="인공지능의 개념과 특성">
+        <div class="sub-head"><span class="pill">1-1</span><h2>🤖 인공지능, 기계학습, 딥러닝</h2></div>
         <div class="card two-col">
           <div class="nest-wrap">
-            <svg id="nestSvg" viewBox="0 0 400 400" class="nest" role="img" aria-label="인공지능 안에 머신러닝, 머신러닝 안에 딥러닝">
+            <svg id="nestSvg" viewBox="0 0 400 400" class="nest" role="img" aria-label="인공지능 안에 기계학습, 기계학습 안에 딥러닝">
               <circle class="nest-c" data-k="ai" cx="200" cy="200" r="190"/>
               <circle class="nest-c" data-k="ml" cx="200" cy="240" r="135"/>
               <circle class="nest-c" data-k="dl" cx="200" cy="285" r="82"/>
-              <text x="200" y="62" class="nest-t">인공지능 AI</text>
-              <text x="200" y="152" class="nest-t">머신러닝 ML</text>
-              <text x="200" y="280" class="nest-t">딥러닝 DL</text>
-              <text x="200" y="304" class="nest-s">깊은 인공신경망</text>
+              <text x="200" y="62" class="nest-t">인공지능</text>
+              <text x="200" y="152" class="nest-t">기계학습(머신러닝)</text>
+              <text x="200" y="280" class="nest-t">딥러닝</text>
             </svg>
           </div>
           <div class="nest-info" id="nestInfo">
-            <h3>원을 눌러 보세요 👆</h3>
-            <p>가장 큰 원부터 작은 원까지, 어떤 관계인지 설명이 나와요.</p>
+            <p class="hint" style="margin-top:0">원을 누르면 그 개념이 강조돼요.</p>
+            <div class="def blue" data-k="ai"><b>인공지능</b>: 컴퓨터를 통해 인지, 학습, 추론 등 인간의 지적 능력을 구현하는 기술</div>
+            <div class="def" data-k="ml"><b>기계학습(머신러닝)</b>: 컴퓨터가 데이터를 기반으로 학습하여 문제를 해결하는 기술</div>
+            <div class="def purple" data-k="dl"><b>딥러닝</b>: 여러 층의 깊은 인공신경망을 기반으로 학습하는 기계학습 기술</div>
           </div>
         </div>
-        <div class="def purple"><b>➕ 인공신경망</b>: 수많은 신경이 연결되어 정보를 처리하는 <b>사람의 뇌를 흉내 내어</b> 만든 컴퓨터 계산 알고리즘이에요. <b>퍼셉트론</b>이라 불리는 인공신경이 서로 연결되어 정보를 처리해요. <a href="#dl/5-1">5단원에서 직접 만들어 봐요 →</a></div>
+        <div class="def orange"><b>➕ 인공신경망</b>: 수많은 신경이 연결되어 정보를 처리하는 인간의 뇌를 모방하여 만든 컴퓨터 계산 알고리즘으로, 퍼셉트론이라 불리는 인공신경이 연결되어 정보를 처리한다. <a href="#dl/5-1">5단원에서 직접 만들어 봐요 →</a></div>
 
-        <h3 class="sec-title">🗂️ 어디에 들어갈까?</h3>
-        <div class="card">
-          <p>카드를 눌러 고른 뒤 상자를 누르세요. 가장 <b>좁은</b>(안쪽) 원을 골라야 해요.</p>
-          <div class="sorter" id="nestSorter">
-            <div class="sort-pool"></div>
-            <div class="sort-bins" style="grid-template-columns:repeat(3,1fr)">
-              <div class="bin" data-bin="ai"><h4>🤖 인공지능<br><small class="muted">사람이 넣은 규칙으로 판단</small></h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="ml"><h4>📈 머신러닝<br><small class="muted">데이터에서 규칙을 학습</small></h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="dl"><h4>🧠 딥러닝<br><small class="muted">여러 층의 신경망으로 학습</small></h4><div class="bin-drop"></div></div>
-            </div>
-          </div>
-          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
-          <p class="result-msg"></p>
-        </div>
-      </div>
-
-      <!-- 1-2 -->
-      <div class="sub" data-sub="1-2" data-title="인공지능의 특성">
-        <div class="sub-head"><span class="pill">1-2</span><h2>✨ 인공지능의 특성 6가지</h2></div>
+        <h3 class="sec-title">✨ 인공지능의 특성</h3>
         <p>카드를 하나씩 눌러 설명을 읽고, 아래의 작은 체험도 해 보세요.</p>
         <div class="card"><div id="featCards"></div></div>
         <div class="quiz" data-quiz="a1"></div>
       </div>
 
-      <!-- 1-3 -->
-      <div class="sub" data-sub="1-3" data-title="규칙 vs 학습">
-        <div class="sub-head"><span class="pill">1-3</span><h2>✍️ 규칙을 직접 짤까, 데이터로 배우게 할까?</h2></div>
+      <!-- 1-2 -->
+      <div class="sub" data-sub="1-2" data-title="규칙 vs 학습">
+        <div class="sub-head"><span class="pill">1-2</span><h2>✍️ 규칙을 직접 짤까, 데이터로 배우게 할까?</h2></div>
         <div class="card">
           <div class="seg" id="progToggle"><button class="on" data-mode="rule">기존 프로그래밍</button><button data-mode="ml">머신러닝</button></div>
           <div class="flow" id="flowBox">
@@ -126,19 +109,19 @@
           <p class="flow-desc" id="flowDesc"></p>
         </div>
 
-        <h3 class="sec-title">✍️ 체험 ①: 내가 규칙을 짜 보기</h3>
+        <h3 class="sec-title">✍️ 체험 ①: 내가 스팸 메일 거르는 규칙 짜 보기</h3>
         <div class="card">
-          <p>몸무게 하나로 강아지와 고양이를 구분하는 규칙을 만들어 보세요. 슬라이더로 기준을 정하면 12마리를 판단해요.</p>
-          <label class="slider-label">규칙: 몸무게가 <input type="range" id="ruleT" min="1" max="15" step="0.5" value="5"> <b id="ruleTVal">5kg</b> 보다 무거우면 🐶 강아지, 아니면 🐱 고양이</label>
-          <label class="slider-label"><input type="checkbox" id="ruleEar"> 규칙 하나 더: 귀가 쫑긋 서 있으면 🐱 고양이</label>
-          <div class="chips" id="ruleAnimals" style="margin:10px 0"></div>
-          <div class="stats"><div><span>맞힌 수</span><b id="ruleAcc">-</b></div></div>
+          <p>문자 12개 중 6개는 스팸이에요. <b>"이 단어가 들어 있으면 스팸"</b>이라는 규칙을 골라서 스팸만 골라내 보세요. 단어를 누르면 규칙에 넣고 빼요. 나만의 단어를 추가해도 돼요.</p>
+          <div class="chips" id="ruleWords"></div>
+          <div class="inline-form" style="margin-top:8px"><label>새 규칙 단어<input id="ruleNew" maxlength="8" placeholder="예: 쿠폰"></label><button class="btn btn-ghost btn-sm" id="ruleAdd">규칙 추가</button></div>
+          <div class="stats"><div><span>맞힌 문자</span><b id="ruleAcc">-</b></div><div><span>놓친 스팸</span><b id="ruleMissed">-</b></div><div><span>잘못 막은 정상 문자</span><b id="ruleWrong">-</b></div></div>
+          <div class="mail-list" id="ruleMails" style="flex-direction:column"></div>
           <p class="predict" id="ruleMsg"></p>
         </div>
 
         <h3 class="sec-title">🧪 체험 ②: 컴퓨터를 직접 학습시켜 보기</h3>
         <div class="card">
-          <p>그래프를 클릭해서 <b class="c-a">🐶 강아지</b>와 <b class="c-b">🐱 고양이</b> 데이터를 찍어 주세요. (가로: 귀 길이, 세로: 몸무게) <b>학습 시작</b>을 누르면 컴퓨터가 두 그룹을 나누는 <b>경계선</b>을 스스로 찾아가요. 이것이 머신러닝의 <b>학습</b>이에요.</p>
+          <p>그래프를 클릭해서 <b class="c-a">🐶 강아지</b>와 <b class="c-b">🐱 고양이</b> 데이터를 찍어 주세요. (가로: 얼굴에 비해 주둥이가 긴 정도, 세로: 눈동자가 세로로 가늘어지는 정도) <b>학습 시작</b>을 누르면 컴퓨터가 두 그룹을 나누는 <b>경계선</b>을 스스로 찾아가요. 이것이 머신러닝의 <b>학습</b>이에요.</p>
           <div class="lab">
             <canvas id="percCanvas" width="560" height="380" class="lab-canvas"></canvas>
             <div class="lab-side">
@@ -187,36 +170,8 @@
       </div>
 
       <!-- 2-2 -->
-      <div class="sub" data-sub="2-2" data-title="강 건너기 만들기">
-        <div class="sub-head"><span class="pill">2-2</span><h2>🛠️ 나만의 강 건너기 문제 만들기</h2></div>
-        <p>등장인물, 함께 두면 안 되는 짝, 배의 크기를 정해서 새 문제를 만들어 보세요. 컴퓨터가 <b>상태 공간 전체를 탐색</b>해서 풀 수 있는지, 몇 번 만에 풀 수 있는지 알려 줘요.</p>
-        <div class="card">
-          <div class="grid2">
-            <div>
-              <h4>1️⃣ 건너야 하는 것 (2~5개)</h4>
-              <div class="chips" id="mkItems"></div>
-              <h4 style="margin-top:14px">2️⃣ 농부가 없을 때 함께 두면 안 되는 짝</h4>
-              <div class="inline-form"><label>이것이<select id="mkA"></select></label><label>이것을 먹어요<select id="mkB"></select></label><button class="btn btn-ghost btn-sm" id="mkAdd">짝 추가</button></div>
-              <div class="chips" id="mkRules" style="margin-top:8px"></div>
-              <h4 style="margin-top:14px">3️⃣ 배에 농부 말고 몇 개까지 탈까?</h4>
-              <div class="seg" id="mkCap"><button class="on" data-c="1">1개</button><button data-c="2">2개</button><button data-c="3">3개</button></div>
-              <div class="btn-row"><button class="btn btn-ghost btn-sm" data-preset="0">예시: 늑대·염소·양배추</button><button class="btn btn-ghost btn-sm" data-preset="1">예시: 고양이·쥐·치즈·강아지</button><button class="btn btn-ghost btn-sm" data-preset="2">예시: 풀 수 없는 문제</button></div>
-            </div>
-            <div>
-              <button class="btn btn-primary" id="mkSolve">🔍 컴퓨터가 탐색해서 풀기</button>
-              <div id="mkOut" style="margin-top:10px"></div>
-            </div>
-          </div>
-        </div>
-        <div class="card" id="rv2Card" hidden>
-          <h3>🎮 내가 만든 문제 직접 풀어 보기</h3>
-          <div id="rv2"></div>
-        </div>
-      </div>
-
-      <!-- 2-3 -->
-      <div class="sub" data-sub="2-3" data-title="맹목적 탐색">
-        <div class="sub-head"><span class="pill">2-3</span><h2>🙈 맹목적 탐색: 깊이 우선 vs 너비 우선</h2></div>
+      <div class="sub" data-sub="2-2" data-title="맹목적 탐색">
+        <div class="sub-head"><span class="pill">2-2</span><h2>🙈 맹목적 탐색: 깊이 우선 vs 너비 우선</h2></div>
         <div class="def"><b>맹목적 탐색</b>은 어떠한 정보 없이 목표 상태에 도달할 때까지 <b>정해진 순서</b>에 따라 탐색하는 방법이에요. 가능한 모든 경우의 수를 탐색하기 때문에 <b>완전 탐색</b> 기법이고, <b>깊이 우선 탐색</b>과 <b>너비 우선 탐색</b>이 있어요.</div>
         <div class="grid2">
           <div class="box"><h4>⬇️ 깊이 우선 탐색 (DFS)</h4><p>한 길을 <b>끝까지 깊게</b> 내려가 보고, 막히면 되돌아와서 다른 길로 가요. 나중에 넣은 것을 먼저 꺼내는 <b>스택</b>을 써요. 📚</p></div>
@@ -234,9 +189,9 @@
         </div>
       </div>
 
-      <!-- 2-4 -->
-      <div class="sub" data-sub="2-4" data-title="정보 이용 탐색">
-        <div class="sub-head"><span class="pill">2-4</span><h2>💡 정보 이용 탐색: 휴리스틱과 A*</h2></div>
+      <!-- 2-3 -->
+      <div class="sub" data-sub="2-3" data-title="정보 이용 탐색">
+        <div class="sub-head"><span class="pill">2-3</span><h2>💡 정보 이용 탐색: 휴리스틱과 A*</h2></div>
         <div class="def orange"><b>정보 이용 탐색</b>은 <b>휴리스틱</b>(경험적 정보), 문제에서 확인할 수 있는 지식 등을 활용해서 탐색하는 방법이에요. 문제의 최적 해를 보장하지는 않지만, 사전 정보나 경험을 활용해서 <b>효율적으로</b> 탐색해요. 대표적으로 <b>최상 우선 탐색</b>, <b>A*(에이스타) 탐색</b>이 있어요.</div>
         <div class="grid3">
           <div class="box"><h4>🧠 휴리스틱이란?</h4><p>"목표까지 대충 이 정도 남았겠다"는 <b>어림짐작</b>이에요. 미로에서는 벽을 무시한 가로·세로 칸 수(맨해튼 거리)를 써요.</p></div>
@@ -254,9 +209,9 @@
         <div class="quiz" data-quiz="s2"></div>
       </div>
 
-      <!-- 2-5 -->
-      <div class="sub" data-sub="2-5" data-title="8-퍼즐">
-        <div class="sub-head"><span class="pill">2-5</span><h2>🧩 8-퍼즐: 풀고, 만들고, 탐색시키기</h2></div>
+      <!-- 2-4 -->
+      <div class="sub" data-sub="2-4" data-title="8-퍼즐">
+        <div class="sub-head"><span class="pill">2-4</span><h2>🧩 8-퍼즐: 풀고, 만들고, 탐색시키기</h2></div>
         <p>빈칸 옆의 숫자를 눌러 밀어서 <b>1~8</b>을 순서대로 맞춰요. 8-퍼즐의 상태 공간에는 도달 가능한 상태가 무려 <b>181,440개</b>나 있어요.</p>
         <div class="card">
           <div class="p8-wrap">
@@ -303,14 +258,23 @@
           <div class="feat-panel" id="stepInfo"></div>
         </div>
 
-        <h3 class="sec-title">🧩 순서 맞히기</h3>
+        <h3 class="sec-title">🧩 이 일은 몇 단계에서 할까?</h3>
         <div class="card">
-          <p>아래 카드를 <b>해야 하는 순서대로</b> 눌러 줄에 세워 보세요. 줄에 선 카드를 누르면 다시 빠져요.</p>
-          <div class="order-pool" id="orderPool"></div>
-          <div class="order-line" id="orderLine"></div>
-          <div class="btn-row center"><button class="btn btn-primary" id="orderCheck">채점하기</button><button class="btn btn-ghost" id="orderReset">다시 하기</button></div>
-          <p class="result-msg" id="orderMsg"></p>
+          <p>🐱🐶 고양이·강아지 사진 구분 AI를 만들면서 하는 일들이에요. 카드를 눌러 고른 뒤, 그 일을 하는 <b>단계</b> 상자를 누르세요. 위의 단계 설명을 다시 봐도 돼요.</p>
+          <div class="sorter" id="stepSorter">
+            <div class="sort-pool"></div>
+            <div class="sort-bins steps-bins" style="grid-template-columns:repeat(5,1fr)">
+              <div class="bin" data-bin="1"><h4>🎯 1단계<br><small class="muted">문제 정의·데이터 수집</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="2"><h4>🧹 2단계<br><small class="muted">전처리·핵심 속성</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="3"><h4>🧠 3단계<br><small class="muted">알고리즘 선정</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="4"><h4>🏋️ 4단계<br><small class="muted">모델 학습·평가</small></h4><div class="bin-drop"></div></div>
+              <div class="bin" data-bin="5"><h4>🚀 5단계<br><small class="muted">모델 활용</small></h4><div class="bin-drop"></div></div>
+            </div>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
+          <p class="result-msg"></p>
         </div>
+        <p class="hint">💡 6단원 <a href="#lab">머신러닝 실습</a>에서 이 다섯 단계를 진짜 데이터로 처음부터 끝까지 거쳐 볼 수 있어요.</p>
       </div>
 
       <!-- 3-1 -->
@@ -455,7 +419,7 @@
 
         <h3 class="sec-title">🧪 실험: 쏠린 데이터로 학습하면?</h3>
         <div class="card">
-          <p>🐶 강아지와 🐱 고양이 사진에서 뽑은 두 특징(귀 모양, 코 길이)으로 구분하는 모델이에요. 학습 데이터 속 <b>강아지 비율</b>을 높여 보고, 테스트에서 고양이를 얼마나 맞히는지 보세요.</p>
+          <p>🐶 강아지와 🐱 고양이 사진에서 뽑은 두 특징(주둥이가 긴 정도, 눈동자가 세로로 가는 정도)으로 구분하는 모델이에요. 학습 데이터 속 <b>강아지 비율</b>을 높여 보고, 테스트에서 고양이를 얼마나 맞히는지 보세요.</p>
           <div class="lab">
             <canvas id="biasCanvas" width="560" height="400" class="lab-canvas"></canvas>
             <div class="lab-side">
@@ -1200,6 +1164,81 @@
       </div>
     </section>
 
+    <!-- ============ 6. 머신러닝 실습 ============ -->
+    <section class="chapter" data-ch="lab" data-title="머신러닝 실습">
+      <div class="ch-head">
+        <span class="ch-num">6단원</span>
+        <h1>🧪 진짜 데이터로 머신러닝 해 보기</h1>
+        <p class="lead">실제로 조사한 데이터를 골라 <b>살펴보고 → 전처리하고 → 훈련/테스트로 나누고 → 모델을 학습시키고 → 평가하고 → 새 데이터를 예측</b>해 봐요. 3단원과 4단원에서 배운 과정을 처음부터 끝까지 직접 거쳐 보는 마당이에요.</p>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">1단계</span> 데이터와 문제 고르기</h3>
+      <div class="card">
+        <div class="feat-grid" id="lbDs"></div>
+        <p id="lbDsDesc" class="hint"></p>
+        <h4 style="margin:14px 0 6px">무엇을 맞힐까? (종속 변수)</h4>
+        <div class="chips" id="lbTarget"></div>
+        <p class="predict" id="lbTask" style="margin-top:10px"></p>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">2단계</span> 데이터 살펴보기</h3>
+      <div class="card">
+        <div class="stats" id="lbOverview"></div>
+        <div class="dtable-wrap"><table class="dtable" id="lbHead"></table></div>
+        <p class="hint">처음 8행만 보여 줘요. 빨간 칸은 비어 있는 값(결측치)이에요.</p>
+        <h4 style="margin:16px 0 6px">속성(열)별 정보</h4>
+        <div class="dtable-wrap"><table class="dtable" id="lbCols"></table></div>
+        <h4 style="margin:16px 0 6px">산점도로 보기</h4>
+        <div class="inline-form"><label>가로축<select id="lbX"></select></label><label>세로축<select id="lbY"></select></label></div>
+        <canvas id="lbScatter" width="640" height="380" class="lab-canvas" style="margin-top:8px"></canvas>
+        <div class="legend" id="lbLegend" style="margin-top:6px"></div>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">3단계</span> 전처리</h3>
+      <div class="card">
+        <div class="grid2">
+          <div class="box"><h4>🩹 결측치 처리</h4><div class="seg" id="lbMiss"><button class="on" data-v="drop">빈 값이 있는 행 지우기</button><button data-v="fill">평균값·최빈값으로 채우기</button></div><p class="hint" id="lbMissMsg"></p></div>
+          <div class="box"><h4>🚨 이상치 처리</h4><div class="seg" id="lbOut"><button class="on" data-v="keep">그대로 두기</button><button data-v="drop">이상치가 있는 행 지우기</button></div><p class="hint" id="lbOutMsg"></p></div>
+          <div class="box"><h4>🔤 범주형 속성 바꾸기</h4><div class="seg" id="lbEnc"><button class="on" data-v="onehot">원핫 인코딩</button><button data-v="label">레이블 인코딩</button></div><p class="hint" id="lbEncMsg"></p></div>
+          <div class="box"><h4>📐 스케일링</h4><div class="seg" id="lbScale"><button class="on" data-v="minmax">0~1로 스케일링</button><button data-v="none">그대로 두기</button></div><p class="hint">값의 범위를 맞추면 거리를 재는 K-최근접 이웃이 특히 좋아져요. (훈련 데이터로 범위를 정해요)</p></div>
+        </div>
+        <h4 style="margin:16px 0 6px">🔑 학습에 쓸 속성 고르기</h4>
+        <div class="chips" id="lbFeat"></div>
+        <p class="hint">괄호 속 숫자는 맞히려는 값과의 상관계수예요(수치형끼리만). 0에 가까우면 관계가 약해요.</p>
+        <p class="predict" id="lbPrep"></p>
+        <div class="dtable-wrap" style="margin-top:8px"><table class="dtable" id="lbMatrix"></table></div>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">4단계</span> 훈련 데이터와 테스트 데이터로 나누기</h3>
+      <div class="card">
+        <label class="slider-label">훈련 데이터 비율 <input type="range" id="lbRatio" min="50" max="90" step="5" value="80"> <b id="lbRatioV">80%</b></label>
+        <div class="split-bar" id="lbSplitBar"></div>
+        <div class="btn-row"><button class="btn btn-ghost btn-sm" id="lbShuffle">🔀 다시 섞어서 나누기</button></div>
+        <p class="hint">모델은 훈련 데이터로만 공부하고, 테스트 데이터는 마지막 시험에만 써요.</p>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">5단계</span> 모델 고르고 학습시키기</h3>
+      <div class="card">
+        <div class="feat-grid" id="lbModels"></div>
+        <div class="box" id="lbModelInfo" style="margin-top:12px"></div>
+        <label class="slider-label" id="lbHpWrap"><span id="lbHpName"></span> <input type="range" id="lbHp"> <b id="lbHpV"></b></label>
+        <div class="btn-row"><button class="btn btn-primary" id="lbTrain">🏋️ 학습시키기</button><button class="btn btn-ghost" id="lbCompare">📋 모든 모델 비교하기</button></div>
+        <div class="dtable-wrap" id="lbCompareWrap" hidden><table class="dtable" id="lbCompareT"></table></div>
+      </div>
+
+      <h3 class="sec-title"><span class="pill">6단계</span> 테스트 데이터로 평가하기</h3>
+      <div class="card" id="lbEval"><p class="muted">5단계에서 학습시키기를 눌러 주세요.</p></div>
+
+      <h3 class="sec-title"><span class="pill">7단계</span> 새 데이터 예측하기</h3>
+      <div class="card">
+        <p>학습한 모델에 처음 보는 데이터를 넣어 봐요. 값을 바꾸고 예측하기를 눌러요.</p>
+        <div class="inline-form" id="lbForm"></div>
+        <div class="btn-row"><button class="btn btn-primary" id="lbPredict" disabled>🔮 예측하기</button></div>
+        <p class="predict" id="lbPredOut">먼저 모델을 학습시켜 주세요</p>
+      </div>
+      <p class="hint">데이터 출처: Palmer Penguins(Gorman 등, CC0), Iris(Fisher, 1936), Auto MPG(UCI 머신러닝 저장소). seaborn-data에서 받아 한국어로 바꾸고 자동차 데이터는 미터법 단위로 바꿨어요.</p>
+    </section>
+
   </main>
 
   <footer class="pager">
@@ -1211,15 +1250,17 @@
   <div id="confetti" aria-hidden="true"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/common.js?v=1"></script>
-  <script src="js/util.js?v=1"></script>
-  <script src="js/quiz.js?v=1"></script>
-  <script src="js/scene.js?v=1"></script>
-  <script src="js/u1.js?v=1"></script>
-  <script src="js/u2.js?v=1"></script>
-  <script src="js/u3.js?v=1"></script>
-  <script src="js/u4.js?v=1"></script>
-  <script src="js/u5.js?v=1"></script>
-  <script src="js/main.js?v=1"></script>
+  <script src="js/common.js?v=2"></script>
+  <script src="js/util.js?v=2"></script>
+  <script src="js/quiz.js?v=2"></script>
+  <script src="js/scene.js?v=2"></script>
+  <script src="js/u1.js?v=2"></script>
+  <script src="js/u2.js?v=2"></script>
+  <script src="js/u3.js?v=2"></script>
+  <script src="js/u4.js?v=2"></script>
+  <script src="js/u5.js?v=2"></script>
+  <script src="js/datasets.js?v=2"></script>
+  <script src="js/lab.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
 </body>
 </html>

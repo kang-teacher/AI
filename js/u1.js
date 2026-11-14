@@ -1,30 +1,17 @@
 /* 1단원: 인공지능의 개념 */
 function initAI() {
-  runAll(initNest, initNestSorter, initFeatures, initFlow, initRule, initPerceptron);
+  runAll(initNest, initFeatures, initFlow, initRule, initPerceptron);
 }
 
 function initNest() {
-  const INFO = {
-    ai: { t: '🤖 인공지능 (AI)', d: '컴퓨터를 통해 <b>인지, 학습, 추론</b> 등 인간의 지적 능력을 구현하는 기술이에요. 사람이 규칙을 직접 넣어 준 프로그램도 넓게 보면 인공지능이에요.', ex: ['체스 두는 컴퓨터', '음성 비서', '게임 속 NPC', '길 찾기'] },
-    ml: { t: '📈 기계학습 (머신러닝)', d: '컴퓨터가 <b>데이터를 기반으로 학습</b>하여 문제를 해결하는 기술이에요. 사람이 규칙을 일일이 알려 주지 않아도 데이터 속 규칙(패턴)을 스스로 찾아내요.', ex: ['스팸 메일 거르기', '집값 예측', '쇼핑 추천', '손님 그룹 나누기'] },
-    dl: { t: '🧠 딥러닝', d: '<b>여러 층의 깊은 인공신경망</b>을 기반으로 학습하는 기계학습 기술이에요. 사진·소리·글처럼 복잡한 데이터에서 특징을 스스로 뽑아내요.', ex: ['얼굴 인식', 'YOLO 객체 인식', '번역기', '자율주행', '생성형 AI 챗봇'] },
-  };
   $$('#nestSvg .nest-c').forEach((c) => c.addEventListener('click', (e) => {
     e.stopPropagation();
-    const inf = INFO[c.dataset.k];
     $$('#nestSvg .nest-c').forEach((x) => x.classList.toggle('on', x === c));
-    $('#nestInfo').innerHTML = `<h3>${inf.t}</h3><p>${inf.d}</p><div class="ex">${inf.ex.map((x) => `<span>${x}</span>`).join('')}</div>`;
+    $$('#nestInfo .def').forEach((d) => { d.style.opacity = d.dataset.k === c.dataset.k ? 1 : 0.35; });
   }));
 }
-function initNestSorter() {
-  makeSorter($('#nestSorter').closest('.card'), [
-    ['♟️ 사람이 넣은 규칙대로 두는 옛날 체스 프로그램', 'ai'], ['🌡️ "30도가 넘으면 에어컨 켜기" 스마트홈', 'ai'], ['👾 정해진 길로만 움직이는 게임 몬스터', 'ai'],
-    ['📧 신고된 메일로 배운 스팸 필터', 'ml'], ['🏠 과거 거래 기록으로 배운 집값 예측', 'ml'], ['🛒 구매 기록으로 손님을 묶는 쇼핑몰', 'ml'],
-    ['📸 수백만 장 사진으로 배운 얼굴 인식', 'dl'], ['🌐 깊은 신경망으로 만든 번역기', 'dl'], ['🎨 글을 그림으로 바꿔 주는 그림 생성 AI', 'dl'],
-  ], '세 개념의 포함 관계를 잘 이해했어요.');
-}
 
-/* --- 1-2 인공지능의 특성 6가지 --- */
+/* --- 1-1 인공지능의 특성 --- */
 function initFeatures() {
   makeFeatureCards($('#featCards'), [
     { k: 'big', icon: '📚', t: '빅데이터', sub: '엄청 많은 데이터', html: `<p>인공지능은 <b>대규모의 데이터</b>를 바탕으로 학습해요. 데이터는 <b>센서</b>로 직접 얻기도 하고, <b>사람이 정리한 데이터</b>를 쓰기도 해요.</p>
@@ -48,12 +35,6 @@ function initFeatures() {
       <div class="mini"><b>🍦 아이스크림 가게 AI</b>: 지난 여름 기록으로 "기온이 1℃ 오를 때마다 약 12개 더 팔린다"는 규칙을 배웠어요.
         <label class="slider-label">내일 기온 <input type="range" id="predT" min="10" max="38" value="30"> <b id="predTV">30℃</b></label>
         <p class="predict" id="predOut"></p></div>` },
-    { k: 'solve', icon: '🧩', t: '문제 해결', sub: '복잡한 문제 풀기', html: `<p>학습한 데이터와 알고리즘을 바탕으로 <b>복잡한 문제를 해결</b>해요. 다양한 분야에 응용할 수 있어요.</p>
-      <div class="grid3" style="margin-top:8px">
-        <div class="box"><h4>🗺️ 최적 경로 찾기</h4><p>내비게이션이 막히는 길을 피해 가장 빠른 길을 찾아요.</p><a class="btn btn-ghost btn-sm" href="#search">2단원 탐색에서 직접 →</a></div>
-        <div class="box"><h4>🩺 의료 진단 지원</h4><p>X-ray·CT 사진에서 의심되는 부분을 찾아 의사의 판단을 도와요. 최종 판단은 의사가 해요.</p></div>
-        <div class="box"><h4>💹 금융 시장 분석</h4><p>수많은 거래 기록에서 패턴을 찾아 위험을 알리거나, 평소와 다른 이상 거래(카드 도용)를 잡아내요.</p></div>
-      </div>` },
   ], { onShow: bindFeature, first: 'big' });
 }
 function bindFeature(k, p) {
@@ -118,8 +99,8 @@ function bindFeature(k, p) {
 /* --- 1-3 기존 프로그래밍 vs 머신러닝 --- */
 function initFlow() {
   const FLOW = {
-    rule: { in1: '규칙<small>"몸무게가 5kg보다 무거우면 강아지"</small>', in2: '데이터<small>새 동물 한 마리</small>', out: '답<small>"강아지"</small>', d: '사람이 규칙을 직접 생각해서 프로그램으로 적어야 해요. 그런데 강아지와 고양이를 구분하는 규칙을 빠짐없이 적을 수 있을까요? 🤔 아래 체험 ①에서 직접 해 봐요.', hl: 1 },
-    ml: { in1: '데이터<small>강아지·고양이 수천 마리의 특징</small>', in2: '답(레이블)<small>"이건 강아지, 이건 고양이"</small>', out: '규칙(모델)<small>컴퓨터가 스스로 찾은 판단 기준</small>', d: '데이터와 정답을 잔뜩 보여 주면 컴퓨터가 <b>규칙을 스스로 찾아내요</b>. 이렇게 만든 규칙 덩어리를 <b>모델</b>이라고 해요. 체험 ②에서 직접 학습시켜 봐요.', hl: 0 },
+    rule: { in1: '규칙<small>"‘당첨’이 들어 있으면 스팸"</small>', in2: '데이터<small>새 문자 한 통</small>', out: '답<small>"스팸"</small>', d: '사람이 규칙을 직접 생각해서 프로그램으로 적어야 해요. 그런데 스팸을 거르는 규칙을 빠짐없이 적을 수 있을까요? 🤔 아래 체험 ①에서 직접 해 봐요.', hl: 1 },
+    ml: { in1: '데이터<small>문자 수만 통</small>', in2: '답(레이블)<small>"이건 스팸, 이건 정상"</small>', out: '규칙(모델)<small>컴퓨터가 스스로 찾은 판단 기준</small>', d: '데이터와 정답을 잔뜩 보여 주면 컴퓨터가 <b>규칙을 스스로 찾아내요</b>. 이렇게 만든 규칙 덩어리를 <b>모델</b>이라고 해요. 체험 ②에서 직접 학습시켜 봐요.', hl: 0 },
   };
   const set = (m) => {
     const f = FLOW[m];
@@ -131,24 +112,39 @@ function initFlow() {
   set('rule');
 }
 function initRule() {
-  const A = [
-    ['🐕 치와와', 1, 2.5, 1], ['🐩 푸들', 1, 6, 0], ['🐶 비글', 1, 11, 0], ['🦮 리트리버', 1, 30, 0], ['🐕 시바견', 1, 9, 1], ['🌭 닥스훈트', 1, 8, 0],
-    ['🐱 코리안숏헤어', 0, 4.5, 1], ['🦁 메인쿤', 0, 9, 1], ['🐱 스코티시폴드', 0, 4, 0], ['😺 페르시안', 0, 5, 1], ['🐾 아기 고양이', 0, 1, 1], ['😸 뚱냥이', 0, 7.5, 1],
+  const MAILS = [
+    ['[Web발신] 축하합니다! 이벤트 당첨! 상품 받으러 가기 ▶ bit.ly/xx', 1],
+    ['무료 쿠폰 지급 완료~ 지금 바로 클릭하세요', 1],
+    ['(광고) 최저 금리 대출 즉시 승인! 상담 문의', 1],
+    ['엄마 나 폰 고장나서 친구 폰으로 연락해. 급하게 문화상품권 좀 사 줄 수 있어?', 1],
+    ['고객님 택배 주소가 잘못되었습니다. 주소 확인: hxxp://deli-ver.kr', 1],
+    ['ㄷH출 가능 ㅇr무나 승인 ㄱr능', 1],
+    ['내일 수학 수행평가 있대. 계산기 꼭 챙겨!', 0],
+    ['[학교] 시립도서관 무료 진로 특강 안내입니다. 신청은 담임 선생님께', 0],
+    ['우리 반 공모전 당첨됐대!! 선생님이 축하한다고 하셨어 🎉', 0],
+    ['주문하신 상품이 발송되었습니다. 택배 조회는 앱에서 확인하세요', 0],
+    ['이번 주 토요일 동아리 모임 3시로 바뀌었어', 0],
+    ['할머니 생신이라 저녁에 다 같이 외식하자~ 일찍 와', 0],
   ];
+  const words = ['당첨', '무료', '클릭', '대출', '급하게', '택배', '이벤트', '쿠폰'], on = new Set(['당첨', '무료']);
   const go = () => {
-    const t = +$('#ruleT').value, ear = $('#ruleEar').checked;
-    $('#ruleTVal').textContent = t + 'kg';
-    let ok = 0;
-    $('#ruleAnimals').innerHTML = A.map(([n, dog, w, up]) => {
-      const say = ear && up ? 0 : w > t ? 1 : 0, right = say === dog; ok += right;
-      return `<span class="chip" style="border-color:${right ? 'var(--green)' : 'var(--red)'};${right ? '' : 'background:#fde8e6;color:#9b1c12'}">${n} ${w}kg${up ? ' 👂' : ''} → ${say ? '🐶' : '🐱'} ${right ? '✅' : '❌'}</span>`;
+    $('#ruleWords').innerHTML = words.map((w) => `<button class="chip${on.has(w) ? ' on' : ''}" data-w="${esc(w)}">"${esc(w)}" → 스팸</button>`).join('');
+    $$('#ruleWords button').forEach((b) => b.addEventListener('click', () => { const w = b.dataset.w; if (on.has(w)) on.delete(w); else on.add(w); go(); }));
+    let ok = 0, missed = 0, wrong = 0;
+    $('#ruleMails').innerHTML = MAILS.map(([t, spam]) => {
+      const hit = [...on].filter((w) => t.includes(w)), say = hit.length > 0, right = say === !!spam;
+      ok += right; if (spam && !say) missed++; if (!spam && say) wrong++;
+      return `<div class="mail rule-mail" style="border-color:${right ? 'var(--green)' : 'var(--red)'}"><span class="tag">${spam ? '😈 실제 스팸' : '😊 실제 정상'}</span><span class="rm-t">${esc(t)}</span><b>${say ? '🚫 막음' : '📥 통과'} ${right ? '✅' : '❌'}${hit.length ? `<small class="muted"> ("${hit.map(esc).join('", "')}")</small>` : ''}</b></div>`;
     }).join('');
-    $('#ruleAcc').textContent = `${ok} / 12`;
-    $('#ruleMsg').innerHTML = ok >= 10 ? '규칙을 하나 더 넣으니 나아졌어요. 그래도 치와와·시바견처럼 <b>예외</b>가 남아요. 세상의 모든 강아지·고양이를 규칙으로 다 설명할 수 있을까요? 😵 → 그래서 <b>데이터로 규칙을 스스로 찾는</b> 머신러닝이 필요해요!'
-      : ok >= 9 ? '몸무게 하나로는 이게 최선이에요. 작은 강아지(치와와)와 큰 고양이(메인쿤) 같은 <b>예외</b>가 있거든요. 규칙을 하나 더 넣어 볼까요?'
-        : '기준을 바꿔서 더 많이 맞혀 보세요. (👂 = 귀가 쫑긋 서 있음)';
+    $('#ruleAcc').textContent = `${ok} / 12`; $('#ruleMissed').textContent = missed; $('#ruleWrong').textContent = wrong;
+    $('#ruleMsg').innerHTML = ok === 12 ? '😲 12개를 모두 맞혔어요! 하지만 내일 새로운 스팸이 오면 이 규칙이 통할까요? 사람이 규칙을 계속 고쳐야 해요.'
+      : wrong && missed ? '😵 규칙을 넣으면 정상 문자까지 막히고, 빼면 스팸이 통과해요. 글자를 바꾼 스팸("ㄷH출")이나 수상한 단어가 없는 사기 문자도 있어요. 이런 <b>예외</b>를 사람이 모두 규칙으로 적기는 너무 어려워요. → 그래서 스팸과 정상 문자를 잔뜩 보여 주고 <b>규칙을 스스로 찾게 하는</b> 기계학습을 써요!'
+        : wrong ? '🙁 정상 문자까지 막혔어요! 도서관 "무료" 특강, 공모전 "당첨"처럼 같은 단어가 정상 문자에도 나와요.'
+          : missed ? '🤔 아직 통과한 스팸이 있어요. 어떤 단어를 규칙에 넣으면 막을 수 있을까요? 새 단어를 추가해 봐도 돼요.' : '';
   };
-  $('#ruleT').addEventListener('input', go); $('#ruleEar').addEventListener('change', go); go();
+  $('#ruleAdd').addEventListener('click', () => { const w = $('#ruleNew').value.trim(); if (!w) return; if (!words.includes(w)) words.push(w); on.add(w); $('#ruleNew').value = ''; go(); });
+  $('#ruleNew').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#ruleAdd').click(); });
+  go();
 }
 
 /* --- 퍼셉트론(로지스틱 회귀) 학습 체험: YOLO 사이트에서 가져와 다듬음 --- */
@@ -176,8 +172,8 @@ function initPerceptron() {
       }
     }
     ctx.strokeStyle = cssVar('--muted'); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(PAD, 10); ctx.lineTo(PAD, H - PAD); ctx.lineTo(W - 10, H - PAD); ctx.stroke();
-    ctx.fillStyle = cssVar('--muted'); ctx.font = '13px "Noto Sans KR"'; ctx.fillText('귀 길이 →', W - 80, H - PAD + 22);
-    ctx.save(); ctx.translate(16, 90); ctx.rotate(-Math.PI / 2); ctx.fillText('몸무게 →', 0, 0); ctx.restore();
+    ctx.fillStyle = cssVar('--muted'); ctx.font = '13px "Noto Sans KR"'; ctx.textAlign = 'right'; ctx.fillText('주둥이가 긴 정도 →', W - 10, H - PAD + 22); ctx.textAlign = 'left';
+    ctx.save(); ctx.translate(16, H - PAD); ctx.rotate(-Math.PI / 2); ctx.fillText('눈동자가 세로로 가는 정도 →', 0, 0); ctx.restore();
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '22px sans-serif';
     for (const p of pts) {
       const [px, py] = toPx(p.x, p.y);
@@ -227,8 +223,8 @@ function initPerceptron() {
   });
   $('#percRandom').addEventListener('click', () => {
     pts = []; epoch = 0; trained = false;
-    for (let i = 0; i < 12; i++) pts.push({ x: rand(0.5, 0.92), y: rand(0.45, 0.9), c: 1 });
-    for (let i = 0; i < 12; i++) pts.push({ x: rand(0.08, 0.5), y: rand(0.08, 0.5), c: -1 });
+    for (let i = 0; i < 12; i++) pts.push({ x: rand(0.48, 0.92), y: rand(0.08, 0.5), c: 1 });
+    for (let i = 0; i < 12; i++) pts.push({ x: rand(0.08, 0.5), y: rand(0.48, 0.92), c: -1 });
     draw();
   });
   $('#percClear').addEventListener('click', () => { pts = []; epoch = 0; trained = false; training = false; $('#percTrain').textContent = '▶ 학습 시작'; draw(); });

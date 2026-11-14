@@ -229,3 +229,12 @@ textarea { width: 100%; min-height: 80px; }
 @media (max-width: 620px) { .sort-bins[style] { grid-template-columns: 1fr 1fr !important; } }
 @media (max-width: 380px) { .sort-bins[style] { grid-template-columns: 1fr !important; } }
 .dl-pane[hidden], .form-pane[hidden] { display: none; }
+
+/* 1-2 스팸 규칙 짜기 */
+.rule-mail { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: .88rem; padding: 6px 10px; border-width: 2px; }
+.rule-mail .rm-t { flex: 1; min-width: 200px; }
+.nest-info .def { transition: opacity .2s; }
+
+/* 3-0 단계 짝짓기: 넓은 화면에서도 다섯 칸이 좁지 않게 */
+@media (max-width: 1000px) { .sort-bins.steps-bins[style] { grid-template-columns: repeat(3, 1fr) !important; } }
+@media (max-width: 620px) { .sort-bins.steps-bins[style] { grid-template-columns: 1fr 1fr !important; } }

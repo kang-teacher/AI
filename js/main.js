@@ -1,11 +1,12 @@
 /* 페이지 이동(단원 + 마당), 진도, 첫 화면 */
 const CHAPTERS = [
   { id: 'home', emoji: '🏠', short: '시작' },
-  { id: 'ai', emoji: '🤖', short: 'AI 개념', desc: '인공지능 ⊃ 기계학습 ⊃ 딥러닝, 인공지능의 특성 6가지, 규칙 vs 학습' },
+  { id: 'ai', emoji: '🤖', short: 'AI 개념', desc: '인공지능 ⊃ 기계학습 ⊃ 딥러닝, 인공지능의 특성, 규칙 vs 학습' },
   { id: 'search', emoji: '🧭', short: '탐색', desc: '상태 공간, 강 건너기, 깊이·너비 우선, 휴리스틱과 A*, 8-퍼즐' },
   { id: 'data', emoji: '📊', short: '데이터', desc: '문제 해결 과정, 수집·종류·속성, 편향, 전처리, 시각화와 핵심 속성' },
   { id: 'ml', emoji: '📈', short: '머신러닝 유형', desc: '지도·비지도·강화학습, 회귀·분류, 모델 평가와 적합도, K-평균' },
   { id: 'dl', emoji: '🧠', short: '딥러닝', desc: '퍼셉트론과 임계치, 입력·은닉·출력층, 딥러닝의 활용 분야' },
+  { id: 'lab', emoji: '🧪', short: '실습', desc: '펭귄·붓꽃·자동차 연비 진짜 데이터로 전처리 → 학습 → 평가 → 예측' },
 ];
 
 /* 각 단원 안의 마당(소단원) 목록은 HTML의 .sub[data-sub][data-title]에서 읽어요 */
@@ -166,6 +167,6 @@ function initHero() {
 document.addEventListener('DOMContentLoaded', () => {
   // 한 활동에 문제가 생겨도 나머지 활동은 동작하도록 따로따로 실행
   const inits = [initTheme, initNav, initHero];
-  ['initAI', 'initSearch', 'initData', 'initML', 'initDL', 'initQuizzes'].forEach((n) => { if (typeof window[n] === 'function') inits.push(window[n]); });
+  ['initAI', 'initSearch', 'initData', 'initML', 'initDL', 'initLab', 'initQuizzes'].forEach((n) => { if (typeof window[n] === 'function') inits.push(window[n]); });
   inits.forEach((fn) => { try { fn(); } catch (e) { console.error(fn.name, e); } });
 });
