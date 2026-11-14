@@ -1,6 +1,6 @@
 /* 3단원: 데이터 다루기 */
 function initData() {
-  runAll(initSteps, initOrder, initCollect, initSurveyTable, initColSorter, initStructTable, initStructSorter, initFormTabs, initPix, initTxt, initWave,
+  runAll(initSteps, initStepSorter, initCollect, initSurveyTable, initColSorter, initStructTable, initStructSorter, initFormTabs, initPix, initTxt, initWave,
     initAttrCards, initDiceHeight, initAttrQuiz, initTarget, initBiasStages, initBias, initReveal, initDetective, initFill, initScale, initEncode,
     initCharts, initChartSorter, initCorr, initKeyFeat);
 }
@@ -46,21 +46,14 @@ function initSteps() {
   show();
 }
 
-function initOrder() {
-  const ANS = ['🎯 문제 정의하기', '📥 데이터 수집하기', '🧹 결측치·이상치 처리하기', '🔑 핵심 속성 고르기', '🧠 알고리즘 고르기', '✂️ 훈련/테스트 데이터 나누기', '🏋️ 모델 학습시키기', '📝 테스트 데이터로 평가하기', '🚀 앱으로 배포하기', '👀 모니터링하며 다시 학습하기'];
-  const pool = $('#orderPool'), line = $('#orderLine'), msg = $('#orderMsg');
-  const card = (t) => { const b = document.createElement('button'); b.className = 'order-card'; b.textContent = t; b.addEventListener('click', () => { b.classList.remove('right', 'wrong'); (b.parentNode === pool ? line : pool).appendChild(b); }); return b; };
-  const reset = () => { pool.innerHTML = ''; line.innerHTML = ''; msg.textContent = ''; msg.className = 'result-msg'; shuffle(ANS).forEach((t) => pool.appendChild(card(t))); };
-  $('#orderCheck').addEventListener('click', () => {
-    const cs = $$('.order-card', line);
-    if (cs.length < ANS.length) { msg.textContent = `카드 ${ANS.length - cs.length}장을 더 세워 주세요.`; msg.className = 'result-msg bad'; return; }
-    let ok = 0; cs.forEach((c, i) => { const r = c.textContent === ANS[i]; c.classList.toggle('right', r); c.classList.toggle('wrong', !r); ok += r; });
-    msg.textContent = ok === ANS.length ? '🎉 완벽해요! 이 순서가 기계학습 문제 해결 과정이에요.' : `${ok} / ${ANS.length}개가 제자리예요. 빨간 카드를 눌러 빼고 다시 세워 보세요.`;
-    msg.className = 'result-msg ' + (ok === ANS.length ? 'good' : 'bad');
-    if (ok === ANS.length) confetti(60);
-  });
-  $('#orderReset').addEventListener('click', reset);
-  reset();
+function initStepSorter() {
+  makeSorter($('#stepSorter').closest('.card'), [
+    ['❓ "사진으로 고양이·강아지를 구분할 수 있을까?" 정하기', '1'], ['📸 이름표가 붙은 고양이·강아지 사진 모으기', '1'],
+    ['🧹 흐릿한 사진, 동물이 없는 사진 빼기', '2'], ['⚖️ 고양이와 강아지 사진 수를 비슷하게 맞추기', '2'],
+    ['🏷️ "종류를 맞히는 문제니까 분류!" 알고리즘 고르기', '3'], ['📋 여러 알고리즘의 장단점 비교하기', '3'],
+    ['✂️ 사진을 훈련용·테스트용으로 나누기', '4'], ['📝 테스트 사진으로 정확도 확인하고 고치기', '4'],
+    ['📱 사진을 올리면 판단해 주는 앱으로 배포하기', '5'], ['👀 앱이 틀린 사례를 모아 다시 학습하기', '5'],
+  ], '기계학습 문제 해결 과정을 잘 이해했어요.');
 }
 
 /* ---------- 3-1 데이터 수집 ---------- */
@@ -78,11 +71,11 @@ function initCollect() {
         <div id="sensBox" style="margin-top:8px;height:110px;border-radius:12px;background:var(--blue-soft);display:grid;place-items:center;touch-action:none;cursor:crosshair">여기서 움직여요</div>
         <canvas id="sensCv" width="600" height="90" class="wide-canvas" style="margin-top:8px"></canvas>
         <div class="wave-nums" id="sensNums"></div></div>` },
-    { k: 'fi', icon: '📁', t: '공개된 데이터 파일', sub: '이미 모아 둔 데이터', html: `<p>정부·기관·연구자가 모아서 공개한 파일(CSV, 엑셀 등)을 내려받아요. 예: <span class="chip">공공데이터포털</span> <span class="chip">통계청(KOSIS)</span> <span class="chip">캐글(Kaggle)</span></p>
+    { k: 'fi', icon: '📁', t: '공개된 데이터 파일', sub: '이미 모아 둔 데이터', html: `<p>정부·기관·연구자가 모아서 공개한 파일(CSV, 엑셀 등)을 <b>내려받아요</b>. 예: <span class="chip">공공데이터포털</span> <span class="chip">통계청(KOSIS)</span> <span class="chip">캐글(Kaggle)</span></p><p class="hint">공공데이터포털이나 캐글처럼 파일 내려받기와 오픈 API를 <b>둘 다</b> 제공하는 곳도 있어요. 사람이 파일을 내려받으면 \'공개 데이터 파일\', 프로그램이 주소로 요청해서 받으면 \'오픈 API\'예요.</p>
       <div class="mini"><b>📄 CSV 파일 들여다보기</b>: CSV는 쉼표(,)로 칸을 나눈 글자 파일이에요.
         <div class="code-block" style="margin-top:8px">날짜,지역,최고기온,강수량\n2024-07-01,서울,31.2,0\n2024-07-01,부산,28.7,3.5\n2024-07-02,서울,29.8,12.0\n2024-07-02,부산,27.1,0.5</div>
         <button class="btn btn-ghost btn-sm" id="csvRead">📊 표로 읽어 들이기</button><div id="csvOut" style="margin-top:8px"></div></div>` },
-    { k: 'api', icon: '🔌', t: '오픈 API', sub: '프로그램으로 요청하기', html: `<p>API는 프로그램끼리 데이터를 주고받는 창구예요. 정해진 주소로 <b>요청</b>하면 서버가 최신 데이터를 <b>응답</b>으로 보내 줘요. 날씨, 미세먼지, 버스 도착 정보처럼 계속 바뀌는 데이터를 받을 때 좋아요.</p>
+    { k: 'api', icon: '🔌', t: '오픈 API', sub: '프로그램으로 요청하기', html: `<p>API는 프로그램끼리 데이터를 주고받는 창구예요. 정해진 주소로 <b>요청</b>하면 서버가 최신 데이터를 <b>응답</b>으로 보내 줘요. 날씨, 버스 도착 정보, 길찾기처럼 계속 바뀌는 데이터를 받을 때 좋아요.</p>
       <div class="mini"><b>🌦️ 날씨 API 흉내 내기</b> <small class="muted">(실제 서버가 아닌 연습용 예시예요)</small>
         <div class="inline-form" style="margin-top:8px"><label>도시<select id="apiCity">${opt(['서울', '부산', '대구', '광주', '제주'])}</select></label><button class="btn btn-primary btn-sm" id="apiGo">📤 요청 보내기</button></div>
         <div id="apiOut" style="margin-top:8px"></div></div>` },
@@ -135,8 +128,8 @@ function initColSorter() {
   makeSorter($('#colSorter').closest('.card'), [
     ['🙋 친구들에게 좋아하는 급식 메뉴 묻기', 'sv'], ['📝 수업 만족도 온라인 설문', 'sv'], ['🗳️ 동아리 선호도 조사', 'sv'],
     ['🌡️ 교실 온도계가 10분마다 자동 기록', 'se'], ['⌚ 스마트워치의 걸음 수·심박수', 'se'], ['🚗 자율주행차의 카메라·라이다', 'se'],
-    ['📁 공공데이터포털에서 CSV 내려받기', 'fi'], ['🏆 캐글(Kaggle)의 타이타닉 승객 데이터', 'fi'], ['📈 통계청 인구 통계 엑셀 파일', 'fi'],
-    ['🌦️ 날씨 앱이 기상청 서버에 실시간 요청', 'api'], ['🚌 버스 도착 정보를 프로그램으로 받아오기', 'api'], ['😷 미세먼지 농도를 코드로 받아오기', 'api'],
+    ['📁 공공데이터포털에서 CSV 파일을 내려받아 열기', 'fi'], ['📈 통계청 누리집에서 인구 통계 엑셀 파일 내려받기', 'fi'], ['🍱 학교 누리집에 올라온 급식 식단표 엑셀 파일 저장하기', 'fi'],
+    ['🌦️ 날씨 앱이 기상청 서버에 주소로 요청해 실시간 날씨 받기', 'api'], ['🚌 버스 앱이 서버에 요청해 도착 정보 받아오기', 'api'], ['🗺️ 지도 앱이 길찾기 서버에 요청해 경로 받아오기', 'api'],
   ], '수집 방법을 모두 맞혔어요.');
 }
 
@@ -300,10 +293,10 @@ function initBiasStages() {
 }
 function initBias() {
   const cv = $('#biasCanvas'), ctx = cv.getContext('2d');
-  const P = plotFrame(cv, { x0: 0, x1: 1, y0: 0, y1: 1, xl: '귀가 처진 정도 →', yl: '↑ 코 길이', xt: 4, yt: 4, fx: () => '', fy: () => '' });
+  const P = plotFrame(cv, { x0: 0, x1: 1, y0: 0, y1: 1, xl: '주둥이가 긴 정도 →', yl: '↑ 눈동자가 세로로 가는 정도', xt: 4, yt: 4, fx: () => '', fy: () => '' });
   const mk = (seed, cx, cy, n) => { const r = seeded(seed); return Array.from({ length: n }, () => ({ x: clamp(cx + 0.15 * gauss(r), 0.02, 0.98), y: clamp(cy + 0.15 * gauss(r), 0.02, 0.98) })); };
-  const dogPool = mk(31, 0.62, 0.62, 200), catPool = mk(32, 0.38, 0.38, 200);
-  const testD = mk(41, 0.62, 0.62, 50), testC = mk(42, 0.38, 0.38, 50);
+  const dogPool = mk(31, 0.62, 0.38, 200), catPool = mk(32, 0.38, 0.62, 200);
+  const testD = mk(41, 0.62, 0.38, 50), testC = mk(42, 0.38, 0.62, 50);
   const N = 120, K = 7; let mode = 'raw';
   const knn = (train, p) => { const ds = train.map((t) => [(t.x - p.x) ** 2 + (t.y - p.y) ** 2, t.c]).sort((a, b) => a[0] - b[0]).slice(0, K); return ds.filter((d) => d[1] === 1).length > K / 2 ? 1 : 0; };
   const draw = () => {

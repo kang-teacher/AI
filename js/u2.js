@@ -1,6 +1,6 @@
 /* 2단원: 탐색 */
 function initSearch() {
-  runAll(initRiver1, initRiverMaker, initTreeSearch, initMaze, initPuzzle8);
+  runAll(initRiver1, initTreeSearch, initMaze, initPuzzle8);
 }
 
 /* 작은 우선순위 큐 (이진 힙) */
@@ -131,47 +131,7 @@ function initRiver1() {
   });
 }
 
-function initRiverMaker() {
-  const PRESETS = [RIVER_BASIC, { items: ['cat', 'mouse', 'cheese', 'dog'], rules: [['cat', 'mouse'], ['mouse', 'cheese'], ['dog', 'cat']], cap: 2 }, { items: ['wolf', 'goat', 'cab', 'hen'], rules: [['wolf', 'goat'], ['goat', 'cab'], ['wolf', 'hen'], ['hen', 'cab']], cap: 1 }];
-  let P = JSON.parse(JSON.stringify(PRESETS[0]));
-  const render = () => {
-    $('#mkItems').innerHTML = Object.entries(RIVER_ITEMS).map(([k, [e, n]]) => `<button class="chip${P.items.includes(k) ? ' on' : ''}" data-k="${k}">${e} ${n}</button>`).join('');
-    const opts = P.items.map((k) => `<option value="${k}">${RIVER_ITEMS[k].join(' ')}</option>`).join('');
-    $('#mkA').innerHTML = opts; $('#mkB').innerHTML = opts; if (P.items[1]) $('#mkB').value = P.items[1];
-    $('#mkRules').innerHTML = P.rules.length ? P.rules.map(([a, b], i) => `<button class="chip" data-r="${i}">${RIVER_ITEMS[a][0]} → ${RIVER_ITEMS[b][0]} 먹음 ✕</button>`).join('') : '<span class="muted">아직 없어요 (아무도 안 먹으면 너무 쉽겠죠?)</span>';
-    $$('#mkCap button').forEach((b) => b.classList.toggle('on', +b.dataset.c === P.cap));
-    $$('#mkItems button').forEach((b) => b.addEventListener('click', () => {
-      const k = b.dataset.k;
-      if (P.items.includes(k)) { P.items = P.items.filter((x) => x !== k); P.rules = P.rules.filter((r) => !r.includes(k)); }
-      else if (P.items.length >= 5) { toast('5개까지만 고를 수 있어요'); return; } else P.items.push(k);
-      render();
-    }));
-    $$('#mkRules [data-r]').forEach((b) => b.addEventListener('click', () => { P.rules.splice(+b.dataset.r, 1); render(); }));
-    $('#mkOut').innerHTML = ''; $('#rv2Card').hidden = true;
-  };
-  $('#mkAdd').addEventListener('click', () => {
-    const a = $('#mkA').value, b = $('#mkB').value;
-    if (!a || a === b) { toast('서로 다른 두 개를 골라 주세요'); return; }
-    if (P.rules.some(([x, y]) => (x === a && y === b) || (x === b && y === a))) { toast('이미 있는 짝이에요'); return; }
-    P.rules.push([a, b]); render();
-  });
-  segBind('#mkCap', (b) => { P.cap = +b.dataset.c; $('#mkOut').innerHTML = ''; $('#rv2Card').hidden = true; });
-  $$('[data-preset]').forEach((b) => b.addEventListener('click', () => { P = JSON.parse(JSON.stringify(PRESETS[+b.dataset.preset])); render(); $('#mkSolve').click(); }));
-  $('#mkSolve').addEventListener('click', () => {
-    if (P.items.length < 2) { toast('건너야 하는 것을 2개 이상 골라 주세요'); return; }
-    const M = riverModel(P), r = M.bfs(), total = 1 << (M.n + 1);
-    const safe = Array.from({ length: total }, (_, i) => i).filter((s) => !M.broken(s)).length;
-    let h = `<div class="stats"><div><span>모든 상태</span><b>${total}</b></div><div><span>안전한 상태</span><b>${safe}</b></div><div><span>탐색한 상태</span><b>${r.seen}</b></div></div>`;
-    if (!r.ok) h += `<p class="verdict bad">❌ 풀 수 없는 문제예요!</p><p class="hint">초기 상태에서 갈 수 있는 상태 ${r.seen}개를 모두 탐색했지만 목표 상태에 닿지 못했어요. 짝을 줄이거나 배를 키워 보세요. 이것도 탐색 덕분에 알 수 있는 사실이에요.</p>`;
-    else h += `<p class="verdict good">✅ ${r.path.length}번 만에 풀 수 있어요</p><ol>${r.path.map((st) => `<li>${FARMER}${st.pick.map((i) => RIVER_ITEMS[P.items[i]][0]).join('')} ${M.fside(st.to) ? '→ 건너감' : '← 돌아옴'} <span class="muted">(${M.label(st.to, 0)} | ${M.label(st.to, 1)})</span></li>`).join('')}</ol>`;
-    $('#mkOut').innerHTML = h;
-    $('#rv2Card').hidden = !r.ok;
-    if (r.ok) makeRiver($('#rv2'), JSON.parse(JSON.stringify(P)));
-  });
-  render();
-}
-
-/* ---------- 2-3 깊이 우선 vs 너비 우선 ---------- */
+/* ---------- 2-2 깊이 우선 vs 너비 우선 ---------- */
 function initTreeSearch() {
   const L = 'ABCDEFGHIJKLMNO'.split(''), kids = (i) => (2 * i + 1 < 15 ? [2 * i + 1, 2 * i + 2] : []);
   const pos = L.map((_, i) => { const d = Math.floor(Math.log2(i + 1)), k = i + 1 - 2 ** d; return [800 * (k + 0.5) / 2 ** d, 40 + d * 75]; });
@@ -210,7 +170,7 @@ function initTreeSearch() {
   reset();
 }
 
-/* ---------- 2-4 미로 탐색 경주 ---------- */
+/* ---------- 2-3 미로 탐색 경주 ---------- */
 const MZ = { W: 15, H: 9, S: [0, 4], G: [14, 4] };
 function mazeSearch(walls, kind) {
   const { W, H, S, G } = MZ, key = (x, y) => y * W + x, h = (x, y) => Math.abs(x - G[0]) + Math.abs(y - G[1]);
@@ -294,7 +254,7 @@ function initMaze() {
   random();
 }
 
-/* ---------- 2-5 8-퍼즐 ---------- */
+/* ---------- 2-4 8-퍼즐 ---------- */
 const P8_GOAL = '123456780';
 const p8Next = (s) => { const z = s.indexOf('0'), x = z % 3, y = (z / 3) | 0, out = []; [[0, -1], [1, 0], [0, 1], [-1, 0]].forEach(([dx, dy]) => { const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < 3 && ny < 3) { const j = ny * 3 + nx, a = s.split(''); [a[z], a[j]] = [a[j], a[z]]; out.push(a.join('')); } }); return out; };
 const p8Solvable = (s) => { const a = s.replace('0', '').split('').map(Number); let inv = 0; for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) if (a[i] > a[j]) inv++; return inv % 2 === 0; };
