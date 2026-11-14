@@ -39,7 +39,7 @@ function initFeatures() {
 }
 function bindFeature(k, p) {
   if (k === 'big') {
-    const Q = [['⌚ 스마트워치가 잰 심박수', 'se'], ['📖 사람이 정리한 국어사전', 'hu'], ['🚗 자동차 카메라 영상', 'se'], ['🏷️ 사람이 이름표를 붙인 사진 모음', 'hu'], ['🌡️ 기상청 관측소 온도 기록', 'se'], ['📊 학교에서 정리한 성적표', 'hu']];
+    const Q = [['⌚ 스마트워치가 잰 심박수', 'se'], ['📖 사람이 정리한 국어사전', 'hu'], ['🚗 자동차 카메라 영상', 'se'], ['📝 도서관 사서가 정리한 대출 장부', 'hu'], ['🌡️ 기상청 관측소 온도계가 잰 기온', 'se'], ['📊 학교에서 정리한 성적표', 'hu']];
     $('#bigQ', p).innerHTML = Q.map(([t], i) => `<div class="btn-row" style="margin:4px 0;align-items:center" data-i="${i}"><span style="flex:1;min-width:180px">${t}</span><button class="chip" data-a="se">📡 센서</button><button class="chip" data-a="hu">🧑‍💼 사람이 정리</button></div>`).join('');
     $$('#bigQ [data-i]', p).forEach((row) => $$('button', row).forEach((b) => b.addEventListener('click', () => {
       const ok = b.dataset.a === Q[+row.dataset.i][1];
