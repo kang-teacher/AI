@@ -181,7 +181,8 @@ function initLab() {
   const score = (M, X, y, kind) => {
     const p = X.map((x) => M.predict(x).v);
     if (kind === 'cls') return { p, acc: p.filter((v, i) => v === y[i]).length / (y.length || 1) };
-    return { p, mae: mean(p.map((v, i) => Math.abs(v - y[i]))), mse: mean(p.map((v, i) => (v - y[i]) ** 2)) };
+    const mse = mean(p.map((v, i) => (v - y[i]) ** 2)), my = mean(y), sst = mean(y.map((v) => (v - my) ** 2));
+    return { p, mae: mean(p.map((v, i) => Math.abs(v - y[i]))), mse, rmse: Math.sqrt(mse), r2: sst ? 1 - mse / sst : 0 };
   };
   let Pp = null;
   function train() {
@@ -221,8 +222,8 @@ function initLab() {
     } else {
       const baseMae = mean(P.yte.map((v) => Math.abs(v - mean(P.ytr))));
       const verdict = te.mae > tr.mae * 1.5 && te.mae - tr.mae > baseMae * 0.1 ? ['bad', '🤔 훈련 데이터 오차보다 테스트 오차가 훨씬 커요. <b>과대적합</b>일 수 있어요.'] : te.mae > baseMae * 0.75 ? ['mid', '😐 평균값 하나로 다 예측하는 것과 별 차이가 없어요. <b>과소적합</b>이에요.'] : ['good', '👍 훈련과 테스트 오차가 비슷하게 작아요. <b>적합</b>하게 학습했어요.'];
-      el.innerHTML = `<div class="stats"><div><span>훈련 평균 절대 오차</span><b>${fmt(tr.mae, 2)}</b></div><div><span>테스트 평균 절대 오차</span><b>${fmt(te.mae, 2)}</b></div><div><span>테스트 평균 제곱 오차</span><b>${fmt(te.mse, 1)}</b></div><div><span>평균값으로만 예측하면</span><b>${fmt(baseMae, 2)}</b></div></div>
-        <p class="verdict ${verdict[0]}">${verdict[1]}</p><p class="hint">평균 절대 오차(MAE): 예측이 실제와 평균 얼마나 차이 나는지 (단위: ${cname(L.t)}) · 평균 제곱 오차(MSE): 오차를 제곱해 평균낸 값 (큰 오차를 더 무겁게 봐요)</p>
+      el.innerHTML = `<div class="stats"><div><span>훈련 평균 절대 오차</span><b>${fmt(tr.mae, 2)}</b></div><div><span>테스트 평균 절대 오차</span><b>${fmt(te.mae, 2)}</b></div><div><span>테스트 평균 제곱 오차</span><b>${fmt(te.mse, 1)}</b></div><div><span>테스트 평균 제곱근 오차</span><b>${fmt(te.rmse, 2)}</b></div><div><span>테스트 결정계수 R²</span><b>${fmt(te.r2, 2)}</b></div><div><span>평균값으로만 예측하면</span><b>${fmt(baseMae, 2)}</b></div></div>
+        <p class="verdict ${verdict[0]}">${verdict[1]}</p><p class="hint">평균 절대 오차(MAE): 예측이 실제와 평균 얼마나 차이 나는지 (단위: ${cname(L.t)}) · 평균 제곱 오차(MSE): 오차를 제곱해 평균낸 값 (큰 오차를 더 무겁게 봐요) · 평균 제곱근 오차(RMSE): MSE의 제곱근 (단위: ${cname(L.t)}) · 결정계수(R²): 평균값 하나로 예측할 때보다 얼마나 잘 맞히는지 (1에 가까울수록 좋아요)</p>
         <canvas id="lbRegCv" width="560" height="380" class="lab-canvas"></canvas><p class="hint">점이 대각선(예측 = 실제)에 가까울수록 잘 맞힌 거예요.</p>`;
       const cv = $('#lbRegCv'), all = P.yte.concat(te.p), lo = Math.min(...all), hi = Math.max(...all), pad = (hi - lo) * 0.05 || 1;
       const F = plotFrame(cv, { x0: lo - pad, x1: hi + pad, y0: lo - pad, y1: hi + pad, xl: '실제 값 →', yl: '↑ 예측 값', pad: [56, 16, 22, 40], fx: (v) => fmt(v, 1), fy: (v) => fmt(v, 1) });
