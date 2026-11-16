@@ -2,7 +2,7 @@
 function initData() {
   runAll(initSteps, initStepSorter, initCollect, initSurveyTable, initColSorter, initStructTable, initStructSorter, initFormTabs, initPix, initTxt, initWave,
     initAttrCards, initDiceHeight, initAttrQuiz, initTarget, initBiasStages, initBias, initReveal, initDetective, initFill, initScale, initEncode,
-    initCharts, initChartSorter, initCorr, initKeyFeat);
+    initCharts, initCorr, initKeyFeat);
 }
 
 /* ---------- 공유 데이터: 우리 반 건강 데이터 ---------- */
@@ -76,10 +76,15 @@ function initCollect() {
         <div class="code-block" style="margin-top:8px">날짜,지역,최고기온,강수량\n2024-07-01,서울,31.2,0\n2024-07-01,부산,28.7,3.5\n2024-07-02,서울,29.8,12.0\n2024-07-02,부산,27.1,0.5</div>
         <button class="btn btn-ghost btn-sm" id="csvRead">📊 표로 읽어 들이기</button><div id="csvOut" style="margin-top:8px"></div></div>` },
     { k: 'api', icon: '🔌', t: '오픈 API', sub: '프로그램으로 요청하기', html: `<p>API는 프로그램끼리 데이터를 주고받는 창구예요. 정해진 주소로 <b>요청</b>하면 서버가 최신 데이터를 <b>응답</b>으로 보내 줘요. 날씨, 버스 도착 정보, 길찾기처럼 계속 바뀌는 데이터를 받을 때 좋아요.</p>
-      <div class="mini"><b>🌦️ 날씨 API 흉내 내기</b> <small class="muted">(실제 서버가 아닌 연습용 예시예요)</small>
+      <div class="mini"><b>🌦️ 진짜 날씨 API에 요청해 보기</b> <small class="muted">(누구나 쓸 수 있는 공개 날씨 API인 <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>를 사용해요)</small>
         <div class="inline-form" style="margin-top:8px"><label>도시<select id="apiCity">${opt(['서울', '부산', '대구', '광주', '제주'])}</select></label><button class="btn btn-primary btn-sm" id="apiGo">📤 요청 보내기</button></div>
         <div id="apiOut" style="margin-top:8px"></div></div>` },
   ], { onShow: bindCollect, first: 'sv' });
+}
+const API_CITY = { 서울: [37.57, 126.98], 부산: [35.18, 129.08], 대구: [35.87, 128.6], 광주: [35.16, 126.85], 제주: [33.5, 126.53] };
+function wmoText(c) {
+  if (c === 0) return '☀️ 맑음'; if (c <= 2) return '🌤️ 구름 조금'; if (c === 3) return '☁️ 흐림'; if (c <= 48) return '🌫️ 안개';
+  if (c <= 57) return '🌦️ 이슬비'; if (c <= 67) return '🌧️ 비'; if (c <= 77) return '🌨️ 눈'; if (c <= 82) return '🌧️ 소나기'; if (c <= 86) return '🌨️ 눈 소나기'; return '⛈️ 뇌우';
 }
 function bindCollect(k, panel) {
   if (k === 'sv') $('#svSubmit', panel).addEventListener('click', () => {
@@ -107,10 +112,30 @@ function bindCollect(k, panel) {
     const lines = $('.code-block', panel).textContent.trim().split('\n').map((l) => l.split(','));
     $('#csvOut', panel).innerHTML = `<div class="dtable-wrap"><table class="dtable"><tr>${lines[0].map((c) => `<th>${c}</th>`).join('')}</tr>${lines.slice(1).map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</table></div><p class="hint">글자 파일이 행과 열이 있는 표(정형 데이터)가 됐어요.</p>`;
   });
-  if (k === 'api') $('#apiGo', panel).addEventListener('click', () => {
-    const city = $('#apiCity', panel).value, r = seeded([...city].reduce((s, c) => s + c.charCodeAt(0), 0) + new Date().getHours());
-    const d = { city, time: new Date().toTimeString().slice(0, 5), temp: +(15 + r() * 15).toFixed(1), humidity: Math.round(40 + r() * 50), pm10: Math.round(10 + r() * 80), sky: ['맑음', '구름 많음', '흐림', '비'][Math.floor(r() * 4)] };
-    $('#apiOut', panel).innerHTML = `<div class="code-block">📤 요청: GET https://api.example.kr/weather?city=${city}\n📥 응답:\n${JSON.stringify(d, null, 2)}</div><p class="hint">프로그램은 이 응답을 받아 바로 표에 한 줄로 저장할 수 있어요. 몇 분 뒤 다시 요청하면 새 값이 와요.</p>`;
+  if (k === 'api') $('#apiGo', panel).addEventListener('click', async () => {
+    const city = $('#apiCity', panel).value, [lat, lon] = API_CITY[city], out = $('#apiOut', panel), btn = $('#apiGo', panel);
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=Asia%2FSeoul`;
+    btn.disabled = true;
+    out.innerHTML = `<div class="code-block">📤 요청: GET ${esc(url)}\n⏳ 서버의 응답을 기다리는 중…</div>`;
+    let d, live = true;
+    try {
+      const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 8000);
+      const r = await fetch(url, { signal: ctl.signal }); clearTimeout(to);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      d = await r.json();
+      if (!d.current) throw new Error('응답 형식이 달라요');
+    } catch (e) {
+      live = false;
+      d = { latitude: lat, longitude: lon, timezone: 'Asia/Seoul', current_units: { temperature_2m: '°C', relative_humidity_2m: '%', wind_speed_10m: 'km/h' },
+        current: { time: '2024-10-15T14:00', temperature_2m: 19.4, relative_humidity_2m: 52, weather_code: 1, wind_speed_10m: 9.7 } };
+    }
+    btn.disabled = false;
+    const c = d.current, u = d.current_units || {};
+    const shown = { latitude: d.latitude, longitude: d.longitude, timezone: d.timezone, current_units: u, current: c };
+    out.innerHTML = `<div class="code-block">📤 요청: GET ${esc(url)}\n📥 응답${live ? '' : ' (연결이 안 돼서 미리 받아 둔 예시 응답을 보여 줘요)'}:\n${esc(JSON.stringify(shown, null, 2))}</div>
+      <div class="dtable-wrap" style="margin-top:8px"><table class="dtable"><tr><th>도시</th><th>관측 시각</th><th>기온</th><th>습도</th><th>하늘</th><th>바람</th></tr>
+      <tr><td>${city}</td><td>${esc(String(c.time).replace('T', ' '))}</td><td class="num">${c.temperature_2m}${u.temperature_2m || '°C'}</td><td class="num">${c.relative_humidity_2m}${u.relative_humidity_2m || '%'}</td><td>${wmoText(c.weather_code)}</td><td class="num">${c.wind_speed_10m}${u.wind_speed_10m || 'km/h'}</td></tr></table></div>
+      <p class="hint">${live ? '✅ 방금 실제 서버에서 받아 온 값이에요. ' : '⚠️ 학교 인터넷에서 이 주소가 막혀 있으면 실제 값 대신 예시가 보여요. '}프로그램은 응답(JSON)에서 필요한 값만 골라 표의 한 줄로 저장할 수 있어요. 하늘 상태는 숫자 코드(weather_code)로 오기 때문에 '맑음', '비' 같은 말로 바꿔서 보여 줬어요. 시간이 지나 다시 요청하면 새 값이 와요.</p>`;
   });
 }
 
@@ -127,7 +152,7 @@ function initSurveyTable() {
 function initColSorter() {
   makeSorter($('#colSorter').closest('.card'), [
     ['🙋 친구들에게 좋아하는 급식 메뉴 묻기', 'sv'], ['📝 수업 만족도 온라인 설문', 'sv'], ['🗳️ 동아리 선호도 조사', 'sv'],
-    ['🌡️ 교실 온도계가 10분마다 자동 기록', 'se'], ['⌚ 스마트워치의 걸음 수·심박수', 'se'], ['🚗 자율주행차의 카메라·라이다', 'se'],
+    ['🌡️ 교실 온도계가 10분마다 자동 기록', 'se'], ['⌚ 스마트워치의 걸음 수·심박수', 'se'], ['🚗 자율주행차의 카메라·레이더', 'se'],
     ['📁 공공데이터포털에서 CSV 파일을 내려받아 열기', 'fi'], ['📈 통계청 누리집에서 인구 통계 엑셀 파일 내려받기', 'fi'], ['🍱 학교 누리집에 올라온 급식 식단표 엑셀 파일 저장하기', 'fi'],
     ['🌦️ 날씨 앱이 기상청 서버에 주소로 요청해 실시간 날씨 받기', 'api'], ['🚌 버스 앱이 서버에 요청해 도착 정보 받아오기', 'api'], ['🗺️ 지도 앱이 길찾기 서버에 요청해 경로 받아오기', 'api'],
   ], '수집 방법을 모두 맞혔어요.');
@@ -151,7 +176,7 @@ function initStructTable() {
 function initStructSorter() {
   makeSorter($('#structSorter').closest('.card'), [
     ['📊 학생 성적 엑셀 파일', 's'], ['🧾 편의점 판매 기록 CSV', 's'], ['🗄️ 도서관 대출 데이터베이스', 's'], ['🌡️ 시간별 기온 표', 's'], ['🚉 지하철 승하차 인원 표', 's'],
-    ['📸 휴대폰으로 찍은 사진', 'u'], ['🎙️ 수업 녹음 파일', 'u'], ['🎬 유튜브 영상', 'u'], ['💬 이모티콘 섞인 SNS 글', 'u'], ['✉️ 손으로 쓴 편지 스캔', 'u'],
+    ['📸 휴대폰으로 찍은 사진', 'u'], ['🎙️ 수업 녹음 파일', 'u'], ['🎬 유튜브 영상', 'u'], ['✉️ 손으로 쓴 편지 스캔', 'u'],
   ], '정형과 비정형을 잘 구분했어요.');
 }
 function initFormTabs() {
@@ -341,10 +366,10 @@ function initDetective() {
   const cols = ['번호', '이름', '나이', '키(cm)', '몸무게(kg)', '혈액형', '전화번호'];
   const rows = [
     [1, '김하늘', 17, 165.2, 55, 'A', '010-1234-5678'], [2, '이바다', 16, '', 62, 'O', '010-2345-6789'], [3, '박구름', -5, 158.4, 48, 'B', '010-3456-7890'],
-    [4, '최별', 17, 999, 70, 'AB', '010-4567-8901'], [5, '정나무', 18, 172.5, '', 'A', '010-5678-9012'], [6, '강바위', 17, 220, 110, 'O', '010-6789-0123'],
+    [4, '최별', 17, 999, 70, 'AB', '010-4567-8901'], [5, '정나무', 18, 172.5, '', 'A', '010-5678-9012'], [6, '강바위', 17, 1.72, 66, 'O', '010-6789-0123'],
     [7, '조햇살', 16, 161.0, 52, '', '010-7890-1234'], [8, '윤달', 17, 168.3, 58, 'B', '010'], [9, '장산', 18, '', 66, 'A', '010-9012-3456'], [10, '임들', 17, 175.1, 64, 'O', ''],
   ];
-  const OUT = { '2,2': '나이가 음수(−5)예요. 잘못 기록된 이상치!', '3,3': '키 999cm? 165.0을 잘못 입력했나 봐요. 잘못 기록된 이상치!', '5,3': '키 220cm는 실제로 있을 수도 있지만 일반적인 범위를 크게 벗어난 특수한 상황이라 이상치예요. 지울지 말지 신중하게!', '7,6': '전화번호가 세 자리뿐이에요. 잘못 기록된 이상치!' };
+  const OUT = { '2,2': '나이가 음수(−5)예요. 잘못 기록된 이상치!', '3,3': '키 999cm? 165.0을 잘못 입력했나 봐요. 잘못 기록된 이상치!', '5,3': '키 1.72cm? 다른 사람은 모두 cm로 적었는데 혼자 m(미터) 단위로 적었나 봐요(172cm). 잘못 기록된 이상치! 단위를 바로잡으면 다시 쓸 수 있어요.', '7,6': '전화번호가 세 자리뿐이에요. 잘못 기록된 이상치!' };
   const t = $('#detTable'); let miss = 0, out = 0, wrong = 0;
   const totalMiss = rows.flat().filter((v) => v === '').length, totalOut = Object.keys(OUT).length;
   const upd = () => { $('#detMiss').textContent = `${miss} / ${totalMiss}`; $('#detOut').textContent = `${out} / ${totalOut}`; $('#detWrong').textContent = wrong; };
@@ -372,12 +397,12 @@ function initFill() {
     const filled = vals.map((v) => (v == null && fills[mn] != null ? fills[mn] : null)), del = vals.map((v) => mn === 'del' && v == null);
     $('#fillNumVals').innerHTML = chips(H.map((v, i) => (outMiss && v === 999 ? '999→빈칸' : vals[i])), filled, del);
     const res = vals.map((v, i) => filled[i] ?? v).filter((v, i) => v != null && !del[i]);
-    $('#fillNumStats').innerHTML = `<div class="stats"><div><span>데이터 개수</span><b>${res.length}</b></div><div><span>평균</span><b>${fmt(mean(known))}</b></div><div><span>중앙값</span><b>${fmt(median(known))}</b></div><div><span>최빈값</span><b>${mode(known)}</b></div></div><p class="hint" style="margin:0">평균·중앙값·최빈값은 빈칸을 뺀 값으로 계산했어요.</p>`;
+    $('#fillNumStats').innerHTML = `<div class="stats"><div><span>데이터 개수</span><b>${res.length}</b></div><div><span>평균</span><b>${fmt(mean(known))}</b></div><div><span>중앙값</span><b>${fmt(median(known))}</b></div><div><span>최빈값</span><b>${mode(known)}</b></div></div><p class="hint" style="margin:0">평균·중앙값·최빈값은 빈칸을 뺀 값으로 계산했어요.${outMiss ? '' : ' <b style="color:var(--red)">999가 섞여 있어서 평균이 실제 키와 동떨어진 값이 됐어요.</b>'}</p>`;
     const msgs = {
       none: '빈칸이 있으면 이대로는 학습에 쓰기 어려워요. 처리 방법을 골라 보세요.',
       del: `데이터가 10개 → ${res.length}개로 줄었어요. 전체 데이터가 <b>충분하고</b> 지워도 문제가 없을 때 써요.`,
-      mean: !outMiss ? `빈칸이 <b>${fills.mean}cm</b>로 채워졌어요?! 이상치 999 때문에 평균이 크게 흔들렸어요. 이상치를 먼저 처리하거나 중앙값을 써 보세요.` : `평균 ${fills.mean}cm로 채웠어요. 이상치를 먼저 처리하니 그럴듯한 값이 됐어요.`,
-      median: `가운데 값 <b>${fills.median}cm</b>로 채웠어요. 중앙값은 999 같은 이상치가 있어도 거의 흔들리지 않아요.`,
+      mean: !outMiss ? `🙅 이상치 999까지 넣고 평균을 내니 빈칸이 <b>${fills.mean}cm</b>로 채워졌어요. 이런 키는 있을 수 없죠! 그래서 결측치를 채우기 <b>전에 이상치부터 처리</b>해야 해요. 위 체크 상자를 다시 켜 보세요.` : `평균 <b>${fills.mean}cm</b>로 채웠어요. 이상치(999)를 먼저 빈칸으로 바꾼 뒤 평균을 냈더니 반 친구들 키와 비슷한 그럴듯한 값이 됐어요.`,
+      median: `가운데 값 <b>${fills.median}cm</b>로 채웠어요.${outMiss ? '' : ' 999가 섞여 있어도 중앙값은 거의 흔들리지 않아요. 그래도 이상치는 먼저 처리하는 게 좋아요.'}`,
       mode: `가장 자주 나온 값 <b>${fills.mode}cm</b>로 채웠어요. 키처럼 연속형 값에서는 같은 값이 잘 안 나와서 최빈값이 덜 어울릴 수 있어요.`,
     };
     $('#fillNumMsg').innerHTML = msgs[mn];
@@ -399,17 +424,68 @@ function initFill() {
 /* ---------- 3-6 스케일링·인코딩 ---------- */
 function initScale() {
   const ids = ['scAh', 'scAs', 'scBh', 'scBs'];
+  const BL = 'var(--blue)', PU = 'var(--purple)', OR = 'var(--orange)', INK = 'var(--ink)', MU = 'var(--ink-2)', LN = 'var(--line)';
+  const T = (x, y, t, o = {}) => `<text x="${x}" y="${y}" style="fill:${o.c || INK};font-size:${o.s || 13}px;font-weight:${o.w || 400}" text-anchor="${o.a || 'middle'}">${t}</text>`;
+  const person = (x, floor, hPx, col, name) => {
+    const head = hPx * 0.075, top = floor - hPx, neck = top + head * 2, hip = top + hPx * 0.52, sh = neck + hPx * 0.04;
+    const st = `stroke:${col};stroke-width:${Math.max(5, hPx * 0.045)};stroke-linecap:round;fill:none`;
+    return `<circle cx="${x}" cy="${top + head}" r="${head}" style="fill:${col}"/>
+      <path d="M${x} ${neck}L${x} ${hip}M${x} ${hip}L${x - hPx * 0.1} ${floor}M${x} ${hip}L${x + hPx * 0.1} ${floor}M${x - hPx * 0.14} ${hip - hPx * 0.05}L${x} ${sh}L${x + hPx * 0.14} ${hip - hPx * 0.05}" style="${st}"/>
+      ${T(x, floor + 20, name, { w: 700, c: col })}`;
+  };
+  const people = (ah, as, bh, bs) => {
+    const floor = 305, k = 1.55, y = (cm) => floor - cm * k;
+    let g = '';
+    for (let cm = 150; cm <= 190; cm += 10) g += `<line x1="40" x2="330" y1="${y(cm)}" y2="${y(cm)}" style="stroke:${LN};stroke-dasharray:4 4"/>${T(36, y(cm) + 4, cm + 'cm', { a: 'end', s: 11, c: MU })}`;
+    g += `<line x1="40" x2="330" y1="${floor}" y2="${floor}" style="stroke:${MU};stroke-width:2"/>`;
+    g += `<line x1="40" x2="130" y1="${y(ah)}" y2="${y(ah)}" style="stroke:${BL};stroke-width:2;stroke-dasharray:3 3"/><line x1="40" x2="250" y1="${y(bh)}" y2="${y(bh)}" style="stroke:${OR};stroke-width:2;stroke-dasharray:3 3"/>`;
+    g += person(130, floor, ah * k, BL, `A ${ah}cm`) + person(250, floor, bh * k, OR, `B ${bh}cm`);
+    const bed = (yy, hrs, col, name) => {
+      let b = T(360, yy + 15, name, { a: 'start', w: 700, c: col });
+      for (let h = 0; h < 9; h++) {
+        const x = 420 + h * 22, fill = Math.max(0, Math.min(1, hrs - h));
+        b += `<rect x="${x}" y="${yy}" width="18" height="22" rx="4" style="fill:var(--surface-2);stroke:${LN}"/>`;
+        if (fill > 0) b += `<rect x="${x}" y="${yy}" width="${18 * fill}" height="22" rx="4" style="fill:${PU};opacity:.85"/>`;
+      }
+      return b + T(420 + 9 * 22 + 6, yy + 16, hrs + '시간', { a: 'start', s: 12 });
+    };
+    g += T(360, 110, '😴 하루 수면 시간 (칸 1개 = 1시간)', { a: 'start', w: 700, s: 13 });
+    g += bed(130, as, BL, 'A') + bed(170, bs, OR, 'B');
+    g += T(360, 226, `키 차이 ${Math.abs(ah - bh)}cm · 수면 차이 ${Math.abs(as - bs)}시간`, { a: 'start', s: 13, c: MU });
+    return `<svg viewBox="0 0 660 335" class="sc-svg" role="img" aria-label="A와 B의 키와 수면 시간 그림">${g}</svg>`;
+  };
+  const rulers = (rows, unitPx, x0, title) => {
+    let g = T(0, 18, title, { a: 'start', w: 700, s: 14 }), yy = 44;
+    rows.forEach((r) => {
+      const len = (r.max - r.min) * unitPx, px = (v) => x0 + (v - r.min) * unitPx;
+      g += T(x0 - 10, yy + 8, r.name, { a: 'end', w: 700, c: r.col });
+      g += `<rect x="${x0}" y="${yy}" width="${len}" height="12" rx="6" style="fill:var(--surface-2);stroke:${LN}"/>`;
+      g += `<rect x="${Math.min(px(r.a), px(r.b))}" y="${yy}" width="${Math.max(2, Math.abs(px(r.a) - px(r.b)))}" height="12" rx="6" style="fill:${r.col};opacity:.8"/>`;
+      g += T(x0, yy + 28, r.lo, { a: 'start', s: 10, c: MU }) + T(x0 + len, yy + 28, r.hi, { a: len < 60 ? 'start' : 'end', s: 10, c: MU });
+      g += `<circle cx="${px(r.a)}" cy="${yy + 6}" r="6" style="fill:${BL};stroke:var(--surface);stroke-width:2"/><circle cx="${px(r.b)}" cy="${yy + 6}" r="6" style="fill:${OR};stroke:var(--surface);stroke-width:2"/>`;
+      g += T(Math.max(x0 + len, px(r.a), px(r.b)) + 14 + (len < 60 ? 24 : 0), yy + 10, `차이 ${r.d}`, { a: 'start', w: 700, c: r.col });
+      yy += 52;
+    });
+    return `<svg viewBox="0 0 660 ${yy - 6}" class="sc-svg" role="img" aria-label="${title}">${g}</svg>`;
+  };
   const go = () => {
     const [ah, as, bh, bs] = ids.map((id) => +$('#' + id).value);
     ids.forEach((id) => { $('#' + id + 'V').textContent = $('#' + id).value + (id.endsWith('h') ? 'cm' : '시간'); });
     const sh = (h) => (h - 150) / 40, ss = (s) => (s - 5) / 4;
-    const rh = (ah - bh) ** 2, rs = (as - bs) ** 2, nh = (sh(ah) - sh(bh)) ** 2, ns = (ss(as) - ss(bs)) ** 2;
-    const pct = (a, b) => (a + b ? a / (a + b) * 100 : 50);
+    const dh = Math.abs(ah - bh), ds = Math.abs(as - bs), nh = Math.abs(sh(ah) - sh(bh)), ns = Math.abs(ss(as) - ss(bs));
+    const share = (a, b) => (a * a + b * b ? Math.round(b * b / (a * a + b * b) * 100) : 50);
+    $('#scPeople').innerHTML = people(ah, as, bh, bs);
+    $('#scBefore').innerHTML = rulers([
+      { name: '키', min: 150, max: 190, a: ah, b: bh, d: dh, lo: '150', hi: '190', col: BL },
+      { name: '수면', min: 5, max: 9, a: as, b: bs, d: ds, lo: '5', hi: '9', col: PU },
+    ], 11, 60, '😵 스케일링 전: 숫자 그대로 재면 (숫자 1 = 같은 길이)') +
+      `<p class="sc-cap">두 사람의 거리 = √(${dh}² + ${ds}²) = <b>${fmt(Math.hypot(dh, ds), 2)}</b> · 수면 차이가 거리에서 차지하는 몫 <b style="color:var(--purple)">${share(dh, ds)}%</b></p>`;
+    $('#scAfter').innerHTML = rulers([
+      { name: '키\'', min: 0, max: 1, a: sh(ah), b: sh(bh), d: fmt(nh, 2), lo: '0 (150cm)', hi: '1 (190cm)', col: BL },
+      { name: '수면\'', min: 0, max: 1, a: ss(as), b: ss(bs), d: fmt(ns, 2), lo: '0 (5시간)', hi: '1 (9시간)', col: PU },
+    ], 440, 60, '😊 0~1 스케일링 후: 두 자의 길이가 똑같아져요') +
+      `<p class="sc-cap">두 사람의 거리 = √(${fmt(nh, 2)}² + ${fmt(ns, 2)}²) = <b>${fmt(Math.hypot(nh, ns), 2)}</b> · 수면 차이가 거리에서 차지하는 몫 <b style="color:var(--purple)">${share(nh, ns)}%</b></p>`;
     $('#scFormula').textContent = `키'  = (키 − 150) ÷ (190 − 150)\n수면' = (수면 − 5) ÷ (9 − 5)\n\nA: 키' ${fmt(sh(ah), 2)}, 수면' ${fmt(ss(as), 2)}\nB: 키' ${fmt(sh(bh), 2)}, 수면' ${fmt(ss(bs), 2)}`;
-    const H = cssVar('--blue'), S = cssVar('--purple');
-    $('#scOut').innerHTML = `<div class="box"><h4>😵 스케일링 전 · 거리 ${fmt(Math.sqrt(rh + rs), 2)}</h4>${barsHTML([{ n: '키 차이 영향', v: pct(rh, rs), c: H }, { n: '수면 차이 영향', v: pct(rs, rh), c: S }], { max: 100, unit: '%' })}</div>
-      <div class="box" style="margin-top:10px"><h4>😊 0~1 스케일링 후 · 거리 ${fmt(Math.sqrt(nh + ns), 2)}</h4>${barsHTML([{ n: '키 차이 영향', v: pct(nh, ns), c: H }, { n: '수면 차이 영향', v: pct(ns, nh), c: S }], { max: 100, unit: '%' })}</div>
-      <p class="hint">수면 시간은 범위 끝에서 끝(5→9시간)까지 달라도 숫자로는 4밖에 안 돼서, 스케일링 전에는 키 몇 cm 차이에 묻혀 버려요. 범위를 0~1로 맞추면 두 속성이 공평하게 비교돼요.</p>`;
   };
   ids.forEach((id) => $('#' + id).addEventListener('input', go)); go();
 }
@@ -500,14 +576,6 @@ function initCharts() {
   document.addEventListener('surveychange', draw);
   document.addEventListener('themechange', draw);
   draw();
-}
-function initChartSorter() {
-  makeSorter($('#chartSorter').closest('.card'), [
-    ['🍎 반 친구들이 좋아하는 과일별 인원 비교', 'bar'], ['🏫 반별 한 달 독서량 합계 비교', 'bar'], ['🩸 혈액형별 학생 수', 'bar'],
-    ['📏 우리 학년 키가 어느 구간에 많이 몰려 있는지', 'hist'], ['⏰ 등교 시각이 몇 분대에 몰리는지', 'hist'], ['📝 시험 점수 분포 (10점 단위 구간)', 'hist'],
-    ['📚 공부 시간과 성적의 관계', 'scatter'], ['🌡️ 기온과 아이스크림 판매량의 관계', 'scatter'], ['👟 키와 신발 크기의 관계', 'scatter'],
-    ['📦 세 반의 수학 점수 중앙값과 퍼진 정도를 나란히 비교', 'box'], ['🏃 반별 100m 기록의 중앙값과 사분위수', 'box'], ['💰 용돈 분포에서 튀는 값(이상치) 찾기', 'box'],
-  ], '상황에 맞는 그래프를 잘 골랐어요.');
 }
 function initCorr() {
   const cv = $('#corrCanvas'), P = plotFrame(cv, { x0: 0, x1: 10, y0: 0, y1: 10, xt: 5, yt: 5, xl: 'x →', yl: '↑ y' }), ctx = P.ctx;

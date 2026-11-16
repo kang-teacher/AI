@@ -286,3 +286,29 @@ textarea { width: 100%; min-height: 80px; }
 .py-df th, .py-df td { border-bottom: 1px solid var(--line); }
 .py-df thead th { background: var(--surface-2); }
 .py-md .dtable td { text-align: left; white-space: normal; min-width: 90px; }
+
+/* 3-6 스케일링 그림 */
+.sc-ctrl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+.sc-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 10px; }
+.sc-svg { width: 100%; height: auto; display: block; }
+.sc-cap { margin: 4px 0 0; font-size: .92rem; }
+@media (max-width: 640px) { .sc-ctrl { grid-template-columns: 1fr; } }
+.lf-e { line-height: 1.2; height: 2.7rem; display: flex; align-items: center; }
+.lf-f { font-size: .72rem; color: var(--ink-2); display: inline-flex; align-items: center; gap: 3px; }
+.lf-sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+.lf-len { width: 80%; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin: 1px 0 2px; }
+.lf-len i { display: block; height: 100%; background: var(--green-2, var(--blue)); }
+/* 2-3 탐색 단계 보기 */
+.ss-wrap { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; margin-top: 12px; align-items: start; }
+.ss-svg { width: 100%; height: auto; display: block; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }
+.ss-q { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ss-end { font-size: .78rem; color: var(--muted); }
+.ss-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; padding: 0 8px; border-radius: 8px; border: 2px dashed var(--orange); font-weight: 900; background: var(--surface); }
+.ss-chip.next { border-style: solid; background: color-mix(in srgb, var(--orange) 22%, var(--surface)); }
+.ss-chip.vis { border: 2px solid var(--blue); background: var(--blue); color: #fff; margin: 0 2px; }
+.ss-tab tr.next td { background: color-mix(in srgb, var(--orange) 18%, var(--surface)); }
+.ss-tab td.key { font-weight: 900; color: var(--purple); }
+#ssMsg { min-height: 4.5em; }
+@media (max-width: 860px) { .ss-wrap { grid-template-columns: 1fr; } }
+.ss-wrap > div { min-width: 0; }
+.confuse { border: 2px solid var(--yellow); background: var(--yellow-soft); margin: 0 0 14px; } .confuse summary { cursor: pointer; }
