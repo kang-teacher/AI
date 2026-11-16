@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/ai.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/ai.css?v=5">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%2322a06b'/><circle cx='36' cy='45' r='8' fill='%23fff'/><circle cx='64' cy='45' r='8' fill='%23fff'/><path d='M34 66 q16 12 32 0' stroke='%23f5b82e' stroke-width='7' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body>
@@ -790,15 +790,15 @@
           <p id="splitMsg" class="hint"></p>
         </div>
 
-        <h3 class="sec-title">② 예측 모델의 평가: MAE와 MSE</h3>
+        <h3 class="sec-title">② 예측 모델의 평가: MAE, MSE, RMSE, 결정계수</h3>
         <div class="card">
-          <p>점을 위아래로 끌어 보세요. 오차(정답 − 예측)로 두 가지 점수를 계산해요.</p>
-          <ul><li><b>평균 절대 오차(MAE)</b>: 오차에 절댓값을 씌워 평균을 내요.</li><li><b>평균 제곱 오차(MSE)</b>: 오차를 제곱한 뒤 평균을 내요. 큰 오차를 훨씬 크게 벌줘요.</li></ul>
+          <p>점을 위아래로 끌어 보세요. 오차(정답 − 예측)로 네 가지 점수를 계산해요.</p>
+          <ul><li><b>평균 절대 오차(MAE)</b>: 오차에 절댓값을 씌워 평균을 내요. 작을수록 좋아요.</li><li><b>평균 제곱 오차(MSE)</b>: 오차를 제곱한 뒤 평균을 내요. 큰 오차를 훨씬 크게 벌줘요. 작을수록 좋아요.</li><li><b>평균 제곱근 오차(RMSE)</b>: MSE에 제곱근(√)을 씌워요. 제곱했던 단위가 원래 단위로 돌아와서(예: cm² → cm) "평균적으로 몇 cm쯤 틀린다"처럼 읽기 쉬워요. 작을수록 좋아요.</li><li><b>결정계수(R²)</b>: 모델이 <b>평균값 하나로만 예측할 때</b>(회색 점선)보다 얼마나 더 잘 맞히는지 나타내요. R² = 1 − (모델의 오차² 합 ÷ 평균선의 오차² 합). <b>1에 가까울수록</b> 좋고, 0이면 평균선과 다를 게 없어요. 평균선보다도 못하면 0보다 작아질 수도 있어요.</li></ul>
           <div class="lab">
             <canvas id="errCanvas" width="640" height="360" class="lab-canvas"></canvas>
             <div class="lab-side">
               <div class="dtable-wrap"><table class="dtable" id="errTable"></table></div>
-              <div class="stats"><div><span>MAE</span><b id="maeVal">-</b></div><div><span>MSE</span><b id="mseVal">-</b></div></div>
+              <div class="stats"><div><span>MAE</span><b id="maeVal">-</b></div><div><span>MSE</span><b id="mseVal">-</b></div><div><span>RMSE</span><b id="rmseVal">-</b></div><div><span>결정계수 R²</span><b id="r2Val">-</b></div></div>
               <button class="btn btn-ghost btn-sm" id="errOut">😱 점 하나 멀리 보내기</button>
             </div>
           </div>
@@ -1287,18 +1287,18 @@
   <div id="confetti" aria-hidden="true"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/common.js?v=4"></script>
-  <script src="js/util.js?v=4"></script>
-  <script src="js/quiz.js?v=4"></script>
-  <script src="js/scene.js?v=4"></script>
-  <script src="js/u1.js?v=4"></script>
-  <script src="js/u2.js?v=4"></script>
-  <script src="js/u3.js?v=4"></script>
-  <script src="js/u4.js?v=4"></script>
-  <script src="js/u5.js?v=4"></script>
-  <script src="js/datasets.js?v=4"></script>
-  <script src="js/lab.js?v=4"></script>
-  <script src="js/pylab.js?v=4"></script>
-  <script src="js/main.js?v=4"></script>
+  <script src="js/common.js?v=5"></script>
+  <script src="js/util.js?v=5"></script>
+  <script src="js/quiz.js?v=5"></script>
+  <script src="js/scene.js?v=5"></script>
+  <script src="js/u1.js?v=5"></script>
+  <script src="js/u2.js?v=5"></script>
+  <script src="js/u3.js?v=5"></script>
+  <script src="js/u4.js?v=5"></script>
+  <script src="js/u5.js?v=5"></script>
+  <script src="js/datasets.js?v=5"></script>
+  <script src="js/lab.js?v=5"></script>
+  <script src="js/pylab.js?v=5"></script>
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>

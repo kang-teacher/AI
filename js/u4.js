@@ -321,7 +321,7 @@ function initSplit() {
   $('#splitR').addEventListener('input', upd); upd();
 }
 
-/* --- 4-4 MAE vs MSE --- */
+/* --- 4-4 MAE·MSE·RMSE·결정계수 --- */
 function initErrMetrics() {
   const cv = $('#errCanvas');
   const P = plotFrame(cv, { x0: 0, x1: 10, y0: 0, y1: 10, xl: 'x →', yl: '↑ y', xt: 5, yt: 5 });
@@ -336,15 +336,21 @@ function initErrMetrics() {
       ctx.beginPath(); ctx.arc(P.px(p.x), P.py(p.y), 10, 0, Math.PI * 2); ctx.fillStyle = cssVar('--green'); ctx.fill();
       ctx.fillStyle = '#fff'; ctx.font = '700 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(i + 1, P.px(p.x), P.py(p.y)); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     });
+    const my = mean(pts.map((p) => p.y));
+    ctx.strokeStyle = cssVar('--muted'); ctx.lineWidth = 2; ctx.setLineDash([6, 6]); ctx.beginPath(); ctx.moveTo(P.px(0), P.py(my)); ctx.lineTo(P.px(10), P.py(my)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = cssVar('--muted'); ctx.font = '12px "Noto Sans KR"'; ctx.fillText(`평균선 y = ${fmt(my, 2)} (R²의 비교 기준)`, P.px(0.2), P.py(my) - 6);
     const e = pts.map((p) => p.y - f(p.x));
     $('#errTable').innerHTML = `<tr><th>점</th><th>오차</th><th>|오차|</th><th>오차²</th></tr>` + e.map((v, i) => `<tr><td>${i + 1}</td><td class="num">${fmt(v, 2)}</td><td class="num">${fmt(Math.abs(v), 2)}</td><td class="num">${fmt(v * v, 2)}</td></tr>`).join('') +
       `<tr class="hl"><td>평균</td><td></td><td class="num">${fmt(mean(e.map(Math.abs)), 2)}</td><td class="num">${fmt(mean(e.map((v) => v * v)), 2)}</td></tr>`;
     $('#maeVal').textContent = fmt(mean(e.map(Math.abs)), 2); $('#mseVal').textContent = fmt(mean(e.map((v) => v * v)), 2);
+    $('#rmseVal').textContent = fmt(Math.sqrt(mean(e.map((v) => v * v))), 2);
+    const sse = e.reduce((s, v) => s + v * v, 0), sst = pts.reduce((s, p) => s + (p.y - my) ** 2, 0);
+    $('#r2Val').textContent = sst ? fmt(1 - sse / sst, 2) : '-';
   }
   onDrag(cv, { down: (p) => { drag = pts.findIndex((q) => Math.hypot(P.px(q.x) - p.x, P.py(q.y) - p.y) < 20); if (drag < 0) drag = null; }, move: (p) => { if (drag != null) { pts[drag].y = clamp(P.iy(p.y), 0, 10); draw(); } }, up: () => { drag = null; } });
   $('#errOut').addEventListener('click', () => {
     if ($('#errOut').dataset.on) { pts = base.map(([x, y]) => ({ x, y })); delete $('#errOut').dataset.on; $('#errOut').textContent = '😱 점 하나 멀리 보내기'; }
-    else { pts[4].y = 9.9; pts[4].x = 7; $('#errOut').dataset.on = 1; $('#errOut').textContent = '↺ 원래대로'; toast('오차가 3배쯤 커지면 MAE는 조금, MSE는 훨씬 많이 커져요!'); }
+    else { pts[4].y = 9.9; pts[4].x = 7; $('#errOut').dataset.on = 1; $('#errOut').textContent = '↺ 원래대로'; toast('오차가 3배쯤 커지면 MAE는 조금, MSE는 훨씬 많이 커지고, 결정계수는 떨어져요!'); }
     draw();
   });
   draw(); document.addEventListener('themechange', draw);
