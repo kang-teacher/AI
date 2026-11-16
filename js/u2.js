@@ -1,6 +1,6 @@
 /* 2단원: 탐색 */
 function initSearch() {
-  runAll(initRiver1, initTreeSearch, initMaze, initPuzzle8);
+  runAll(initRiver1, initTreeSearch, initSearchSteps, initMaze, initPuzzle8);
 }
 
 /* 작은 우선순위 큐 (이진 힙) */
@@ -323,4 +323,131 @@ function initPuzzle8() {
     timer = setInterval(() => { setS(path[i], true); if (++i >= path.length) { clearInterval(timer); timer = null; toast(`${path.length - 1}번 만에 풀었어요!`); } }, 420);
   });
   render();
+}
+
+/* ---------- 2-3 탐색 과정 한 단계씩 보기 ---------- */
+const SG = {
+  N: { S: [60, 150, 7], A: [470, 50, 2], B: [240, 200, 5], C: [410, 235, 3], D: [110, 255, 7], E: [300, 45, 4], G: [585, 140, 0] },
+  E: [['S', 'A', 4], ['S', 'B', 3], ['S', 'D', 2], ['A', 'E', 2], ['A', 'G', 7], ['B', 'C', 3], ['B', 'D', 2], ['C', 'G', 3]],
+};
+const SG_ALG = {
+  dfs: { n: '깊이 우선 탐색', box: '스택', how: '스택 맨 위(가장 나중에 넣은 노드)', key: '나중에 넣은 것 먼저' },
+  bfs: { n: '너비 우선 탐색', box: '큐', how: '큐 맨 앞(가장 먼저 넣은 노드)', key: '먼저 넣은 것 먼저' },
+  greedy: { n: '최상 우선 탐색', box: '열린 목록', how: '남은 거리 어림값 h가 가장 작은 노드', key: 'h가 가장 작은 것' },
+  astar: { n: 'A* 탐색', box: '열린 목록', how: 'f = g + h가 가장 작은 노드', key: 'f = g + h가 가장 작은 것' },
+};
+const sgNbr = (n) => SG.E.filter((e) => e[0] === n || e[1] === n).map((e) => [e[0] === n ? e[1] : e[0], e[2]]).sort((a, b) => a[0].localeCompare(b[0]));
+const sgH = (n) => SG.N[n][2];
+const sgRo = (v) => v + ('036'.includes(String(v).slice(-1)) ? '으로' : '로');
+function sgRun(kind) {
+  const steps = [], visited = [], parent = {}, gOf = {};
+  let fr = [{ n: 'S', g: 0, p: null, t: 0 }], t = 1;
+  const snap = (o) => steps.push({ ...o, fr: fr.map((x) => ({ ...x })), vis: visited.slice() });
+  const order = () => {
+    if (kind === 'dfs') return fr.slice().reverse();
+    if (kind === 'bfs') return fr.slice();
+    const key = kind === 'greedy' ? (x) => [sgH(x.n), x.t] : (x) => [x.g + sgH(x.n), sgH(x.n), x.t];
+    return fr.slice().sort((a, b) => { const ka = key(a), kb = key(b); for (let i = 0; i < ka.length; i++) if (ka[i] !== kb[i]) return ka[i] - kb[i]; return 0; });
+  };
+  snap({ cur: null, msg: `출발 노드 <b>S</b>를 ${SG_ALG[kind].box}에 넣고 시작해요.` });
+  while (fr.length) {
+    const ord = order(), pick = ord[0], only = fr.length === 1;
+    let tie = '';
+    if (!only && (kind === 'greedy' || kind === 'astar')) {
+      const v = (x) => (kind === 'greedy' ? sgH(x.n) : x.g + sgH(x.n));
+      const same = ord.filter((x) => x !== pick && v(x) === v(pick)).map((x) => x.n);
+      if (same.length) tie = kind === 'greedy' ? ` ${same.join(', ')}도 h가 같지만 먼저 넣은 ${pick.n}를 골라요.` : ` ${same.join(', ')}도 f가 ${sgRo(v(pick))} 같지만, 남은 어림값 h가 더 작은 ${pick.n}를 먼저 골라요.`;
+    }
+    fr = fr.filter((x) => x !== pick);
+    const { n, g, p } = pick;
+    if (visited.includes(n)) { snap({ cur: n, msg: `<b>${n}</b>를 꺼냈지만 이미 방문한 노드라서 건너뛰어요.`, skip: true }); continue; }
+    visited.push(n); parent[n] = p; gOf[n] = g;
+    const why = only ? `${SG_ALG[kind].box}에 ${n} 하나뿐이라서` : kind === 'dfs' ? '스택 맨 위, 즉 가장 나중에 넣은 노드라서' : kind === 'bfs' ? '큐 맨 앞, 즉 가장 먼저 넣은 노드라서'
+      : kind === 'greedy' ? `남은 거리 어림값 h가 ${sgRo(sgH(n))} 가장 작아서` : `f = g + h = ${g} + ${sgH(n)} = <b>${sgRo(g + sgH(n))}</b> 가장 작아서`;
+    if (n === 'G') {
+      const path = []; for (let k = 'G'; k; k = parent[k]) path.unshift(k);
+      const costs = path.slice(1).map((k, i) => sgNbr(path[i]).find((x) => x[0] === k)[1]);
+      snap({ cur: n, done: true, path, cost: g, msg: `<b>G</b>를 꺼냈어요(${why}).${tie} 🎉 목표 도착! 찾은 길은 <b>${path.join(' → ')}</b>, 비용은 ${costs.join(' + ')} = <b>${g}</b>이고, 방문한 노드는 ${visited.length}개예요.` });
+      return steps;
+    }
+    const add = [], upd = [];
+    let nb = sgNbr(n).filter(([m]) => !visited.includes(m));
+    if (kind === 'dfs') nb = nb.reverse();
+    nb.forEach(([m, c]) => {
+      const inF = fr.find((x) => x.n === m), ng = g + c;
+      if (kind === 'dfs') { fr.push({ n: m, g: ng, p: n, t: t++ }); add.push(m); return; }
+      if (kind === 'astar' && inF) {
+        if (ng < inF.g) { upd.push(`<b>${m}</b>는 이미 목록에 있었는데(${inF.p}에서 오면 g ${inF.g}), ${n}를 거쳐 가면 g = ${g} + ${c} = ${sgRo(ng)} <b>더 짧아요</b>. 그래서 ${m}의 g를 ${ng}, 어디서 왔나를 ${n}로 고쳐 적어요.`); inF.g = ng; inF.p = n; }
+        else upd.push(`${m}는 이미 더 짧은 길(g ${inF.g})로 목록에 있어서 그대로 둬요.`);
+        return;
+      }
+      if (inF) return;
+      fr.push({ n: m, g: ng, p: n, t: t++ }); add.push(m);
+    });
+    let msg = `<b>${n}</b>를 꺼내 방문해요(${why}).${tie} `;
+    msg += add.length ? `방문하지 않은 이웃 ${add.map((m) => `<b>${m}</b>`).join(', ')}를 ${SG_ALG[kind].box}에 넣어요.` : upd.length ? '' : '새로 넣을 이웃이 없어요.';
+    if (kind === 'dfs' && add.length > 1) msg += ' (알파벳이 빠른 노드를 먼저 꺼내려고 거꾸로 넣어요.)';
+    if (upd.length) msg += ' ' + upd.join(' ');
+    if (!add.length && kind === 'dfs') msg += ' 막다른 곳이라 <b>되돌아가서</b> 스택에 남은 노드를 꺼내요.';
+    snap({ cur: n, add, msg: msg.replace(/\s+/g, ' ').trim() });
+  }
+  return steps;
+}
+function initSearchSteps() {
+  const svg = $('#ssGraph');
+  if (!svg) return;
+  let kind = 'dfs', steps = sgRun(kind), si = 0, timer = null;
+  const informed = () => kind === 'greedy' || kind === 'astar';
+  const draw = () => {
+    const st = steps[si], frN = st.fr.map((x) => x.n), onPath = new Set();
+    if (st.path) st.path.forEach((k, i) => { if (i) onPath.add([st.path[i - 1], k].sort().join()); });
+    let g = '';
+    SG.E.forEach(([a, b, c]) => {
+      const [x1, y1] = SG.N[a], [x2, y2] = SG.N[b], on = onPath.has([a, b].sort().join());
+      g += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:${on ? 'var(--green)' : 'var(--line)'};stroke-width:${on ? 7 : 4};stroke-linecap:round"/>`;
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      g += `<rect x="${mx - 13}" y="${my - 11}" width="26" height="20" rx="6" style="fill:var(--surface);stroke:var(--line)"/><text x="${mx}" y="${my + 4}" text-anchor="middle" style="font-size:12px;font-weight:700;fill:${kind === 'dfs' || kind === 'bfs' ? 'var(--muted)' : 'var(--ink)'}">${c}</text>`;
+    });
+    Object.entries(SG.N).forEach(([n, [x, y, h]]) => {
+      const vis = st.vis.includes(n), cur = st.cur === n, inF = frN.includes(n);
+      const fill = n === 'G' && vis ? 'var(--red)' : vis ? 'var(--blue)' : 'var(--surface)';
+      const stroke = cur ? 'var(--orange)' : n === 'S' ? 'var(--green)' : n === 'G' ? 'var(--red)' : inF ? 'var(--orange)' : 'var(--ink-2)';
+      g += `<circle cx="${x}" cy="${y}" r="20" style="fill:${fill};stroke:${stroke};stroke-width:${cur ? 6 : 3};${inF && !cur ? 'stroke-dasharray:5 3' : ''}"/>`;
+      g += `<text x="${x}" y="${y + 6}" text-anchor="middle" style="font-size:17px;font-weight:900;fill:${vis ? '#fff' : 'var(--ink)'}">${n}</text>`;
+      g += `<text x="${x}" y="${y + 38}" text-anchor="middle" style="font-size:12px;font-weight:700;fill:${informed() ? 'var(--purple)' : 'var(--muted)'}">h=${h}</text>`;
+      if (vis) g += `<text x="${x + 18}" y="${y - 16}" style="font-size:12px;font-weight:700;fill:var(--blue)">${st.vis.indexOf(n) + 1}</text>`;
+    });
+    svg.innerHTML = g;
+    $('#ssMsg').innerHTML = `<b>${si}단계</b> · ${st.msg}`;
+    const ord = (kind === 'dfs' ? st.fr.slice().reverse() : kind === 'bfs' ? st.fr.slice() : st.fr.slice().sort((a, b) => {
+      const ka = kind === 'greedy' ? [sgH(a.n), a.t] : [a.g + sgH(a.n), sgH(a.n), a.t], kb = kind === 'greedy' ? [sgH(b.n), b.t] : [b.g + sgH(b.n), sgH(b.n), b.t];
+      return ka[0] - kb[0] || ka[1] - kb[1] || (ka[2] ?? 0) - (kb[2] ?? 0);
+    }));
+    const A = SG_ALG[kind];
+    let fh = `<h4>📥 ${A.box} <small class="muted">(다음에 꺼낼 노드: ${A.key})</small></h4>`;
+    if (!ord.length) fh += '<p class="muted">비어 있어요.</p>';
+    else if (!informed()) fh += `<div class="ss-q">${kind === 'dfs' ? '<span class="ss-end">위 ⬇ 꺼냄</span>' : '<span class="ss-end">앞 ⬅ 꺼냄</span>'}${ord.map((x, i) => `<span class="ss-chip${i === 0 && !st.done ? ' next' : ''}">${x.n}</span>`).join('')}<span class="ss-end">${kind === 'dfs' ? '아래' : '뒤 (새로 넣는 쪽)'}</span></div>`;
+    else fh += `<div class="dtable-wrap"><table class="dtable ss-tab"><tr><th>노드</th><th>g<br><small>온 거리</small></th><th>h<br><small>남은 어림값</small></th>${kind === 'astar' ? '<th>f = g + h</th>' : ''}<th>어디서 왔나</th></tr>${ord.map((x, i) => `<tr class="${i === 0 && !st.done ? 'next' : ''}"><td><b>${x.n}</b>${i === 0 && !st.done ? ' ⬅ 다음' : ''}</td><td class="num">${x.g}</td><td class="num${kind === 'greedy' ? ' key' : ''}">${sgH(x.n)}</td>${kind === 'astar' ? `<td class="num key">${x.g + sgH(x.n)}</td>` : ''}<td>${x.p ?? '-'}</td></tr>`).join('')}</table></div>${kind === 'greedy' ? '<p class="hint" style="margin:4px 0 0">최상 우선 탐색은 g(온 거리)를 계산은 해도 고를 때는 <b>h만</b> 봐요.</p>' : ''}`;
+    $('#ssFront').innerHTML = fh;
+    $('#ssVis').innerHTML = `<b>방문 순서</b> ${st.vis.length ? st.vis.map((n) => `<span class="ss-chip vis">${n}</span>`).join('<span class="muted">→</span>') : '<span class="muted">아직 없어요</span>'}`;
+    $('#ssPrev').disabled = si === 0; $('#ssNext').disabled = si === steps.length - 1;
+    $('#ssPlay').textContent = timer ? '⏸ 멈춤' : '⏩ 자동';
+  };
+  const stop = () => { clearInterval(timer); timer = null; };
+  segBind('#ssAlg', (b) => { stop(); kind = b.dataset.k; steps = sgRun(kind); si = 0; draw(); });
+  $('#ssNext').addEventListener('click', () => { stop(); if (si < steps.length - 1) si++; draw(); });
+  $('#ssPrev').addEventListener('click', () => { stop(); if (si > 0) si--; draw(); });
+  $('#ssReset').addEventListener('click', () => { stop(); si = 0; draw(); });
+  $('#ssPlay').addEventListener('click', () => {
+    if (timer) { stop(); draw(); return; }
+    if (si === steps.length - 1) si = 0;
+    timer = setInterval(() => { if (!svg.isConnected || si >= steps.length - 1) { stop(); draw(); return; } si++; draw(); }, 1400);
+    draw();
+  });
+  draw();
+  const res = Object.keys(SG_ALG).map((k) => { const s = sgRun(k), last = s[s.length - 1]; return { k, path: last.path, cost: last.cost, vis: last.vis.length }; });
+  const best = Math.min(...res.map((r) => r.cost));
+  const crit = { dfs: '가장 나중에 넣은 노드 (스택)', bfs: '가장 먼저 넣은 노드 (큐)', greedy: '<b>h</b>(남은 거리 어림값)가 가장 작은 노드', astar: '<b>g + h</b>(온 거리 + 남은 어림값)가 가장 작은 노드' };
+  $('#ssCmp').innerHTML = `<tr><th>탐색 방법</th><th>다음 노드를 고르는 기준</th><th>방문한 노드 수</th><th>찾은 길</th><th>길의 비용</th></tr>` +
+    res.map((r) => `<tr><td><b>${SG_ALG[r.k].n}</b></td><td style="white-space:normal">${crit[r.k]}</td><td class="num">${r.vis}개</td><td>${r.path.join(' → ')}</td><td class="num">${r.cost}${r.cost === best ? ' ✅ 최단' : ''}</td></tr>`).join('');
 }

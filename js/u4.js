@@ -2,7 +2,7 @@
 function initML() {
   runAll(initTypeTree, initFlip, initSupTable, initLabelFruits, initRegClsSorter, initSLR, initMLR, initKNN, initDTree,
     initSplit, initErrMetrics, initSpam, initFit, initGroup, initKMeans, initBasket, initCycle, initHunt, initRL, initBandit,
-    initCmpTable, initTypeSorter);
+    initCmpTable);
 }
 
 /* --- 4-0 종류 지도 --- */
@@ -34,20 +34,22 @@ function initFlip() { $$('.flip').forEach((f) => f.addEventListener('click', () 
 /* --- 4-1 지도학습 --- */
 const FRUIT = { a: { e: '🍎', n: '사과' }, b: { e: '🍌', n: '바나나' }, g: { e: '🍇', n: '포도' } };
 function initSupTable() {
-  const rows = [['빨강', 8, 200, 'a'], ['노랑', 19, 120, 'b'], ['보라', 2, 5, 'g'], ['빨강', 9, 230, 'a'], ['노랑', 17, 110, 'b'], ['초록', 9, 210, 'a'], ['보라', 2.5, 6, 'g'], ['노랑', 7, 60, '?']];
-  $('#supTable').innerHTML = `<tr><th class="feat-col">색</th><th class="feat-col">길이(cm)</th><th class="feat-col">무게(g)</th><th class="label-col">레이블: 과일 이름</th></tr>` +
+  const rows = [['빨강', 8, 200, 'a'], ['노랑', 19, 120, 'b'], ['보라', 2, 5, 'g'], ['빨강', 9, 230, 'a'], ['노랑', 17, 110, 'b'], ['초록', 9, 210, 'a'], ['보라', 2.5, 6, 'g'], ['노랑', 18, 125, '?']];
+  $('#supTable').innerHTML = `<tr><th class="feat-col">색</th><th class="feat-col">가장 긴 쪽 길이(cm)</th><th class="feat-col">무게(g)</th><th class="label-col">레이블: 과일 이름</th></tr>` +
     rows.map((r) => `<tr><td class="feat-col">${r[0]}</td><td class="feat-col num">${r[1]}</td><td class="feat-col num">${r[2]}</td><td class="label-col">${r[3] === '?' ? '❓ (예측해야 할 새 데이터)' : FRUIT[r[3]].e + ' ' + FRUIT[r[3]].n}</td></tr>`).join('');
 }
 
 function initLabelFruits() {
   const HUE = { 빨강: 0, 초록: 1.2, 노랑: 2, 보라: 5 };
-  const train = [['a', '빨강', 8], ['b', '노랑', 18], ['g', '보라', 2], ['a', '빨강', 9], ['g', '보라', 2.4], ['b', '노랑', 20], ['a', '초록', 8.5], ['b', '노랑', 16], ['g', '보라', 1.8], ['a', '빨강', 7.5], ['g', '보라', 2.6], ['b', '노랑', 19]];
-  const test = [['a', '빨강', 8.2], ['b', '노랑', 17], ['g', '보라', 2.2], ['a', '초록', 9], ['b', '노랑', 19.5], ['g', '보라', 1.9]];
+  const train = [['a', '빨강', 8, 210], ['b', '노랑', 18, 120], ['g', '보라', 2, 5], ['a', '빨강', 9, 250], ['g', '보라', 2.4, 6], ['b', '노랑', 20, 140], ['a', '초록', 8.5, 230], ['b', '노랑', 16, 105], ['g', '보라', 1.8, 4], ['a', '빨강', 7.5, 190], ['g', '보라', 2.6, 7], ['b', '노랑', 19, 130]];
+  const test = [['a', '빨강', 8.2, 215], ['b', '노랑', 17, 115], ['g', '보라', 2.2, 5], ['a', '초록', 9, 240], ['b', '노랑', 19.5, 135], ['g', '보라', 1.9, 4]];
+  const SW = { 빨강: '#e5484d', 초록: '#46a758', 노랑: '#f5c400', 보라: '#7b55d9' };
+  const feat = (c, l, w) => `<span class="lf-f"><i class="lf-sw" style="background:${SW[c]}"></i>${c}</span><span class="lf-f">📏 ${l}cm</span><span class="lf-len"><i style="width:${l / 20 * 100}%"></i></span><span class="lf-f">⚖️ ${w}g</span>`;
   const ORDER = [null, 'a', 'b', 'g'];
   let labels, t0, timer;
   const grid = $('#lfGrid');
   const render = () => {
-    grid.innerHTML = train.map(([k, c, l], i) => `<button class="lf" data-i="${i}"><span class="big-emoji">${FRUIT[k].e}</span><small>${c} · ${l}cm</small><b>${labels[i] ? FRUIT[labels[i]].e + ' ' + FRUIT[labels[i]].n : '이름표 없음'}</b></button>`).join('');
+    grid.innerHTML = train.map(([k, c, l, w], i) => `<button class="lf" data-i="${i}"><span class="lf-e" style="font-size:${1.1 + l / 20 * 1.5}rem">${FRUIT[k].e}</span>${feat(c, l, w)}<b>${labels[i] ? FRUIT[labels[i]].e + ' ' + FRUIT[labels[i]].n : '이름표 없음'}</b></button>`).join('');
     $$('.lf', grid).forEach((b) => b.addEventListener('click', () => {
       if (!t0) { t0 = Date.now(); timer = setInterval(() => { $('#lfTime').textContent = Math.round((Date.now() - t0) / 1000) + '초'; }, 500); }
       const i = +b.dataset.i; labels[i] = ORDER[(ORDER.indexOf(labels[i]) + 1) % ORDER.length]; render();
@@ -55,7 +57,7 @@ function initLabelFruits() {
     $('#lfCount').textContent = `${labels.filter(Boolean).length} / 12`;
   };
   const reset = () => { labels = Array(12).fill(null); t0 = 0; clearInterval(timer); $('#lfTime').textContent = '0초'; $('#lfResult').textContent = '아직 학습 전이에요.'; render(); };
-  const dist = (a, b) => Math.hypot((HUE[a[1]] - HUE[b[1]]) * 4, a[2] - b[2]);
+  const dist = (a, b) => Math.hypot((HUE[a[1]] - HUE[b[1]]) * 4, a[2] - b[2], (a[3] - b[3]) / 20);
   $('#lfTrain').addEventListener('click', () => {
     const n = labels.filter(Boolean).length;
     if (n < 12) { toast(`이름표를 ${12 - n}개 더 붙여 주세요!`); return; }
@@ -65,7 +67,7 @@ function initLabelFruits() {
     const out = test.map((t) => {
       let bi = 0; train.forEach((r, i) => { if (dist(r, t) < dist(train[bi], t)) bi = i; });
       const p = labels[bi], ok = p === t[0]; if (ok) right++;
-      return `<li>${FRUIT[t[0]].e} <small>${t[1]} · ${t[2]}cm</small> → AI: <b>${FRUIT[p].e} ${FRUIT[p].n}</b> ${ok ? '⭕' : '❌'} <small class="muted">(가장 닮은 ${bi + 1}번 과일의 이름표를 따라감)</small></li>`;
+      return `<li>${FRUIT[t[0]].e} <small>${t[1]} · 길이 ${t[2]}cm · ${t[3]}g</small> → AI: <b>${FRUIT[p].e} ${FRUIT[p].n}</b> ${ok ? '⭕' : '❌'} <small class="muted">(가장 닮은 ${bi + 1}번 과일의 이름표를 따라감)</small></li>`;
     });
     $('#lfResult').innerHTML = `<b>새 과일 ${right} / ${test.length}개 정답</b><ul class="ex-list plain">${out.join('')}</ul>` +
       (wrongLab ? `<p class="warn-text">⚠️ 틀린 이름표가 ${wrongLab}개 있었어요. 틀린 레이블을 배운 AI는 비슷한 과일도 틀려요.</p>` : '<p>🎉 이름표가 모두 정확했어요. 정확한 레이블 = 똑똑한 AI!</p>');
@@ -755,12 +757,4 @@ function initCmpTable() {
   ];
   $('#cmpTable').innerHTML = `<tr><th></th><th>👩‍🏫 지도학습</th><th>🧩 비지도학습</th><th>🎮 강화학습</th></tr>` + rows.map((r) => `<tr><th>${r[0]}</th>${r.slice(1).map((c) => `<td class="hide">${c}</td>`).join('')}</tr>`).join('');
   $$('#cmpTable td').forEach((td) => td.addEventListener('click', () => td.classList.remove('hide')));
-}
-function initTypeSorter() {
-  makeSorter($('#typeSorter').closest('.card'), [
-    ['🌡️ 내일 기온 예측', 'reg'], ['🏠 아파트 가격 예측', 'reg'], ['🚗 내비 도착 시간', 'reg'],
-    ['📧 스팸 메일 걸러내기', 'cls'], ['✍️ 손글씨 숫자 알아보기', 'cls'], ['🐾 사진 속 동물 종류', 'cls'],
-    ['📹 CCTV 관리 구역 나누기', 'clu'], ['🛍️ 비슷한 고객 묶기', 'clu'], ['📰 내용이 비슷한 뉴스끼리 묶기', 'clu'],
-    ['⚫ 바둑 AI', 'rl'], ['🦿 로봇 걷기 연습', 'rl'], ['🕹️ 게임 스스로 깨기', 'rl'],
-  ], '머신러닝 유형 박사네요.');
 }

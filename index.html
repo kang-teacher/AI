@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <link rel="stylesheet" href="css/ai.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/ai.css?v=4">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%2322a06b'/><circle cx='36' cy='45' r='8' fill='%23fff'/><circle cx='64' cy='45' r='8' fill='%23fff'/><path d='M34 66 q16 12 32 0' stroke='%23f5b82e' stroke-width='7' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body>
@@ -198,6 +198,34 @@
           <div class="box"><h4>🏃 최상 우선 탐색</h4><p>지금 보기에 <b>목표에 가장 가까워 보이는 곳</b>(휴리스틱이 가장 작은 곳)부터 가요. 빠르지만 <b>돌아가는 길</b>을 찾을 수도 있어요.</p></div>
           <div class="box"><h4>⭐ A* 탐색</h4><p><b>지금까지 온 거리 + 남은 거리 어림값</b>이 가장 작은 곳부터 가요. 어림값이 실제보다 크지 않으면 <b>가장 짧은 길</b>을 찾아요.</p></div>
         </div>
+        <h3 class="sec-title">🔍 네 가지 탐색을 한 단계씩 따라가 보기</h3>
+        <div class="card">
+          <p>🟢 <b>S</b>에서 출발해 🔴 <b>G</b>까지 가는 길을 찾아요. 선 위의 숫자는 그 길을 가는 데 드는 <b>실제 비용</b>(거리)이고, 노드 아래 <b style="color:var(--purple)">h</b>는 그 노드에서 G까지 남은 거리를 <b>어림한 값</b>(휴리스틱)이에요. 탐색 방법을 고르고 <b>다음 단계 ▶</b>를 눌러 보세요.</p>
+          <div class="seg" id="ssAlg"><button class="on" data-k="dfs">🔽 깊이 우선</button><button data-k="bfs">↔️ 너비 우선</button><button data-k="greedy">🏃 최상 우선</button><button data-k="astar">⭐ A*</button></div>
+          <div class="ss-wrap">
+            <div>
+              <svg id="ssGraph" class="ss-svg" viewBox="0 0 640 300" role="img" aria-label="탐색 그래프"></svg>
+              <div class="legend"><span>⭕ 점선 테두리: 목록에 넣어 둔 노드</span><span>🟠 굵은 테두리: 지금 꺼낸 노드</span><span>🔵 색칠: 방문한 노드(작은 숫자 = 방문 순서)</span><span>🟩 초록 선: 찾은 길</span></div>
+            </div>
+            <div>
+              <div class="btn-row"><button class="btn btn-ghost btn-sm" id="ssPrev">◀ 이전</button><button class="btn btn-primary btn-sm" id="ssNext">다음 단계 ▶</button><button class="btn btn-ghost btn-sm" id="ssPlay">⏩ 자동</button><button class="btn btn-ghost btn-sm" id="ssReset">↺ 처음으로</button></div>
+              <p class="predict" id="ssMsg"></p>
+              <div class="mini" id="ssFront"></div>
+              <p id="ssVis" style="margin:10px 0 0"></p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sec-title">⚖️ 최상 우선 탐색 vs A* 탐색, 무엇이 다를까?</h3>
+        <div class="card">
+          <div class="grid2">
+            <div class="box"><h4>🏃 최상 우선 탐색: h만 봐요</h4><p>"목표까지 <b>남은 거리 어림값(h)</b>이 가장 작은 곳"부터 가요. 이미 얼마나 멀리 돌아왔는지는 신경 쓰지 않아요. 위 그래프에서 A는 h = 2라 목표에 아주 가까워 보여서 곧바로 A로 가고, A에서 G까지 비용 7인 먼 길을 그대로 택해요. 방문한 노드는 적지만 길의 비용은 <b>11</b>이에요.</p></div>
+            <div class="box"><h4>⭐ A* 탐색: g + h를 봐요</h4><p>"<b>지금까지 온 실제 거리(g)</b> + 남은 거리 어림값(h)"이 가장 작은 곳부터 가요. A를 거쳐 G로 가면 f = 11이지만, B와 C를 거치면 f = 9라는 것을 계산해서 G의 기록을 더 짧은 길로 고쳐 적어요. 조금 더 많이 둘러보지만 가장 짧은 길(비용 <b>9</b>)을 찾아요.</p></div>
+          </div>
+          <div class="dtable-wrap" style="margin-top:12px"><table class="dtable" id="ssCmp"></table></div>
+          <p class="hint">💡 깊이 우선·너비 우선 탐색은 길의 비용과 어림값을 쓰지 않고 정해진 순서대로만 둘러봐요(정보 없는 탐색). 너비 우선 탐색은 <b>거쳐 가는 노드 수가 가장 적은 길</b>을 찾지만, 길마다 비용이 다르면 그 길이 가장 짧은 길은 아닐 수 있어요. A*는 어림값 h가 실제 남은 거리보다 <b>크지 않게</b> 정해져 있을 때 가장 짧은 길을 찾는다고 보장돼요. 이 그래프의 h는 모두 그 조건을 지켜요.</p>
+        </div>
+
         <div class="card">
           <h3>🏁 미로 탐색 경주</h3>
           <p>네 가지 탐색이 같은 미로에서 🟩 출발 → 🟥 도착 길을 찾아요. 칸을 눌러 벽을 세우거나 없앨 수 있어요. <b>방문한 칸</b>(색칠된 칸)이 적을수록 효율적이에요.</p>
@@ -313,7 +341,7 @@
         <div class="sub-head"><span class="pill">3-2</span><h2>🧱 데이터의 종류: 정형 데이터와 비정형 데이터</h2></div>
         <div class="grid2">
           <div class="def blue"><b>정형 데이터</b>: 일정한 규격이나 형태를 가진 수치·문자 데이터예요. 속성에 해당하는 <b>열</b>과 데이터 하나하나에 해당하는 <b>행</b>이 합쳐진 표(행렬) 모양이라 별도의 처리 없이 <b>바로 분석</b>할 수 있어요.<br><small>예: 관계형 데이터베이스(RDB), 스프레드시트, CSV</small></div>
-          <div class="def orange"><b>비정형 데이터</b>: 이미지, 음성, 동영상처럼 형태가 정해지지 않은 데이터예요. 글·이모티콘·사진이 섞인 SNS 글도 여기에 들어가요. 바로 분석하기 어려워서 <b>정형화</b> 과정이 필요해요.<br><small>예: 사진, 녹음 파일, 영상, SNS 글</small></div>
+          <div class="def orange"><b>비정형 데이터</b>: 이미지, 음성, 동영상처럼 형태가 정해지지 않은 데이터예요. 바로 분석하기 어려워서 <b>정형화</b> 과정이 필요해요.<br><small>예: 사진, 녹음 파일, 영상, 손글씨 편지 스캔</small></div>
         </div>
 
         <div class="card">
@@ -454,7 +482,7 @@
         <p>수집한 데이터를 바로 학습에 쓰기는 어려워요. 비어 있거나 이상한 데이터가 없는지 확인하고 문제 해결에 맞는 형태로 다듬는 것을 <b>전처리</b>라고 해요.</p>
         <div class="grid2">
           <div class="def blue"><b>결측치(결측값)</b>: 전체 데이터에서 <b>누락된</b> 데이터예요. 정보가 다 기록되지 않았을 때 생기고, 실제 데이터에서 아주 자주 나와서 가장 많은 전처리가 필요해요.<br><small>예: 환자의 키·몸무게가 비어 있음</small></div>
-          <div class="def orange"><b>이상치(이상값)</b>: 입력은 되었지만 <b>일반 범위가 아닌</b> 값이에요. 잘못 기록됐거나(나이 −5, 세 자리 전화번호) 특수한 상황(키 220cm)일 때 생겨요.</div>
+          <div class="def orange"><b>이상치(이상값)</b>: 입력은 되었지만 <b>일반 범위가 아닌</b> 값이에요. 잘못 기록됐거나(나이 −5, 세 자리 전화번호, m 단위로 잘못 적은 키 1.72) 특수한 상황(평소 하루 8천 보 걷던 사람이 마라톤 날 기록한 4만 보)일 때 생겨요. 특수한 상황의 값은 실제로 일어난 일이라 무조건 지우지 말고 신중하게 판단해요.</div>
         </div>
 
         <h3 class="sec-title">🕵️ 데이터 탐정: 이상한 칸을 모두 찾아라!</h3>
@@ -472,7 +500,7 @@
           <div class="card">
             <h3>📏 키 (수치형)</h3>
             <div class="seg" id="fillNum"><button class="on" data-m="none">그대로</button><button data-m="del">삭제</button><button data-m="mean">평균값</button><button data-m="median">중앙값</button><button data-m="mode">최빈값</button></div>
-            <label class="slider-label"><input type="checkbox" id="fillOut"> 이상치(키 999)도 결측치로 보고 처리하기</label>
+            <label class="slider-label"><input type="checkbox" id="fillOut" checked> 먼저 이상치(키 999)를 빈칸으로 바꾸고 처리하기 <small class="muted">(끄면 이상치를 그대로 둘 때 어떻게 되는지 볼 수 있어요)</small></label>
             <div class="chips" id="fillNumVals" style="margin:10px 0"></div>
             <div id="fillNumStats"></div>
             <p class="hint" id="fillNumMsg"></p>
@@ -495,17 +523,18 @@
 
         <h3 class="sec-title">📏 스케일링: 범위를 0~1로 맞추기</h3>
         <div class="card">
-          <p>두 학생이 얼마나 비슷한지 <b>거리</b>로 재 볼게요. 속성은 키(150~190cm)와 하루 수면 시간(5~9시간)이에요. 스케일링 전과 후에 어떤 속성이 거리를 좌우하는지 보세요.</p>
-          <div class="grid2">
-            <div>
-              <label class="slider-label">🙋 A의 키 <input type="range" id="scAh" min="150" max="190" value="160"> <b id="scAhV">160</b></label>
-              <label class="slider-label">🙋 A의 수면 <input type="range" id="scAs" min="5" max="9" step="0.5" value="5"> <b id="scAsV">5</b></label>
-              <label class="slider-label">🧑 B의 키 <input type="range" id="scBh" min="150" max="190" value="164"> <b id="scBhV">164</b></label>
-              <label class="slider-label">🧑 B의 수면 <input type="range" id="scBs" min="5" max="9" step="0.5" value="9"> <b id="scBsV">9</b></label>
-              <div class="code-block" id="scFormula"></div>
-            </div>
-            <div id="scOut"></div>
+          <p>두 학생 A와 B가 얼마나 비슷한지 <b>거리</b>로 재 볼게요. 속성은 <b>키</b>(150~190cm)와 <b>하루 수면 시간</b>(5~9시간)이에요. 슬라이더로 키와 수면 시간을 바꾸면서, 스케일링 전과 후에 어떤 속성이 거리를 좌우하는지 그림으로 비교해 보세요.</p>
+          <div class="sc-ctrl">
+            <label class="slider-label">🔵 A의 키 <input type="range" id="scAh" min="150" max="190" value="160"> <b id="scAhV">160</b></label>
+            <label class="slider-label">🔵 A의 수면 <input type="range" id="scAs" min="5" max="9" step="0.5" value="5"> <b id="scAsV">5</b></label>
+            <label class="slider-label">🟠 B의 키 <input type="range" id="scBh" min="150" max="190" value="170"> <b id="scBhV">170</b></label>
+            <label class="slider-label">🟠 B의 수면 <input type="range" id="scBs" min="5" max="9" step="0.5" value="9"> <b id="scBsV">9</b></label>
           </div>
+          <div id="scPeople" class="sc-box"></div>
+          <div id="scBefore" class="sc-box"></div>
+          <div id="scAfter" class="sc-box"></div>
+          <p class="hint">스케일링 전에는 키의 자(40칸)가 수면의 자(4칸)보다 10배나 길어요. 그래서 수면 시간이 가장 적게 자는 사람과 가장 많이 자는 사람만큼 달라도, 키 몇 cm 차이에 묻혀 버려요. 두 속성을 모두 <b>0~1</b>로 맞추면 자의 길이가 같아져서, 각 속성의 차이를 공평하게 비교할 수 있어요.</p>
+          <details class="mini"><summary><b>🧮 계산식 보기 (최소-최대 스케일링)</b></summary><div class="code-block" id="scFormula" style="margin-top:8px"></div></details>
         </div>
 
         <h3 class="sec-title">🔤 레이블 인코딩 vs 원핫 인코딩</h3>
@@ -536,21 +565,6 @@
               <div class="seg" id="barCol"><button class="on" data-k="fruit">좋아하는 과일</button><button data-k="blood">혈액형</button></div>
             </div>
           </div>
-        </div>
-
-        <h3 class="sec-title">🤔 이럴 땐 어떤 그래프?</h3>
-        <div class="card">
-          <div class="sorter" id="chartSorter">
-            <div class="sort-pool"></div>
-            <div class="sort-bins" style="grid-template-columns:repeat(4,1fr)">
-              <div class="bin" data-bin="bar"><h4>📊 막대그래프</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="hist"><h4>📶 히스토그램</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="scatter"><h4>✨ 산점도</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="box"><h4>📦 상자그림</h4><div class="bin-drop"></div></div>
-            </div>
-          </div>
-          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
-          <p class="result-msg"></p>
         </div>
 
         <h3 class="sec-title">🔗 상관계수: 관계를 숫자로</h3>
@@ -648,7 +662,8 @@
 
         <h3 class="sec-title">🧪 체험: 내가 레이블을 달아 주면?</h3>
         <div class="card">
-          <p>과일 12개에 이름표(레이블)를 붙여 주세요. 과일을 누를 때마다 🍎 → 🍌 → 🍇 순서로 바뀌어요. 다 붙이면 <b>학습시키기</b>를 눌러 처음 보는 과일 4개를 맞히게 해 봐요.</p>
+          <p>과일 12개에 이름표(레이블)를 붙여 주세요. 과일을 누를 때마다 🍎 → 🍌 → 🍇 순서로 바뀌어요. 다 붙이면 <b>학습시키기</b>를 눌러 처음 보는 과일 6개를 맞히게 해 봐요.</p>
+          <p class="hint" style="margin-top:0">카드에는 과일을 직접 재서 얻은 <b>특징</b>이 적혀 있어요. 🎨 껍질 색, 📏 가장 긴 쪽의 길이(사과는 지름, 바나나는 끝에서 끝까지, 포도는 한 알 기준), ⚖️ 무게예요. 막대는 20cm 자로 잰 길이를 보여 줘요. AI는 그림이 아니라 이 숫자들만 보고 배워요.</p>
           <div class="lab">
             <div>
               <div class="label-fruits" id="lfGrid"></div>
@@ -997,21 +1012,6 @@
           <h3>세 학습 비교표 <small class="muted">(빗금 칸을 눌러 열어 보세요)</small></h3>
           <div class="dtable-wrap"><table class="dtable reveal-table" id="cmpTable"></table></div>
         </div>
-        <h3 class="sec-title">🗂️ 활동: 어떤 머신러닝일까?</h3>
-        <div class="card">
-          <p>사례 카드를 알맞은 상자로 <b>끌어다 놓거나</b>, 카드를 누른 다음 상자를 누르세요.</p>
-          <div class="sorter" id="typeSorter">
-            <div class="sort-pool"></div>
-            <div class="sort-bins">
-              <div class="bin" data-bin="reg"><h4>📏 예측(회귀)</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="cls"><h4>🏷️ 분류</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="clu"><h4>🫧 군집</h4><div class="bin-drop"></div></div>
-              <div class="bin" data-bin="rl"><h4>🎮 강화학습</h4><div class="bin-drop"></div></div>
-            </div>
-          </div>
-          <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
-          <p class="result-msg"></p>
-        </div>
         <div class="quiz" data-quiz="m7"></div>
       </div>
     </section>
@@ -1224,6 +1224,17 @@
 
       <h3 class="sec-title"><span class="pill">5단계</span> 모델 고르고 학습시키기</h3>
       <div class="card">
+        <details class="mini confuse" open><summary><b>🤔 헷갈리기 쉬운 개념: 이 모델은 분류일까, 회귀일까?</b></summary>
+          <p style="margin-top:8px">4단원에서는 <b>분류 = K-최근접 이웃, 의사결정트리</b>, <b>회귀 = 선형 회귀, 다중 선형 회귀</b>로 배웠어요. 이건 각 유형을 처음 배울 때 쓰는 <b>대표 예시</b>예요. 실제로는 하나의 알고리즘이 두 가지 문제에 모두 쓰이기도 해요.</p>
+          <div class="dtable-wrap"><table class="dtable">
+            <tr><th>알고리즘</th><th>🏷️ 분류에 쓰면</th><th>📏 회귀에 쓰면</th></tr>
+            <tr><td><b>K-최근접 이웃</b></td><td style="white-space:normal">가까운 이웃 K개 중 <b>가장 많은 범주</b>로 정해요 (다수결)</td><td style="white-space:normal">가까운 이웃 K개 값의 <b>평균</b>으로 예측해요 (K-최근접 이웃 회귀)</td></tr>
+            <tr><td><b>의사결정트리</b></td><td style="white-space:normal">질문을 따라 내려간 잎(마지막 칸)의 <b>가장 많은 범주</b>로 정해요</td><td style="white-space:normal">잎에 모인 데이터 값의 <b>평균</b>으로 예측해요 (의사결정트리 회귀)</td></tr>
+            <tr><td><b>로지스틱 회귀</b></td><td style="white-space:normal">✅ <b>분류 모델</b>이에요. 각 범주일 <b>확률</b>(0~1)을 계산해서 확률이 가장 높은 범주로 정해요. 범주가 2개면 보통 0.5를 넘는지로 정해요</td><td style="white-space:normal">❌ 이름에 '회귀'가 들어 있지만 숫자를 예측하는 회귀 모델이 아니에요</td></tr>
+            <tr><td><b>선형 회귀</b></td><td style="white-space:normal">❌</td><td style="white-space:normal">✅ 입력 속성이 1개면 <b>(단순) 선형 회귀</b>, 2개 이상이면 <b>다중 선형 회귀</b>예요. 다중 선형 회귀는 선형 회귀의 한 종류예요</td></tr>
+          </table></div>
+          <p class="hint" style="margin:8px 0 0">💡 구분하는 기준은 알고리즘 이름이 아니라 <b>맞히려는 값(종속 변수)</b>이에요. 범주(펭귄 종, 붓꽃 품종, 생산지)를 맞히면 <b>분류</b>, 숫자(몸무게, 꽃잎 길이, 연비)를 맞히면 <b>회귀</b>예요. 그래서 이 실습에서는 1단계에서 무엇을 맞힐지 고르면 거기에 맞는 모델 목록이 바뀌어요.</p>
+        </details>
         <div class="feat-grid" id="lbModels"></div>
         <div class="box" id="lbModelInfo" style="margin-top:12px"></div>
         <label class="slider-label" id="lbHpWrap"><span id="lbHpName"></span> <input type="range" id="lbHp"> <b id="lbHpV"></b></label>
@@ -1276,18 +1287,18 @@
   <div id="confetti" aria-hidden="true"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/common.js?v=3"></script>
-  <script src="js/util.js?v=3"></script>
-  <script src="js/quiz.js?v=3"></script>
-  <script src="js/scene.js?v=3"></script>
-  <script src="js/u1.js?v=3"></script>
-  <script src="js/u2.js?v=3"></script>
-  <script src="js/u3.js?v=3"></script>
-  <script src="js/u4.js?v=3"></script>
-  <script src="js/u5.js?v=3"></script>
-  <script src="js/datasets.js?v=3"></script>
-  <script src="js/lab.js?v=3"></script>
-  <script src="js/pylab.js?v=3"></script>
-  <script src="js/main.js?v=3"></script>
+  <script src="js/common.js?v=4"></script>
+  <script src="js/util.js?v=4"></script>
+  <script src="js/quiz.js?v=4"></script>
+  <script src="js/scene.js?v=4"></script>
+  <script src="js/u1.js?v=4"></script>
+  <script src="js/u2.js?v=4"></script>
+  <script src="js/u3.js?v=4"></script>
+  <script src="js/u4.js?v=4"></script>
+  <script src="js/u5.js?v=4"></script>
+  <script src="js/datasets.js?v=4"></script>
+  <script src="js/lab.js?v=4"></script>
+  <script src="js/pylab.js?v=4"></script>
+  <script src="js/main.js?v=4"></script>
 </body>
 </html>
