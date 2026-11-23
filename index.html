@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=5">
-  <link rel="stylesheet" href="css/ai.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/ai.css?v=6">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%2322a06b'/><circle cx='36' cy='45' r='8' fill='%23fff'/><circle cx='64' cy='45' r='8' fill='%23fff'/><path d='M34 66 q16 12 32 0' stroke='%23f5b82e' stroke-width='7' fill='none' stroke-linecap='round'/></svg>">
 </head>
 <body>
@@ -53,7 +53,7 @@
 
       <h2 class="sec-title">수업 지도</h2>
       <div class="chapter-cards" id="chapterCards"></div>
-      <p class="hint center">위쪽 메뉴나 아래쪽 ← 이전 · 다음 → 버튼으로 이동해요. 키보드 Alt + ←/→ 로도 넘길 수 있어요. 진도와 퀴즈 결과는 이 컴퓨터에 저장돼요.</p>
+      <p class="hint center">위쪽 메뉴나 아래쪽 ← 이전 · 다음 → 버튼으로 이동해요. 키보드 Alt + ←/→ 로도 넘길 수 있어요. 진도는 이 컴퓨터에 저장돼요.</p>
     </section>
 
     <!-- ============ 1. AI 개념 ============ -->
@@ -91,7 +91,6 @@
         <h3 class="sec-title">✨ 인공지능의 특성</h3>
         <p>카드를 하나씩 눌러 설명을 읽고, 아래의 작은 체험도 해 보세요.</p>
         <div class="card"><div id="featCards"></div></div>
-        <div class="quiz" data-quiz="a1"></div>
       </div>
 
       <!-- 1-2 -->
@@ -132,7 +131,6 @@
             </div>
           </div>
         </div>
-        <div class="quiz" data-quiz="a2"></div>
       </div>
     </section>
     <!-- ============ 2. 탐색 ============ -->
@@ -166,7 +164,6 @@
           <div class="btn-row"><button class="btn btn-ghost" id="rvCount">🔢 경우의 수 따져 보기</button></div>
           <div id="rvCountOut"></div>
         </div>
-        <div class="quiz" data-quiz="s1"></div>
       </div>
 
       <!-- 2-2 -->
@@ -234,7 +231,6 @@
           <div class="algo-grid" id="raceGrid"></div>
           <p class="predict" id="raceMsg" style="margin-top:10px"></p>
         </div>
-        <div class="quiz" data-quiz="s2"></div>
       </div>
 
       <!-- 2-4 -->
@@ -264,7 +260,6 @@
           <div class="dtable-wrap"><table class="dtable" id="p8Table"></table></div>
           <p class="hint">h₁ = 제자리에 있지 않은 숫자 개수, h₂ = 숫자마다 제자리까지 가로·세로 칸 수의 합(맨해튼 거리)</p>
         </div>
-        <div class="quiz" data-quiz="s3"></div>
       </div>
     </section>
     <!-- ============ 3. 데이터 ============ -->
@@ -333,7 +328,6 @@
           <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
           <p class="result-msg"></p>
         </div>
-        <div class="quiz" data-quiz="d1"></div>
       </div>
 
       <!-- 3-2 -->
@@ -393,7 +387,6 @@
           <p class="hint">재는 순간(빨간 점)의 숫자들:</p>
           <div class="wave-nums" id="waveNums"></div>
         </div>
-        <div class="quiz" data-quiz="d2"></div>
       </div>
 
       <!-- 3-3 -->
@@ -435,7 +428,6 @@
             <div class="box" id="targetMsg"></div>
           </div>
         </div>
-        <div class="quiz" data-quiz="d3"></div>
       </div>
 
       <!-- 3-4 -->
@@ -473,7 +465,6 @@
             <tr><th>⬇️ 언더 샘플링</th><td class="hide">전체 데이터 개수가 줄어 <b>계산 시간이 줄어요</b>.</td><td class="hide">데이터를 지우기 때문에 <b>정보 손실</b>이 생길 수 있어요.</td></tr>
           </table></div>
         </div>
-        <div class="quiz" data-quiz="d4"></div>
       </div>
 
       <!-- 3-5 -->
@@ -513,7 +504,6 @@
             <p class="hint" id="fillCatMsg"></p>
           </div>
         </div>
-        <div class="quiz" data-quiz="d5"></div>
       </div>
 
       <!-- 3-6 -->
@@ -548,7 +538,6 @@
             <div id="encMsg"></div>
           </div>
         </div>
-        <div class="quiz" data-quiz="d6"></div>
       </div>
 
       <!-- 3-7 -->
@@ -596,7 +585,6 @@
           <p class="predict" id="featMsg"></p>
           <p class="hint">불필요한 속성은 <b>제거</b>하고, 기존 데이터를 가공해 <b>새로운 속성</b>(BMI 같은)을 추가하면 문제 해결에 도움이 돼요. 이렇게 데이터를 여러 관점에서 살펴보는 것을 <b>탐색적 데이터 분석</b>이라고 해요.</p>
         </div>
-        <div class="quiz" data-quiz="d7"></div>
       </div>
     </section>
     <!-- ============ 4. 머신러닝의 유형 ============ -->
@@ -695,7 +683,6 @@
           <div class="btn-row center"><button class="btn btn-primary sort-check">채점하기</button><button class="btn btn-ghost sort-reset">다시 하기</button></div>
           <p class="result-msg"></p>
         </div>
-        <div class="quiz" data-quiz="m1"></div>
       </div>
 
       <!-- 4-2 -->
@@ -740,7 +727,6 @@
             </div>
           </div>
         </div>
-        <div class="quiz" data-quiz="m2"></div>
       </div>
 
       <!-- 4-3 -->
@@ -773,7 +759,6 @@
           </div>
           <p class="hint">💡 첫 질문을 바꿔 다시 만들어 보세요. 한 번에 반씩 나누는 질문을 먼저 하면 트리가 얕아져요. 좋은 질문 = 데이터를 깔끔하게 나누는 질문!</p>
         </div>
-        <div class="quiz" data-quiz="m3"></div>
       </div>
 
       <!-- 4-4 -->
@@ -851,7 +836,6 @@
           <p><b>하이퍼 파라미터</b>는 기계학습 모델의 <b>학습 과정을 제어하는 변수</b>예요. 모델이 스스로 배우는 값이 아니라 <b>사람이 미리 정해 주는 설정</b>이고, 설정에 따라 성능이 크게 달라져요. 이 단원에서 이미 만져 본 하이퍼 파라미터를 모아 봤어요.</p>
           <div class="chips"><span class="chip">K-NN의 K (4-3)</span><span class="chip">모델 복잡도 (④)</span><span class="chip">학습 횟수 epoch (4-2)</span><span class="chip">의사결정트리 깊이 (4-3)</span><span class="chip">K-평균의 K (4-5)</span><span class="chip">강화학습의 탐험 비율 (4-6)</span></div>
         </div>
-        <div class="quiz" data-quiz="m4"></div>
       </div>
 
       <!-- 4-5 -->
@@ -917,7 +901,6 @@
           <div class="mail-list" id="basketList"></div>
           <div id="basketMsg" class="mini"></div>
         </div>
-        <div class="quiz" data-quiz="m5"></div>
       </div>
 
       <!-- 4-6 -->
@@ -1002,7 +985,6 @@
           </div>
           <p class="hint">활용 사례: 알파고(바둑), 로봇 걷기, 자율주행, 게임 AI, 데이터센터 냉방 에너지 절약</p>
         </div>
-        <div class="quiz" data-quiz="m6"></div>
       </div>
 
       <!-- 4-7 -->
@@ -1012,7 +994,6 @@
           <h3>세 학습 비교표 <small class="muted">(빗금 칸을 눌러 열어 보세요)</small></h3>
           <div class="dtable-wrap"><table class="dtable reveal-table" id="cmpTable"></table></div>
         </div>
-        <div class="quiz" data-quiz="m7"></div>
       </div>
     </section>
     <!-- ============ 5. 딥러닝 ============ -->
@@ -1062,7 +1043,6 @@
           </div>
           <p class="predict" id="gMsg"></p>
         </div>
-        <div class="quiz" data-quiz="n1"></div>
       </div>
 
       <!-- 5-2 -->
@@ -1115,6 +1095,7 @@
             </div>
           </div>
           <div class="link-cards">
+            <a class="link-card" href="#dl/5-4"><b>🔲 5-4 YOLO의 원리</b><span>객체 탐지 모델 YOLO의 격자, 확신도, IoU, NMS를 직접 해 봐요</span></a>
             <a class="link-card" href="https://kang-teacher.github.io/YOLO/" target="_blank" rel="noopener"><b>📦 YOLO 객체인식 교실</b><span>웹캠으로 객체 탐지를 직접 체험하고, 나만의 모델을 학습시켜 봐요</span></a>
           </div>
         </div>
@@ -1160,7 +1141,189 @@
           </div>
           <div class="warn">⚠️ 생성형 AI를 쓸 때 생각할 점: 학습한 작품의 <b>저작권</b>, 진짜처럼 꾸민 가짜 영상(<b>딥페이크</b>), AI가 만들었다는 <b>출처 밝히기</b></div>
         </div>
-        <div class="quiz" data-quiz="n2"></div>
+      </div>
+
+      <!-- 5-4 -->
+      <div class="sub" data-sub="5-4" data-title="YOLO의 원리">
+        <div class="sub-head"><span class="pill">5-4</span><h2>📦 YOLO: 한 번 보고 물체를 찾는 딥러닝</h2></div>
+        <div class="def blue"><b>YOLO</b>(You Only Look Once, "한 번만 본다")는 사진을 <b>한 번만</b> 딥러닝 신경망에 넣어서 사진 속 물체들의 <b>위치(상자)</b>와 <b>종류(클래스)</b>를 동시에 찾아내는 <b>객체 탐지</b> 모델이에요. 사진을 작은 창으로 여러 번 나눠 검사하지 않기 때문에 빨라서, 웹캠·CCTV·자율주행처럼 <b>실시간 영상</b>에도 쓸 수 있어요.</div>
+        <div class="grid3">
+          <div class="box"><h4>🔲 ① 격자</h4><p>사진을 S×S 칸으로 나누고, 칸마다 상자를 예측해요.</p></div>
+          <div class="box"><h4>🎚️ ② 확신도·IoU</h4><p>상자마다 얼마나 확실한지(확신도), 두 상자가 얼마나 겹치는지(IoU)를 숫자로 나타내요.</p></div>
+          <div class="box"><h4>🧹 ③ NMS</h4><p>같은 물체에 겹쳐 나온 상자 중 가장 확실한 하나만 남겨요.</p></div>
+        </div>
+        <p class="hint">YOLO는 정답 상자가 그려진 사진(레이블이 있는 데이터)으로 배우는 <b>지도학습</b>이에요. "무엇인가?"를 맞히는 것은 <b>분류</b>, "상자가 어디에, 얼마나 크게?"라는 숫자를 맞히는 것은 <b>회귀</b>예요.</p>
+
+        <h3 class="sec-title">🔲 ① YOLO는 이미지를 격자로 나눠요</h3>
+        <div class="card two-col">
+          <div>
+            <canvas id="gridCanvas" width="640" height="400" class="sq-canvas"></canvas>
+          </div>
+          <div>
+            <label class="slider-label">격자 크기 S × S <input type="range" id="gridS" min="3" max="13" value="7"> <b id="gridSVal">7 × 7</b></label>
+            <div class="stats"><div><span>칸의 수 (S × S)</span><b id="gridCells">49</b></div></div>
+            <ol class="steps-mini">
+              <li>사진을 <b>S×S 칸</b>(격자, grid cell)으로 나눠요.</li>
+              <li>물체의 <b>중심점</b>이 들어 있는 <b>칸 하나</b>가 그 물체를 책임지고 예측해요. 물체가 여러 칸에 걸쳐 있어도 책임지는 칸은 중심점이 있는 칸이에요. (칸에 마우스를 올리거나 눌러 보세요)</li>
+              <li>각 칸은 <b>상자 위치(x, y, w, h)</b>, <b>확신도(confidence)</b>, <b>무엇인지(class)</b>를 <b>동시에</b> 예측해요.</li>
+            </ol>
+            <div class="cell-info" id="cellInfo">칸 위에 마우스를 올려 보세요.</div>
+          </div>
+        </div>
+        <p class="hint">💡 처음 YOLO는 7×7 격자 하나를 썼어요. 요즘 YOLO는 크기가 다른 격자 여러 개(촘촘한 격자는 작은 물체, 성긴 격자는 큰 물체 담당)를 함께 쓰지만, "칸마다 상자를 예측한다"는 생각은 같아요.</p>
+
+        <h3 class="sec-title">🎚️ ② 확신도(confidence): 이 상자, 얼마나 확실해?</h3>
+        <div class="def"><b>확신도(confidence)</b>는 모델이 "이 상자 안에 이 물체가 있다"고 <b>얼마나 확신하는지</b>를 <b>0 ~ 1</b> 사이 숫자로 나타낸 값이에요. 결과 사진의 <code>dog 0.91</code>에서 <b>0.91</b>이 확신도예요. 1에 가까울수록 확실하고, 0에 가까울수록 "아마 없을 것 같다"는 뜻이에요.</div>
+        <div class="card two-col">
+          <canvas id="confCanvas" width="640" height="400" class="lab-canvas"></canvas>
+          <div>
+            <p>모델은 처음에 칸마다 상자를 내놓기 때문에 <b>후보 상자가 아주 많아요</b>. 그중 확신도가 낮은 상자는 버려야 해요. <b>확신도 기준</b>을 올려 보세요.</p>
+            <label class="slider-label">확신도 기준 <code>conf</code> <input type="range" id="confTh" min="0" max="0.95" step="0.05" value="0"> <b id="confThVal">0.00</b></label>
+            <div class="stats"><div><span>전체 후보 상자</span><b id="confAll">0</b></div><div><span>기준 이상 남은 상자</span><b id="confCount">0</b></div></div>
+            <ul class="steps-mini">
+              <li>확신도가 <b>기준보다 낮은 상자는 버려요</b>.</li>
+              <li>기준을 <b>너무 낮추면</b> 아무것도 없는 곳에도 상자가 남고(잘못 찾음), <b>너무 높이면</b> 진짜 물체도 놓쳐요(못 찾음).</li>
+              <li>기준을 올려도 한 물체에 상자가 여러 개 겹쳐 남아요. 이것은 ④ <b>NMS</b>로 정리해요.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="hint">💡 파이썬 코드에서 <code>model.predict(image, conf=0.5)</code>처럼 쓰면 확신도 0.5 이상인 상자만 남아요. <code>conf</code>를 적지 않으면 기본값 <b>0.25</b>를 써요.</p>
+
+        <h3 class="sec-title">📐 ③ IoU: 두 상자가 얼마나 겹칠까?</h3>
+        <div class="def purple"><b>IoU</b>(Intersection over Union)는 두 상자가 얼마나 겹치는지를 <b>0 ~ 1</b> 사이 숫자로 나타낸 값이에요. <b>IoU = 겹친 넓이(교집합) ÷ 합친 넓이(합집합)</b>이고, <b>합친 넓이 = 상자 A 넓이 + 상자 B 넓이 − 겹친 넓이</b>예요. 전혀 안 겹치면 0, 완전히 똑같으면 1이에요.</div>
+        <div class="card two-col">
+          <canvas id="iouCanvas" width="640" height="400" class="lab-canvas"></canvas>
+          <div>
+            <p><b class="c-gt">초록 상자(정답)</b>와 <b class="c-pred">주황 상자(예측)</b>를 끌어서 움직여 보세요. 모서리를 끌면 크기가 바뀌어요. 바둑판 <b>한 칸의 넓이를 1</b>로 셈해요.</p>
+            <table class="kv">
+              <tr><th>정답 상자 넓이 (A)</th><td id="iouA">-</td></tr>
+              <tr><th>예측 상자 넓이 (B)</th><td id="iouB">-</td></tr>
+              <tr><th class="c-inter">겹친 넓이 (A ∩ B)</th><td id="iouI">-</td></tr>
+              <tr><th class="c-union">합친 넓이 (A + B − 겹친 넓이)</th><td id="iouU">-</td></tr>
+            </table>
+            <div class="iou-formula">
+              <div>IoU = </div>
+              <div class="frac"><span class="c-inter">겹친 넓이</span><span class="c-union">합친 넓이</span></div>
+              <div>= <b id="iouVal">0.00</b></div>
+            </div>
+            <div class="meter"><div class="meter-fill" id="iouMeter"></div><span class="meter-mark" style="left:50%">0.5</span></div>
+            <p id="iouMsg" class="result-msg"></p>
+            <div class="challenge">
+              <b>🎯 미션</b> <span id="iouMission">IoU를 0.70 이상으로 만들어 보세요!</span>
+              <button class="btn btn-ghost btn-sm" id="iouShuffle">새 미션</button>
+            </div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="box"><h4>✏️ 손으로 계산해 보기</h4><p>넓이 12인 상자 A와 넓이 12인 상자 B가 넓이 6만큼 겹쳤어요.<br>합친 넓이 = 12 + 12 − 6 = <b>18</b>, IoU = 6 ÷ 18 ≈ <b>0.33</b><br>⚠️ 합친 넓이를 12 + 12 = 24로 계산하면 겹친 부분을 두 번 센 거예요.</p></div>
+          <div class="box"><h4>🧭 IoU는 어디에 쓸까?</h4><p><b>평가</b>: 예측 상자와 정답 상자의 IoU가 보통 <b>0.5 이상</b>이면 "제대로 찾았다"고 인정해요.<br><b>NMS</b>: 두 예측 상자의 IoU가 크면 "같은 물체를 두 번 찾았다"고 보고 하나를 지워요.</p></div>
+        </div>
+
+        <h3 class="sec-title">🧹 ④ NMS: 겹친 상자 중 가장 확실한 하나만 남기기</h3>
+        <div class="def orange"><b>NMS</b>(Non-Maximum Suppression, 비최대 억제)는 한 물체에 여러 상자가 겹쳐 나왔을 때, <b>확신도가 가장 높은 상자만 남기고</b> 그 상자와 <b>IoU가 기준보다 큰</b>(많이 겹치는) 나머지 상자를 지우는 방법이에요. "최대(가장 확실한 것)가 아닌 것을 억제한다"는 뜻이에요.</div>
+        <div class="card">
+          <h3>👣 한 단계씩 따라가 보기 <small class="muted">(강아지 하나에 후보 상자 6개가 나왔어요)</small></h3>
+          <div class="two-col">
+            <canvas id="nmsStepCanvas" width="640" height="400" class="lab-canvas"></canvas>
+            <div>
+              <ol class="steps-mini">
+                <li>확신도가 <b>기준(0.25)보다 낮은</b> 상자를 버려요.</li>
+                <li>남은 상자를 <b>확신도가 높은 순서</b>로 줄 세워요.</li>
+                <li>가장 확신도가 높은 상자를 <b>남겨요</b>.</li>
+                <li>남긴 상자와 나머지 상자의 <b>IoU</b>를 계산해서, IoU가 <b>기준보다 큰 상자를 지워요</b>.</li>
+                <li>아직 남은 상자가 있으면 3번으로 돌아가요.</li>
+              </ol>
+              <label class="slider-label">NMS의 IoU 기준 <input type="range" id="nsIou" min="0.1" max="0.9" step="0.05" value="0.5"> <b id="nsIouVal">0.50</b></label>
+              <div class="btn-row"><button class="btn btn-primary" id="nsStep">👣 다음 단계</button><button class="btn btn-ghost" id="nsAll">⏩ 끝까지</button><button class="btn btn-ghost" id="nsReset">처음으로</button></div>
+            </div>
+          </div>
+          <p class="predict" id="nsMsg"></p>
+          <div class="dtable-wrap"><table class="dtable" id="nsTable"></table></div>
+          <p class="hint">💡 IoU 기준을 <b>낮추면</b> 조금만 겹쳐도 지워서 상자가 적게 남고, <b>높이면</b> 많이 겹쳐야만 지워서 상자가 많이 남아요. 기준을 0.15로 바꿔서 다시 해 보세요. NMS는 <b>같은 클래스</b>(예: dog끼리)의 상자끼리만 비교해요.</p>
+        </div>
+
+        <h3 class="sec-title">🎛️ 모두 합쳐 보기: 확신도 기준 + NMS</h3>
+        <div class="card two-col">
+          <canvas id="nmsCanvas" width="640" height="400" class="lab-canvas"></canvas>
+          <div>
+            <p>사람, 강아지, 자동차에 후보 상자가 잔뜩 나왔어요. 확신도 기준으로 먼저 거르고, NMS로 겹친 상자를 정리해서 <b>물체마다 상자 하나</b>가 남게 만들어 보세요.</p>
+            <label class="slider-label">확신도 기준 <code>conf</code> <input type="range" id="nmsConf" min="0" max="0.95" step="0.05" value="0.1"> <b id="nmsConfVal">0.10</b></label>
+            <label class="toggle"><input type="checkbox" id="nmsOn"> <span>NMS 켜기 (겹친 상자 중 가장 확실한 것만 남김)</span></label>
+            <label class="slider-label">NMS의 IoU 기준 <input type="range" id="nmsIou" min="0.1" max="0.9" step="0.05" value="0.5"> <b id="nmsIouVal">0.50</b></label>
+            <div class="stats"><div><span>남은 상자</span><b id="nmsCount">0</b></div><div><span>실제 물체</span><b>3</b></div></div>
+            <p class="result-msg" id="nmsMsg"></p>
+          </div>
+        </div>
+        <p class="hint">💡 YOLO를 파이썬에서 실행하면 확신도 거르기와 NMS가 <b>자동으로</b> 끝난 결과가 나와요. 그래서 결과 사진에는 물체마다 상자가 하나씩만 그려져요.</p>
+      </div>
+
+      <!-- 5-5 -->
+      <div class="sub" data-sub="5-5" data-title="YOLO 코드 뜯어보기">
+        <div class="sub-head"><span class="pill">5-5</span><h2>🔍 코드 한 줄씩 뜯어보기: 강아지·고양이를 찾으면 소리 내기</h2></div>
+        <div class="card">
+          <p>웹캠으로 <b>강아지(dog)</b>와 <b>고양이(cat)</b>를 찾아서, 강아지가 보이면 <code>dog.mp3</code>, 고양이가 보이면 <code>cat.mp3</code>를 재생하는 프로그램이에요. 모델은 <b>YOLO-World</b>(<code>yolov8s-world.pt</code>)를 써요.</p>
+          <p class="hint">준비물: 코드 파일과 같은 폴더에 <code>yolov8s-world.pt</code>, <code>dog.mp3</code>, <code>cat.mp3</code>를 두고, <code>ultralytics</code>, <code>opencv-python</code>, <code>playsound</code> 라이브러리를 설치해요.</p>
+        </div>
+        <div class="card two-col code-explore">
+          <pre class="code" id="codeExplore"></pre>
+          <div class="code-note" id="codeNote"><h4>줄을 눌러 보세요 👈</h4><p>각 줄이 무슨 일을 하는지 설명해 줄게요.</p></div>
+        </div>
+
+        <h3 class="sec-title">🧱 프로그램의 큰 흐름</h3>
+        <div class="grid3">
+          <div class="box"><h4>1. 준비</h4><p>라이브러리 가져오기 → 모델 불러오기 → 찾을 물체(dog, cat) 정하기 → 카메라 켜기 → 소리 재생 함수 만들기</p></div>
+          <div class="box"><h4>2. 반복 (사진 한 장마다)</h4><p>사진 읽기 → YOLO로 예측 → 상자 그린 사진 보여 주기 → dog(0)·cat(1)이 있고 1초가 지났으면 소리 재생</p></div>
+          <div class="box"><h4>3. 끝내기</h4><p><kbd>q</kbd>를 누르면 반복을 멈추고 카메라와 창을 닫아요.</p></div>
+        </div>
+
+        <h3 class="sec-title">🔢 <code>set_classes</code>와 클래스 번호</h3>
+        <div class="card">
+          <p><code>model.set_classes(["dog", "cat"])</code>로 찾을 물체를 정하면 <b>적은 순서대로</b> 클래스 번호가 붙어요. 그래서 이 코드에서는 <code>0</code>이 dog, <code>1</code>이 cat이에요.</p>
+          <div class="dtable-wrap"><table class="dtable">
+            <tr><th>코드</th><th>0번</th><th>1번</th><th>2번</th></tr>
+            <tr><td><code>set_classes(["dog", "cat"])</code></td><td>dog</td><td>cat</td><td>-</td></tr>
+            <tr><td><code>set_classes(["cat", "dog"])</code></td><td>cat</td><td>dog</td><td>-</td></tr>
+            <tr><td><code>set_classes(["cup", "dog", "cat"])</code></td><td>cup</td><td>dog</td><td>cat</td></tr>
+          </table></div>
+          <p class="hint">💡 일반 YOLO 모델(<code>yolo11n.pt</code>)은 이미 배운 80가지 물체(COCO)만 찾을 수 있고, 번호도 정해져 있어요(예: 15번 cat, 16번 dog). <b>YOLO-World</b>는 찾을 물체를 <b>단어로</b> 알려 주면 다시 학습시키지 않아도 그 물체를 찾아요.</p>
+        </div>
+
+        <h3 class="sec-title">⏱️ 소리 재생과 threading: 왜 시간을 재야 할까?</h3>
+        <div class="card">
+          <p>영상은 1초에 사진(프레임)을 여러 장씩 처리해요. 강아지가 보이는 동안 사진마다 소리를 틀면 소리가 겹쳐서 시끄러워지고, <code>playsound</code>는 소리가 끝날 때까지 프로그램을 멈추게 해서 영상도 멈춰요. 그래서 이 코드는 두 가지를 해요.</p>
+          <div class="grid2">
+            <div class="box"><h4>🧵 threading</h4><p>소리 재생을 <b>따로 일하는 일꾼(스레드)</b>에게 맡겨요. 소리가 나는 동안에도 반복문은 멈추지 않고 다음 사진을 계속 처리해요.</p></div>
+            <div class="box"><h4>⏱️ 1초 간격</h4><p><code>last_sound_time</code>에 마지막으로 소리를 튼 시각을 적어 두고, <b>1초 이상 지났을 때만</b> 다시 재생해요.</p></div>
+          </div>
+          <canvas id="soundCanvas" width="900" height="220" class="wide-canvas"></canvas>
+          <div class="seg" id="soundMode" style="margin-top:10px">
+            <button class="on" data-m="naive">시간 재지 않고 사진마다 재생</button>
+            <button data-m="smart">이 코드: threading + 1초 간격</button>
+          </div>
+          <div class="btn-row center"><button class="btn btn-primary" id="soundPlay">▶ 시뮬레이션</button></div>
+          <p class="flow-desc" id="soundDesc"></p>
+        </div>
+
+        <h3 class="sec-title">🤔 생각해 보기 <small class="muted">(생각한 뒤 눌러서 열어 보세요)</small></h3>
+        <details class="card">
+          <summary><b>Q1.</b> 강아지와 고양이가 <b>동시에</b> 화면에 계속 있으면 어떤 소리가 날까요?</summary>
+          <p>강아지 소리만 1초마다 나고 <b>고양이 소리는 나지 않아요</b>. 두 소리가 <code>last_sound_time</code> 변수 하나를 함께 쓰기 때문이에요. 강아지(0)를 먼저 검사해서 소리를 틀고 <code>last_sound_time</code>을 지금 시각으로 바꾸면, 바로 아래 고양이(1) 검사에서는 <code>current_time - last_sound_time</code>이 1보다 작아서 건너뛰어요. 1초 뒤에도 또 강아지를 먼저 검사하니 같은 일이 반복돼요. 둘 다 소리 나게 하려면 <code>last_dog_time</code>, <code>last_cat_time</code>처럼 변수를 따로 두면 돼요.</p>
+        </details>
+        <details class="card">
+          <summary><b>Q2.</b> 컵이 보이면 소리가 나게 바꾸려면 어느 줄을 고칠까요?</summary>
+          <p><code>model.set_classes(["dog", "cat"])</code>의 단어를 바꿔요. 예를 들어 <code>model.set_classes(["cup", "cat"])</code>로 바꾸면 0번이 cup이 되어서, 컵이 보일 때 <code>play_sound_dog</code>가 실행돼요. 재생할 파일 이름도 알맞게 바꾸면 돼요.</p>
+        </details>
+        <details class="card">
+          <summary><b>Q3.</b> 웹캠 대신 <code>dogcatmove.mp4</code> 영상으로 해 보려면?</summary>
+          <p><code>cap = cv2.VideoCapture(0)</code>의 <code>0</code>을 <code>'dogcatmove.mp4'</code>로 바꿔요. 숫자는 카메라 번호, 글자(파일 이름)는 영상 파일이에요.</p>
+        </details>
+        <details class="card">
+          <summary><b>Q4.</b> 확신도가 0.5 이상인 상자만 남기려면?</summary>
+          <p><code>model.predict(image, device='cpu', save=True, conf=0.5)</code>처럼 <code>conf=0.5</code>를 더해요. 지금 코드는 <code>conf</code>를 적지 않아서 기본값 0.25를 써요.</p>
+        </details>
+        <div class="link-cards">
+          <a class="link-card" href="https://kang-teacher.github.io/YOLO/" target="_blank" rel="noopener"><b>📦 YOLO 객체인식 교실</b><span>웹캠으로 객체 탐지를 직접 체험하고, 나만의 모델을 학습시켜 봐요</span></a>
+        </div>
       </div>
     </section>
 
@@ -1289,16 +1452,16 @@
 
   <script src="js/common.js?v=5"></script>
   <script src="js/util.js?v=5"></script>
-  <script src="js/quiz.js?v=5"></script>
   <script src="js/scene.js?v=5"></script>
   <script src="js/u1.js?v=5"></script>
   <script src="js/u2.js?v=5"></script>
   <script src="js/u3.js?v=5"></script>
   <script src="js/u4.js?v=5"></script>
   <script src="js/u5.js?v=5"></script>
+  <script src="js/yolo.js?v=6"></script>
   <script src="js/datasets.js?v=5"></script>
   <script src="js/lab.js?v=5"></script>
   <script src="js/pylab.js?v=5"></script>
-  <script src="js/main.js?v=5"></script>
+  <script src="js/main.js?v=6"></script>
 </body>
 </html>

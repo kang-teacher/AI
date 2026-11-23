@@ -312,3 +312,6 @@ textarea { width: 100%; min-height: 80px; }
 @media (max-width: 860px) { .ss-wrap { grid-template-columns: 1fr; } }
 .ss-wrap > div { min-width: 0; }
 .confuse { border: 2px solid var(--yellow); background: var(--yellow-soft); margin: 0 0 14px; } .confuse summary { cursor: pointer; }
+
+/* 코드에서 >=, == 가 ≥ 같은 합자로 바뀌어 보이지 않도록 */
+.code, .code-line, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
