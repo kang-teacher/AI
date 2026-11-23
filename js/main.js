@@ -5,7 +5,7 @@ const CHAPTERS = [
   { id: 'search', emoji: '🧭', short: '탐색', desc: '상태 공간, 강 건너기, 깊이·너비 우선, 휴리스틱과 A*, 8-퍼즐' },
   { id: 'data', emoji: '📊', short: '데이터', desc: '문제 해결 과정, 수집·종류·속성, 편향, 전처리, 시각화와 핵심 속성' },
   { id: 'ml', emoji: '📈', short: '머신러닝 유형', desc: '지도·비지도·강화학습, 회귀·분류, 모델 평가와 적합도, K-평균' },
-  { id: 'dl', emoji: '🧠', short: '딥러닝', desc: '퍼셉트론과 임계치, 입력·은닉·출력층, 딥러닝의 활용 분야' },
+  { id: 'dl', emoji: '🧠', short: '딥러닝', desc: '퍼셉트론과 임계치, 입력·은닉·출력층, 딥러닝의 활용 분야, YOLO의 격자·확신도·IoU·NMS와 코드' },
   { id: 'lab', emoji: '🧪', short: '실습', desc: '펭귄·붓꽃·자동차 연비 진짜 데이터로 전처리 → 학습 → 평가 → 예측, 파이썬 코드로도 실행' },
 ];
 
@@ -97,15 +97,13 @@ function markDone() {
   const seen = store.get('seen', []);
   CHAPTERS.slice(1).forEach((c) => {
     const subs = subsOf(c.id);
-    const quizKeys = $$(`.chapter[data-ch="${c.id}"] .quiz[data-quiz]`).map((q) => q.dataset.quiz);
-    const done = quizKeys.filter((k) => store.get('quiz:' + k, null) !== null).length;
     const seenN = subs.length ? subs.filter((s) => seen.includes(c.id + '/' + s.id)).length : seen.includes(c.id) ? 1 : 0;
     let label = '';
-    if (quizKeys.length && done === quizKeys.length) label = '✔ 퀴즈 완료';
+    if (subs.length && seenN === subs.length) label = '✔ 모두 봤어요';
     else if (subs.length && seenN) label = `👀 ${seenN} / ${subs.length} 마당`;
     else if (seenN) label = '👀 봤어요';
     const card = $(`.chapter-card[data-id="${c.id}"] .cc-done`); if (card) card.textContent = label;
-    const ck = $(`#chapnav a[data-id="${c.id}"] .ck`); if (ck) ck.textContent = quizKeys.length && done === quizKeys.length ? '✔' : '';
+    const ck = $(`#chapnav a[data-id="${c.id}"] .ck`); if (ck) ck.textContent = subs.length && seenN === subs.length ? '✔' : '';
     subs.forEach((s) => {
       const el = $(`.chapter[data-ch="${c.id}"] .subnav a[data-sub="${s.id}"] .sn-ck`);
       if (el) el.textContent = seen.includes(c.id + '/' + s.id) ? '✓' : '';
@@ -167,6 +165,6 @@ function initHero() {
 document.addEventListener('DOMContentLoaded', () => {
   // 한 활동에 문제가 생겨도 나머지 활동은 동작하도록 따로따로 실행
   const inits = [initTheme, initNav, initHero];
-  ['initAI', 'initSearch', 'initData', 'initML', 'initDL', 'initLab', 'initPyLab', 'initQuizzes'].forEach((n) => { if (typeof window[n] === 'function') inits.push(window[n]); });
+  ['initAI', 'initSearch', 'initData', 'initML', 'initDL', 'initYOLO', 'initLab', 'initPyLab'].forEach((n) => { if (typeof window[n] === 'function') inits.push(window[n]); });
   inits.forEach((fn) => { try { fn(); } catch (e) { console.error(fn.name, e); } });
 });
